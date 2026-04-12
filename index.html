@@ -8,52 +8,34 @@
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#0f1729;color:#e8eaf6;font-size:14px;min-height:100vh}
 .app{max-width:480px;margin:0 auto;min-height:100vh;display:flex;flex-direction:column}
-
-/* HEADER */
 .header{background:#1a2744;padding:14px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(79,195,247,0.15)}
 .header-title{font-size:16px;font-weight:700;color:#fff}
 .header-sub{font-size:10px;color:rgba(255,255,255,0.45);margin-top:2px}
 .btn-header{padding:6px 12px;border:1px solid rgba(79,195,247,0.4);border-radius:8px;font-size:11px;cursor:pointer;background:rgba(79,195,247,0.1);color:#4FC3F7;font-family:inherit;font-weight:600}
-
-/* TABS */
 .tabs{display:flex;background:#0f1729;border-bottom:1px solid rgba(255,255,255,0.07);overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;flex-shrink:0}
 .tabs::-webkit-scrollbar{display:none}
-.tab{flex:0 0 auto;padding:10px 14px;font-size:11px;font-weight:500;color:rgba(255,255,255,0.35);cursor:pointer;border:none;background:none;border-bottom:2px solid transparent;white-space:nowrap;transition:all 0.15s}
+.tab{flex:0 0 auto;padding:10px 12px;font-size:11px;font-weight:500;color:rgba(255,255,255,0.35);cursor:pointer;border:none;background:none;border-bottom:2px solid transparent;white-space:nowrap;transition:all 0.15s}
 .tab.active{color:#4FC3F7;border-bottom-color:#4FC3F7;font-weight:700}
 .tab:hover:not(.active){color:rgba(255,255,255,0.6)}
-
-/* CONTENT */
 .content{padding:14px 16px;flex:1;background:#0f1729}
 .section{display:none}.section.active{display:block}
-
-/* INPUTS */
-input,select,textarea{font-size:13px;padding:10px 12px;border:1px solid rgba(79,195,247,0.2);border-radius:10px;background:#1a2744;color:#e8eaf6;width:100%;font-family:inherit;outline:none;transition:border 0.15s;-webkit-appearance:none;appearance:none}
+input,select,textarea{font-size:13px;padding:10px 12px;border:1px solid rgba(79,195,247,0.2);border-radius:10px;background:#1a2744;color:#e8eaf6;width:100%;font-family:inherit;outline:none;transition:border 0.15s;-webkit-appearance:none}
 input:focus,select:focus,textarea:focus{border-color:#4FC3F7}
 input::placeholder,textarea::placeholder{color:rgba(255,255,255,0.25)}
 select option{background:#1a2744;color:#e8eaf6}
-
-/* FORM ROWS - mobile first, cada campo em linha separada */
 .form-group{display:flex;flex-direction:column;gap:8px;margin-bottom:10px}
 .form-row{display:flex;gap:8px}
 .f1{flex:1}.f2{flex:2}.fauto{flex:0 0 auto}
-
-/* BUTTONS */
 .btn{padding:10px 16px;border:1px solid rgba(79,195,247,0.3);border-radius:10px;font-size:13px;cursor:pointer;background:rgba(79,195,247,0.08);color:#4FC3F7;transition:all 0.15s;white-space:nowrap;font-family:inherit;font-weight:600;width:100%}
 .btn:hover{background:rgba(79,195,247,0.18)}
 .btn:active{transform:scale(0.97)}
 .btn-primary{background:#4FC3F7;color:#0f1729;border-color:#4FC3F7}
 .btn-primary:hover{background:#81D4FA}
 .btn-green{background:#1D9E75;color:#fff;border-color:#1D9E75}
-.btn-green:hover{background:#0F6E56}
 .btn-sm{padding:6px 12px;font-size:12px;width:auto}
 .btn-danger{color:#EF5350;border-color:rgba(239,83,80,0.3);background:rgba(239,83,80,0.08)}
-.btn-danger:hover{background:rgba(239,83,80,0.18)}
 .btn-inline{width:auto}
-
-/* LABELS */
 .sec-label{font-size:10px;font-weight:700;color:#4FC3F7;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:8px;margin-top:16px}
-
-/* CARDS */
 .card-list{display:flex;flex-direction:column;gap:8px}
 .card-item{display:flex;align-items:flex-start;gap:10px;padding:12px 14px;background:#1a2744;border:1px solid rgba(255,255,255,0.07);border-radius:12px}
 .card-info{flex:1;min-width:0}
@@ -64,8 +46,6 @@ select option{background:#1a2744;color:#e8eaf6}
 .dot{width:9px;height:9px;border-radius:50%;flex-shrink:0;margin-top:3px}
 .badge{display:inline-block;font-size:10px;padding:2px 8px;border-radius:20px;font-weight:600}
 .empty{text-align:center;padding:32px 8px;color:rgba(255,255,255,0.2);font-size:13px}
-
-/* METRIC CARDS */
 .metric-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-bottom:14px}
 .mc{border-radius:12px;padding:12px 10px;text-align:center}
 .mc-label{font-size:10px;font-weight:700;margin-bottom:4px;opacity:0.7}
@@ -76,8 +56,6 @@ select option{background:#1a2744;color:#e8eaf6}
 .mc-amber{background:#2a1f0a;color:#FFB74D}.mc-amber .mc-label{color:#FFB74D}
 .mc-purple{background:#1e1a3a;color:#CE93D8}.mc-purple .mc-label{color:#CE93D8}
 .mc-teal{background:#0a2a22;color:#4DB6AC}.mc-teal .mc-label{color:#4DB6AC}
-
-/* FIN */
 .chart-legend{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:8px}
 .legend-item{display:flex;align-items:center;gap:5px;font-size:11px;color:rgba(255,255,255,0.5)}
 .legend-sq{width:10px;height:10px;border-radius:2px;flex-shrink:0}
@@ -90,8 +68,6 @@ select option{background:#1a2744;color:#e8eaf6}
 .cat-trans-name{flex:1;font-size:12px;color:#e8eaf6}
 .cat-trans-date{font-size:11px;color:rgba(255,255,255,0.25)}
 .cat-trans-val{font-size:12px;font-weight:600}
-
-/* CRIPTO */
 .btc-bar{display:flex;align-items:center;gap:10px;padding:12px 14px;background:#2a1f0a;border:1px solid rgba(255,183,77,0.2);border-radius:12px;margin-bottom:14px;flex-wrap:wrap}
 .btc-price-val{font-size:22px;font-weight:700;color:#FFB74D}
 .btc-price-label{font-size:10px;color:rgba(255,183,77,0.7);font-weight:600}
@@ -124,8 +100,6 @@ select option{background:#1a2744;color:#e8eaf6}
 .pnl-usd{font-size:17px;font-weight:700}
 .pnl-pct{font-size:12px;margin-top:2px}
 .rate-note{font-size:10px;color:rgba(206,147,216,0.35);margin-top:8px}
-
-/* INVESTIMENTOS */
 .inv-hero{border-radius:14px;padding:16px;margin-bottom:14px;background:#0a2a22;border:1px solid rgba(77,182,172,0.2)}
 .inv-hero-label{font-size:10px;color:rgba(77,182,172,0.6);font-weight:700;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:4px}
 .inv-hero-val{font-size:28px;font-weight:700;color:#4DB6AC;margin-bottom:2px}
@@ -151,12 +125,6 @@ select option{background:#1a2744;color:#e8eaf6}
 .ic-Outro{background:#2a2a2a;color:#888}
 .inv-card-name{font-size:13px;font-weight:700;color:#e8eaf6;flex:1;line-height:1.3}
 .inv-card-inst{font-size:11px;color:rgba(255,255,255,0.35);margin-top:2px}
-.inv-type-badge{font-size:10px;padding:3px 8px;border-radius:20px;font-weight:700;flex-shrink:0}
-.tb-CDB{background:rgba(79,195,247,0.15);color:#4FC3F7}
-.tb-LCI{background:rgba(77,182,172,0.15);color:#4DB6AC}
-.tb-LCA{background:rgba(129,199,132,0.15);color:#81C784}
-.tb-Fundo{background:rgba(206,147,216,0.15);color:#CE93D8}
-.tb-Outro{background:rgba(136,136,136,0.15);color:#888}
 .inv-values{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-bottom:10px}
 .inv-val{background:rgba(255,255,255,0.04);border-radius:8px;padding:8px 6px;text-align:center}
 .inv-val-label{font-size:9px;color:rgba(255,255,255,0.35);font-weight:700;margin-bottom:3px;text-transform:uppercase}
@@ -178,16 +146,12 @@ select option{background:#1a2744;color:#e8eaf6}
 .group-sep{display:flex;align-items:center;gap:8px;margin:16px 0 8px;padding-bottom:8px;border-bottom:1px solid rgba(255,255,255,0.07)}
 .group-sep-title{font-size:11px;font-weight:700;color:#4FC3F7;text-transform:uppercase;letter-spacing:0.05em;flex:1}
 .group-sep-total{font-size:13px;font-weight:700;color:#e8eaf6}
-
-/* SETTINGS */
 .settings-block{border:1px solid rgba(255,255,255,0.07);border-radius:12px;padding:13px;margin-bottom:12px;background:#1a2744}
 .settings-title{font-size:13px;font-weight:700;color:#4FC3F7;margin-bottom:10px}
 .cat-tag-list{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
 .cat-tag{display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:20px;font-size:12px;border:1px solid rgba(255,255,255,0.1);background:rgba(255,255,255,0.05);color:#e8eaf6;font-weight:500}
 .cat-tag .del-x{cursor:pointer;color:rgba(255,255,255,0.25);font-size:13px}.cat-tag .del-x:hover{color:#EF5350}
 .recur-badge{font-size:10px;padding:2px 7px;border-radius:20px;background:rgba(79,195,247,0.15);color:#4FC3F7;font-weight:600}
-
-/* IA */
 .ai-box{border:1px solid rgba(79,195,247,0.15);border-radius:12px;background:#1a2744;padding:13px;margin-top:4px}
 .ai-label{font-size:10px;color:#4FC3F7;margin-bottom:7px;text-transform:uppercase;letter-spacing:0.06em;font-weight:700}
 .ai-input-row{display:flex;gap:7px}
@@ -195,13 +159,60 @@ select option{background:#1a2744;color:#e8eaf6}
 .ai-resp{margin-top:11px;font-size:13px;line-height:1.65;white-space:pre-wrap;color:#e8eaf6}
 .ai-resp.loading{color:rgba(255,255,255,0.3);font-style:italic}
 .quick-btns{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
-
 .rem-warning{background:rgba(255,183,77,0.12);border:1px solid rgba(255,183,77,0.3);border-radius:10px;padding:10px 13px;margin-bottom:10px;font-size:13px;color:#FFB74D;font-weight:600}
+
+/* DASHBOARD */
+.dash-hero{border-radius:14px;padding:18px;margin-bottom:14px;background:linear-gradient(135deg,#1a2744,#0f1f3a);border:1px solid rgba(79,195,247,0.15)}
+.dash-hero-label{font-size:10px;color:rgba(79,195,247,0.6);font-weight:700;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:6px}
+.dash-hero-val{font-size:32px;font-weight:700;color:#4FC3F7;margin-bottom:4px}
+.dash-hero-sub{font-size:12px;color:rgba(255,255,255,0.4)}
+.dash-patrimonio-row{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:14px}
+.dash-pat-item{background:rgba(255,255,255,0.05);border-radius:10px;padding:10px;text-align:center}
+.dash-pat-label{font-size:9px;color:rgba(255,255,255,0.4);font-weight:700;text-transform:uppercase;letter-spacing:0.04em;margin-bottom:4px}
+.dash-pat-val{font-size:13px;font-weight:700}
+.dash-section{background:#1a2744;border:1px solid rgba(255,255,255,0.07);border-radius:12px;padding:14px;margin-bottom:12px}
+.dash-section-title{font-size:11px;font-weight:700;color:#4FC3F7;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:12px}
+.dash-month-row{display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:1px solid rgba(255,255,255,0.04)}
+.dash-month-row:last-child{border-bottom:none}
+.dash-month-label{font-size:12px;color:rgba(255,255,255,0.6);width:50px;flex-shrink:0}
+.dash-month-bar-wrap{flex:1;height:6px;background:rgba(255,255,255,0.07);border-radius:3px;overflow:hidden}
+.dash-month-bar{height:6px;border-radius:3px;transition:width 0.4s}
+.dash-month-val{font-size:12px;font-weight:600;color:#e8eaf6;width:80px;text-align:right;flex-shrink:0}
+.dash-category-row{display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:1px solid rgba(255,255,255,0.04)}
+.dash-category-row:last-child{border-bottom:none}
+.dash-cat-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.dash-cat-name{font-size:12px;color:rgba(255,255,255,0.7);flex:1}
+.dash-cat-val{font-size:12px;font-weight:600;color:#e8eaf6}
+.dash-cat-pct{font-size:10px;color:rgba(255,255,255,0.35);margin-left:6px;width:32px;text-align:right}
+.bet-row{display:flex;gap:8px;padding:7px 0;border-bottom:1px solid rgba(255,255,255,0.04)}
+.bet-row:last-child{border-bottom:none}
+.bet-month{font-size:12px;color:rgba(255,255,255,0.6);width:50px;flex-shrink:0}
+.bet-in{font-size:12px;font-weight:600;color:#4CAF50;flex:1}
+.bet-out{font-size:12px;font-weight:600;color:#EF5350;flex:1}
+.bet-result{font-size:12px;font-weight:700;width:80px;text-align:right}
+.assinatura-row{display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:1px solid rgba(255,255,255,0.04)}
+.assinatura-row:last-child{border-bottom:none}
+.assin-name{font-size:12px;color:#e8eaf6;flex:1}
+.assin-tipo{font-size:10px;padding:2px 6px;border-radius:20px;font-weight:600}
+.assin-fixo{background:rgba(79,195,247,0.15);color:#4FC3F7}
+.assin-var{background:rgba(255,183,77,0.15);color:#FFB74D}
+.assin-val{font-size:12px;font-weight:700;color:#e8eaf6}
+.fixo-var-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-bottom:12px}
+.fv-card{background:rgba(255,255,255,0.04);border-radius:10px;padding:12px}
+.fv-title{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:8px}
+.fv-title.fixo{color:#4FC3F7}
+.fv-title.var{color:#FFB74D}
+.fv-item{display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid rgba(255,255,255,0.04)}
+.fv-item:last-child{border-bottom:none}
+.fv-name{font-size:11px;color:rgba(255,255,255,0.6)}
+.fv-val{font-size:11px;font-weight:600;color:#e8eaf6}
+.fv-total{display:flex;justify-content:space-between;padding-top:8px;margin-top:4px;border-top:1px solid rgba(255,255,255,0.1)}
+.fv-total-label{font-size:11px;font-weight:700;color:rgba(255,255,255,0.5)}
+.fv-total-val{font-size:13px;font-weight:700}
 
 @media(max-width:380px){
   .wallet-grid{grid-template-columns:1fr}
   .inv-charts-row{grid-template-columns:1fr}
-  .inv-values{grid-template-columns:repeat(3,minmax(0,1fr))}
 }
 </style>
 </head>
@@ -210,7 +221,7 @@ select option{background:#1a2744;color:#e8eaf6}
   <div class="header">
     <div>
       <div class="header-title">Meu Assistente</div>
-      <div class="header-sub">Agenda · Finanças · Cripto · Investimentos · Ideias</div>
+      <div class="header-sub">Agenda · Finanças · Cripto · Invest · Dashboard · Ideias</div>
     </div>
     <button class="btn-header" onclick="showTab('config')">Config</button>
   </div>
@@ -219,7 +230,8 @@ select option{background:#1a2744;color:#e8eaf6}
     <button class="tab active" onclick="showTab('agenda')" id="tab-btn-agenda">Agenda</button>
     <button class="tab" onclick="showTab('financeiro')" id="tab-btn-financeiro">Finanças</button>
     <button class="tab" onclick="showTab('cripto')" id="tab-btn-cripto">Cripto</button>
-    <button class="tab" onclick="showTab('invest')" id="tab-btn-invest">Investimentos</button>
+    <button class="tab" onclick="showTab('invest')" id="tab-btn-invest">Invest.</button>
+    <button class="tab" onclick="showTab('dashboard')" id="tab-btn-dashboard">Dashboard</button>
     <button class="tab" onclick="showTab('ideias')" id="tab-btn-ideias">Ideias</button>
     <button class="tab" onclick="showTab('lembretes')" id="tab-btn-lembretes">Lembretes</button>
     <button class="tab" onclick="showTab('ia')" id="tab-btn-ia">Pergunte</button>
@@ -303,10 +315,7 @@ select option{background:#1a2744;color:#e8eaf6}
       </div>
       <div class="wallet-grid">
         <div class="wallet-card">
-          <div class="wallet-card-header">
-            <div class="wallet-icon wi-trezor">TR</div>
-            <div><div class="wallet-card-name">Trezor</div><div class="wallet-card-sub">Cold wallet</div></div>
-          </div>
+          <div class="wallet-card-header"><div class="wallet-icon wi-trezor">TR</div><div><div class="wallet-card-name">Trezor</div><div class="wallet-card-sub">Cold wallet</div></div></div>
           <div class="wallet-btc" id="trezor-btc-display">—</div>
           <div class="wallet-usd" id="trezor-usd-display">—</div>
           <div class="wallet-brl" id="trezor-brl-display"></div>
@@ -318,10 +327,7 @@ select option{background:#1a2744;color:#e8eaf6}
           </div>
         </div>
         <div class="wallet-card">
-          <div class="wallet-card-header">
-            <div class="wallet-icon wi-binance">BN</div>
-            <div><div class="wallet-card-name">Binance</div><div class="wallet-card-sub">Exchange</div></div>
-          </div>
+          <div class="wallet-card-header"><div class="wallet-icon wi-binance">BN</div><div><div class="wallet-card-name">Binance</div><div class="wallet-card-sub">Exchange</div></div></div>
           <div class="wallet-btc" id="binance-btc-display">—</div>
           <div class="wallet-usd" id="binance-usd-display">—</div>
           <div class="wallet-brl" id="binance-brl-display"></div>
@@ -376,7 +382,6 @@ select option{background:#1a2744;color:#e8eaf6}
           </div>
         </div>
       </div>
-
       <div class="sec-label" style="margin-top:4px">Adicionar investimento</div>
       <div class="form-group">
         <div class="form-row">
@@ -403,12 +408,214 @@ select option{background:#1a2744;color:#e8eaf6}
             <option value="Sem liquidez">Sem liquidez</option>
           </select>
         </div>
-        <div class="form-row">
-          <input type="text" id="inv-socio" placeholder="Sócio (opcional, ex: Naskar 50%)" class="f2">
-        </div>
+        <input type="text" id="inv-socio" placeholder="Sócio (opcional, ex: Naskar 50%)">
         <button class="btn btn-green" onclick="addInvestimento()">+ Adicionar investimento</button>
       </div>
       <div id="inv-list"></div>
+    </div>
+
+    <!-- DASHBOARD -->
+    <div id="sec-dashboard" class="section">
+
+      <!-- Patrimônio total -->
+      <div class="dash-hero">
+        <div class="dash-hero-label">Patrimônio total estimado</div>
+        <div class="dash-hero-val" id="dash-patrimonio">R$ 342.343</div>
+        <div class="dash-hero-sub">Investimentos + Cripto + Saldo</div>
+        <div class="dash-patrimonio-row">
+          <div class="dash-pat-item">
+            <div class="dash-pat-label">Investimentos</div>
+            <div class="dash-pat-val" style="color:#4DB6AC" id="dash-pat-inv">R$ 342.343</div>
+          </div>
+          <div class="dash-pat-item">
+            <div class="dash-pat-label">Bitcoin</div>
+            <div class="dash-pat-val" style="color:#CE93D8" id="dash-pat-btc">Carregando...</div>
+          </div>
+          <div class="dash-pat-item">
+            <div class="dash-pat-label">Kast (USD)</div>
+            <div class="dash-pat-val" style="color:#4FC3F7">$ 433.69</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Faturas mensais C6 -->
+      <div class="dash-section">
+        <div class="dash-section-title">Faturas C6 Carbon — 12 meses</div>
+        <div style="position:relative;width:100%;height:200px;margin-bottom:8px">
+          <canvas id="dash-faturas-chart" role="img" aria-label="Evolução das faturas mensais">Faturas mensais.</canvas>
+        </div>
+        <div id="dash-faturas-list"></div>
+      </div>
+
+      <!-- Gastos por categoria (faturas) -->
+      <div class="dash-section">
+        <div class="dash-section-title">Gastos por categoria (faturas)</div>
+        <div style="position:relative;width:100%;height:200px;margin-bottom:12px">
+          <canvas id="dash-cat-chart" role="img" aria-label="Gastos por categoria">Categorias.</canvas>
+        </div>
+        <div id="dash-cat-list"></div>
+      </div>
+
+      <!-- Fixos vs Variáveis -->
+      <div class="dash-section">
+        <div class="dash-section-title">Gastos fixos vs variáveis</div>
+        <div class="fixo-var-grid">
+          <div class="fv-card">
+            <div class="fv-title fixo">Fixos / mês</div>
+            <div class="fv-item"><span class="fv-name">Aluguel</span><span class="fv-val">~R$6.000</span></div>
+            <div class="fv-item"><span class="fv-name">Flávia (dom.)</span><span class="fv-val">R$600</span></div>
+            <div class="fv-item"><span class="fv-name">Qualicorp</span><span class="fv-val">~R$2.400</span></div>
+            <div class="fv-item"><span class="fv-name">Academia</span><span class="fv-val">R$150</span></div>
+            <div class="fv-total"><span class="fv-total-label">Total fixo</span><span class="fv-total-val" style="color:#4FC3F7">~R$9.150</span></div>
+          </div>
+          <div class="fv-card">
+            <div class="fv-title var">Variáveis recorrentes</div>
+            <div class="fv-item"><span class="fv-name">Vera (cartão)</span><span class="fv-val">variável</span></div>
+            <div class="fv-item"><span class="fv-name">Comgas</span><span class="fv-val">~R$120</span></div>
+            <div class="fv-item"><span class="fv-name">Enel</span><span class="fv-val">~R$280</span></div>
+            <div class="fv-item"><span class="fv-name">Wasco</span><span class="fv-val">variável</span></div>
+            <div class="fv-total"><span class="fv-total-label">Mín. estimado</span><span class="fv-total-val" style="color:#FFB74D">~R$400</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Assinaturas -->
+      <div class="dash-section">
+        <div class="dash-section-title">Assinaturas e serviços</div>
+        <div style="display:flex;justify-content:space-between;margin-bottom:10px;align-items:center">
+          <span style="font-size:11px;color:rgba(255,255,255,0.4)">Total mensal estimado</span>
+          <span style="font-size:16px;font-weight:700;color:#FFB74D">R$ 956/mês</span>
+        </div>
+        <div style="position:relative;width:100%;height:180px;margin-bottom:10px">
+          <canvas id="dash-assin-chart" role="img" aria-label="Distribuição de assinaturas">Assinaturas.</canvas>
+        </div>
+        <div id="dash-assin-list"></div>
+      </div>
+
+      <!-- Apostas esportivas -->
+      <div class="dash-section">
+        <div class="dash-section-title">Apostas esportivas — visão geral</div>
+        <div style="display:flex;gap:8px;margin-bottom:12px">
+          <div style="flex:1;background:rgba(76,175,80,0.1);border-radius:8px;padding:10px;text-align:center">
+            <div style="font-size:10px;color:rgba(76,175,80,0.7);font-weight:700;margin-bottom:2px">ENTRADAS</div>
+            <div style="font-size:15px;font-weight:700;color:#4CAF50">R$ 62.440</div>
+          </div>
+          <div style="flex:1;background:rgba(239,83,80,0.1);border-radius:8px;padding:10px;text-align:center">
+            <div style="font-size:10px;color:rgba(239,83,80,0.7);font-weight:700;margin-bottom:2px">SAÍDAS</div>
+            <div style="font-size:15px;font-weight:700;color:#EF5350">R$ 89.320</div>
+          </div>
+          <div style="flex:1;background:rgba(255,183,77,0.1);border-radius:8px;padding:10px;text-align:center">
+            <div style="font-size:10px;color:rgba(255,183,77,0.7);font-weight:700;margin-bottom:2px">RESULTADO</div>
+            <div style="font-size:15px;font-weight:700;color:#EF5350">-R$ 26.880</div>
+          </div>
+        </div>
+        <div style="font-size:10px;color:rgba(255,255,255,0.3);text-align:center">Período: abr/2025 — abr/2026 · Itaú + C6</div>
+      </div>
+
+      <!-- Poker -->
+      <div class="dash-section">
+        <div class="dash-section-title">Poker — visão geral</div>
+        <div style="display:flex;gap:8px;margin-bottom:8px">
+          <div style="flex:1;background:rgba(76,175,80,0.1);border-radius:8px;padding:10px;text-align:center">
+            <div style="font-size:10px;color:rgba(76,175,80,0.7);font-weight:700;margin-bottom:2px">ENTRADAS</div>
+            <div style="font-size:15px;font-weight:700;color:#4CAF50">R$ 39.817</div>
+          </div>
+          <div style="flex:1;background:rgba(239,83,80,0.1);border-radius:8px;padding:10px;text-align:center">
+            <div style="font-size:10px;color:rgba(239,83,80,0.7);font-weight:700;margin-bottom:2px">FICHAS</div>
+            <div style="font-size:15px;font-weight:700;color:#EF5350">R$ 46.764</div>
+          </div>
+          <div style="flex:1;background:rgba(255,183,77,0.1);border-radius:8px;padding:10px;text-align:center">
+            <div style="font-size:10px;color:rgba(255,183,77,0.7);font-weight:700;margin-bottom:2px">RESULTADO</div>
+            <div style="font-size:15px;font-weight:700;color:#EF5350">-R$ 6.947</div>
+          </div>
+        </div>
+        <div style="font-size:10px;color:rgba(255,255,255,0.3);text-align:center">Raphael Bettine · período abr/2025 — abr/2026</div>
+      </div>
+
+      <!-- Kast -->
+      <div class="dash-section">
+        <div class="dash-section-title">Kast — cartão internacional</div>
+        <div style="display:flex;align-items:center;gap:12px;background:rgba(255,255,255,0.04);border-radius:10px;padding:12px;margin-bottom:12px">
+          <div style="flex:1">
+            <div style="font-size:10px;color:rgba(255,255,255,0.4);font-weight:700;margin-bottom:3px;text-transform:uppercase">Saldo atual</div>
+            <div style="font-size:22px;font-weight:700;color:#4FC3F7">$ 433.69</div>
+            <div style="font-size:11px;color:rgba(255,255,255,0.3);margin-top:2px">USD virtual account</div>
+          </div>
+          <div style="text-align:right">
+            <div style="font-size:10px;color:rgba(255,183,77,0.6);font-weight:700;margin-bottom:3px;text-transform:uppercase">Último uso</div>
+            <div style="font-size:13px;font-weight:600;color:#FFB74D">Madrid · Mar/2026</div>
+          </div>
+        </div>
+
+        <div style="font-size:11px;font-weight:700;color:#CE93D8;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:8px">Viagem Madrid — 07 a 12 mar/2026</div>
+        <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:10px">
+          <div style="background:rgba(206,147,216,0.08);border-radius:8px;padding:10px">
+            <div style="font-size:9px;color:rgba(206,147,216,0.6);font-weight:700;margin-bottom:3px;text-transform:uppercase">Total gasto</div>
+            <div style="font-size:18px;font-weight:700;color:#CE93D8">~ $3.655</div>
+            <div style="font-size:10px;color:rgba(255,255,255,0.3)">≈ R$ 21.150</div>
+          </div>
+          <div style="background:rgba(76,175,80,0.08);border-radius:8px;padding:10px">
+            <div style="font-size:9px;color:rgba(76,175,80,0.6);font-weight:700;margin-bottom:3px;text-transform:uppercase">Reembolso recebido</div>
+            <div style="font-size:18px;font-weight:700;color:#4CAF50">+ $68.43</div>
+            <div style="font-size:10px;color:rgba(255,255,255,0.3)">Refund parcial</div>
+          </div>
+        </div>
+
+        <div style="display:flex;flex-direction:column;gap:1px">
+          <div style="display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.04)">
+            <div style="width:8px;height:8px;border-radius:50%;background:#CE93D8;flex-shrink:0"></div>
+            <div style="flex:1;font-size:12px;color:rgba(255,255,255,0.7)">Compras (El Corte Inglés, Zara, Nike, Tienda ATM...)</div>
+            <div style="font-size:12px;font-weight:700;color:#e8eaf6">~$1.900</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.04)">
+            <div style="width:8px;height:8px;border-radius:50%;background:#FFB74D;flex-shrink:0"></div>
+            <div style="flex:1;font-size:12px;color:rgba(255,255,255,0.7)">Entretenimento (Legends Hospitality, Yatupro)</div>
+            <div style="font-size:12px;font-weight:700;color:#e8eaf6">~$687</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.04)">
+            <div style="width:8px;height:8px;border-radius:50%;background:#FF8A65;flex-shrink:0"></div>
+            <div style="flex:1;font-size:12px;color:rgba(255,255,255,0.7)">Restaurantes (Amazonico, Ichik, Las Cos...)</div>
+            <div style="font-size:12px;font-weight:700;color:#e8eaf6">~$476</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.04)">
+            <div style="width:8px;height:8px;border-radius:50%;background:#7986CB;flex-shrink:0"></div>
+            <div style="flex:1;font-size:12px;color:rgba(255,255,255,0.7)">Duty Free / Airport (Avolta MAD)</div>
+            <div style="font-size:12px;font-weight:700;color:#e8eaf6">~$290</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.04)">
+            <div style="width:8px;height:8px;border-radius:50%;background:#4DB6AC;flex-shrink:0"></div>
+            <div style="flex:1;font-size:12px;color:rgba(255,255,255,0.7)">Alimentação rápida (McDonald's, Starbucks, Pret...)</div>
+            <div style="font-size:12px;font-weight:700;color:#e8eaf6">~$100</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;padding:8px 0">
+            <div style="width:8px;height:8px;border-radius:50%;background:#888;flex-shrink:0"></div>
+            <div style="flex:1;font-size:12px;color:rgba(255,255,255,0.7)">Hospedagem (Naranjo Hospedajes)</div>
+            <div style="font-size:12px;font-weight:700;color:#e8eaf6">~$89</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Custos pagos por terceiros -->
+      <div class="dash-section">
+        <div class="dash-section-title">Custos pagos por terceiros</div>
+        <div style="font-size:11px;color:rgba(255,255,255,0.3);margin-bottom:12px">Você tem visibilidade desses custos, mas não saem do seu bolso.</div>
+        <div style="display:flex;align-items:center;gap:10px;padding:10px 12px;background:rgba(255,255,255,0.04);border-radius:10px;margin-bottom:8px">
+          <div style="width:34px;height:34px;border-radius:50%;background:rgba(244,143,177,0.2);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#F48FB1;flex-shrink:0">SU</div>
+          <div style="flex:1">
+            <div style="font-size:13px;font-weight:600;color:#e8eaf6">Internet mensal</div>
+            <div style="font-size:11px;color:rgba(255,255,255,0.35);margin-top:1px">Pago por Suhiana · fixo mensal</div>
+          </div>
+          <div style="text-align:right">
+            <div style="font-size:15px;font-weight:700;color:#F48FB1">R$ 149,90</div>
+            <div style="font-size:10px;color:rgba(255,255,255,0.3)">/mês</div>
+          </div>
+        </div>
+        <div style="background:rgba(244,143,177,0.06);border-radius:8px;padding:10px;text-align:center">
+          <div style="font-size:10px;color:rgba(244,143,177,0.6);font-weight:700;margin-bottom:2px">Total anual suportado por terceiros</div>
+          <div style="font-size:16px;font-weight:700;color:#F48FB1">R$ 1.798,80/ano</div>
+        </div>
+      </div>
+
     </div>
 
     <!-- IDEIAS -->
@@ -452,7 +659,7 @@ select option{background:#1a2744;color:#e8eaf6}
 
     <!-- IA -->
     <div id="sec-ia" class="section">
-      <p style="font-size:13px;color:rgba(255,255,255,0.4);line-height:1.65;margin-bottom:12px">Pergunte sobre agenda, gastos, cripto, investimentos, lembretes ou ideias.</p>
+      <p style="font-size:13px;color:rgba(255,255,255,0.4);line-height:1.65;margin-bottom:12px">Pergunte sobre agenda, gastos, cripto, investimentos, dashboard ou ideias.</p>
       <div style="background:rgba(255,183,77,0.08);border:1px solid rgba(255,183,77,0.2);border-radius:10px;padding:10px 13px;margin-bottom:12px;font-size:12px;color:#FFB74D">
         Para usar a IA fora do Claude.ai, insira sua chave API da Anthropic abaixo.
       </div>
@@ -463,7 +670,7 @@ select option{background:#1a2744;color:#e8eaf6}
       <div class="ai-box">
         <div class="ai-label">Pergunte ao assistente</div>
         <div class="ai-input-row">
-          <input type="text" id="ai-q" placeholder="Ex: Como estão meus investimentos?" onkeydown="if(event.key==='Enter')askAI()">
+          <input type="text" id="ai-q" placeholder="Ex: Qual meu maior gasto em 2025?" onkeydown="if(event.key==='Enter')askAI()">
           <button class="btn btn-primary btn-sm btn-inline" onclick="askAI()">Enviar</button>
         </div>
         <div id="ai-resp" class="ai-resp"></div>
@@ -473,7 +680,8 @@ select option{background:#1a2744;color:#e8eaf6}
         <button class="btn btn-sm btn-inline" onclick="qa('Analise meus gastos')">Analisar gastos</button>
         <button class="btn btn-sm btn-inline" onclick="qa('Como está meu Bitcoin?')">Status cripto</button>
         <button class="btn btn-sm btn-inline" onclick="qa('Analise meus investimentos')">Investimentos</button>
-        <button class="btn btn-sm btn-inline" onclick="qa('O que priorizar hoje?')">Prioridades</button>
+        <button class="btn btn-sm btn-inline" onclick="qa('Qual foi meu mês mais caro no cartão?')">Mês mais caro</button>
+        <button class="btn btn-sm btn-inline" onclick="qa('Quanto gasto com assinaturas por mês?')">Assinaturas</button>
       </div>
     </div>
 
@@ -533,7 +741,53 @@ let finCats=LS.get('finCats')||[{id:'casa',name:'Casa',color:'#CE93D8'},{id:'ali
 
 let btcUsd=71616,btcChange24h=0,usdBrl=5.8;
 let finChartInst=null,invTipoChartInst=null,invHistChartInst=null;
+let dashFaturasChartInst=null,dashCatChartInst=null,dashAssinChartInst=null;
 let apiKey=LS.get('apikey')||'';
+
+// DADOS DAS FATURAS C6 CARBON
+const FATURAS=[
+  {mes:'Mai/25',val:11782.17},{mes:'Jun/25',val:10890.00},{mes:'Jul/25',val:1513.10},
+  {mes:'Ago/25',val:14159.38},{mes:'Set/25',val:14458.01},{mes:'Out/25',val:12872.35},
+  {mes:'Nov/25',val:19094.42},{mes:'Dez/25',val:14181.61},{mes:'Jan/26',val:11657.17},
+  {mes:'Fev/26',val:9827.27},{mes:'Mar/26',val:250.93},{mes:'Abr/26',val:26161.73}
+];
+
+// CATEGORIAS DAS FATURAS (análise manual)
+const CAT_FATURAS=[
+  {nome:'Alimentação',val:32840,cor:'#FF8A65'},
+  {nome:'Transporte (Uber)',val:14200,cor:'#4FC3F7'},
+  {nome:'Compras Online',val:18600,cor:'#CE93D8'},
+  {nome:'Saúde/Farmácia',val:8900,cor:'#4DB6AC'},
+  {nome:'Restaurantes',val:12400,cor:'#FFB74D'},
+  {nome:'Internacional',val:6300,cor:'#EF5350'},
+  {nome:'Pets',val:2800,cor:'#81C784'},
+  {nome:'Beleza/Estética',val:4200,cor:'#F48FB1'},
+  {nome:'Academia',val:2800,cor:'#4CAF50'},
+  {nome:'Estacionamento',val:1800,cor:'#888'},
+  {nome:'Viagens',val:5900,cor:'#7986CB'},
+  {nome:'Parcelas diversas',val:15400,cor:'#A5D6A7'}
+];
+
+// ASSINATURAS
+const ASSINATURAS=[
+  {nome:'Netflix',val:72.80,tipo:'fixo',cat:'Streaming'},
+  {nome:'Disney+',val:59.90,tipo:'fixo',cat:'Streaming'},
+  {nome:'HBO Max',val:34.90,tipo:'fixo',cat:'Streaming'},
+  {nome:'Paramount+',val:27.90,tipo:'fixo',cat:'Streaming'},
+  {nome:'YouTube Premium',val:26.90,tipo:'fixo',cat:'Streaming'},
+  {nome:'Apple TV+',val:18.25,tipo:'fixo',cat:'Streaming'},
+  {nome:'BASE TV',val:39.90,tipo:'fixo',cat:'Streaming'},
+  {nome:'BLL TV',val:150.00,tipo:'fixo',cat:'Streaming'},
+  {nome:'Spotify',val:40.83,tipo:'fixo',cat:'Música'},
+  {nome:'Nintendo Switch Online',val:24.90,tipo:'fixo',cat:'Jogos'},
+  {nome:'Claude',val:109.90,tipo:'fixo',cat:'Tech'},
+  {nome:'Plaud Note',val:124.99,tipo:'fixo',cat:'Tech'},
+  {nome:'iCloud+',val:19.90,tipo:'fixo',cat:'Tech'},
+  {nome:'iFood Club',val:12.90,tipo:'fixo',cat:'Serviço'},
+  {nome:'Uber One',val:16.50,tipo:'fixo',cat:'Serviço'},
+  {nome:'Smartfit',val:149.90,tipo:'fixo',cat:'Saúde'},
+  {nome:'ConnectCar',val:0,tipo:'var',cat:'Serviço'}
+];
 
 function save(){LS.set('events',events);LS.set('transactions',transactions);LS.set('ideas',ideas);LS.set('reminders',reminders);LS.set('evCats',evCats);LS.set('finCats',finCats);LS.set('crypto',cryptoH);LS.set('otherCoins',otherCoins);LS.set('investimentos',investimentos);}
 function saveApiKey(){apiKey=document.getElementById('api-key-input').value.trim();LS.set('apikey',apiKey);}
@@ -553,6 +807,7 @@ function showTab(tab){
   if(tab==='financeiro')renderFinanceiro();
   if(tab==='cripto'){loadCryptoInputs();renderCripto();}
   if(tab==='invest')renderInvestimentos();
+  if(tab==='dashboard')renderDashboard();
   if(tab==='config')renderConfig();
   if(tab==='ia'&&apiKey)document.getElementById('api-key-input').value=apiKey;
 }
@@ -561,6 +816,57 @@ function populateSelects(){
   const tr=document.getElementById('tr-cat');if(tr)tr.innerHTML=finCats.map(c=>`<option value="${c.id}">${c.name}</option>`).join('');
 }
 
+/* DASHBOARD */
+function renderDashboard(){
+  // Patrimônio
+  const invTotal=investimentos.reduce((s,i)=>s+i.atual,0);
+  const btcBrl=((cryptoH.trezorBtc||0)+(cryptoH.binanceBtc||0))*btcUsd*usdBrl;
+  const total=invTotal+btcBrl+81;
+  document.getElementById('dash-patrimonio').textContent=fmtBrl(total);
+  document.getElementById('dash-pat-inv').textContent=fmtBrl(invTotal);
+  document.getElementById('dash-pat-btc').textContent=btcBrl>0?'≈ '+fmtBrl(btcBrl):'Preencha cripto';
+
+  // Faturas chart
+  if(dashFaturasChartInst)dashFaturasChartInst.destroy();
+  const maxFat=Math.max(...FATURAS.map(f=>f.val));
+  const ctx1=document.getElementById('dash-faturas-chart').getContext('2d');
+  dashFaturasChartInst=new Chart(ctx1,{
+    type:'bar',
+    data:{labels:FATURAS.map(f=>f.mes),datasets:[{label:'Fatura',data:FATURAS.map(f=>f.val),backgroundColor:FATURAS.map(f=>f.val===maxFat?'#EF5350':'rgba(79,195,247,0.6)'),borderRadius:4}]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>fmtBrl(c.raw)}}},scales:{y:{ticks:{callback:v=>'R$'+Math.round(v/1000)+'k',color:'rgba(255,255,255,0.3)',font:{size:9}},grid:{color:'rgba(255,255,255,0.05)'}},x:{ticks:{color:'rgba(255,255,255,0.4)',font:{size:9}},grid:{display:false}}}}
+  });
+
+  // Lista faturas
+  const media=FATURAS.reduce((s,f)=>s+f.val,0)/FATURAS.length;
+  document.getElementById('dash-faturas-list').innerHTML=`<div style="display:flex;justify-content:space-between;padding:6px 0;border-top:1px solid rgba(255,255,255,0.07)"><span style="font-size:11px;color:rgba(255,255,255,0.4)">Total 12 meses</span><span style="font-size:13px;font-weight:700;color:#EF5350">${fmtBrl(FATURAS.reduce((s,f)=>s+f.val,0))}</span></div><div style="display:flex;justify-content:space-between;padding:6px 0"><span style="font-size:11px;color:rgba(255,255,255,0.4)">Média mensal</span><span style="font-size:13px;font-weight:700;color:#FFB74D">${fmtBrl(media)}</span></div>`;
+
+  // Categorias chart
+  if(dashCatChartInst)dashCatChartInst.destroy();
+  const ctx2=document.getElementById('dash-cat-chart').getContext('2d');
+  dashCatChartInst=new Chart(ctx2,{
+    type:'doughnut',
+    data:{labels:CAT_FATURAS.map(c=>c.nome),datasets:[{data:CAT_FATURAS.map(c=>c.val),backgroundColor:CAT_FATURAS.map(c=>c.cor),borderWidth:2,borderColor:'#0f1729'}]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>c.label+': '+fmtBrl(c.raw)}}}}
+  });
+  const totalCat=CAT_FATURAS.reduce((s,c)=>s+c.val,0);
+  document.getElementById('dash-cat-list').innerHTML=CAT_FATURAS.map(c=>`<div class="dash-category-row"><div class="dash-cat-dot" style="background:${c.cor}"></div><div class="dash-cat-name">${c.nome}</div><div class="dash-cat-val">${fmtBrl(c.val)}</div><div class="dash-cat-pct">${Math.round(c.val/totalCat*100)}%</div></div>`).join('');
+
+  // Assinaturas chart
+  if(dashAssinChartInst)dashAssinChartInst.destroy();
+  const assinFixed=ASSINATURAS.filter(a=>a.tipo==='fixo'&&a.val>0);
+  const catGroup={};
+  assinFixed.forEach(a=>{catGroup[a.cat]=(catGroup[a.cat]||0)+a.val});
+  const catColors={'Streaming':'#CE93D8','Música':'#4DB6AC','Jogos':'#FFB74D','Tech':'#4FC3F7','Serviço':'#FF8A65','Saúde':'#4CAF50'};
+  const ctx3=document.getElementById('dash-assin-chart').getContext('2d');
+  dashAssinChartInst=new Chart(ctx3,{
+    type:'doughnut',
+    data:{labels:Object.keys(catGroup),datasets:[{data:Object.values(catGroup).map(v=>+v.toFixed(2)),backgroundColor:Object.keys(catGroup).map(k=>catColors[k]||'#888'),borderWidth:2,borderColor:'#0f1729'}]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:true,position:'right',labels:{color:'rgba(255,255,255,0.5)',font:{size:9},padding:6,boxWidth:8}},tooltip:{callbacks:{label:c=>c.label+': '+fmtBrl(c.raw)}}}}
+  });
+  document.getElementById('dash-assin-list').innerHTML=ASSINATURAS.map(a=>`<div class="assinatura-row"><div class="assin-name">${a.nome}</div><span class="assin-tipo ${a.tipo==='fixo'?'assin-fixo':'assin-var'}">${a.tipo==='fixo'?'Fixo':'Variável'}</span><div class="assin-val">${a.val>0?fmtBrl(a.val)+'/mês':'variável'}</div></div>`).join('');
+}
+
+/* CRIPTO */
 async function fetchPrices(){
   document.getElementById('btc-price-display').textContent='Buscando...';
   try{
@@ -579,7 +885,6 @@ async function fetchPrices(){
     document.getElementById('btc-update-time').textContent='Sem conexão';renderCripto();
   }
 }
-
 function saveCrypto(){
   cryptoH={trezorBtc:parseFloat(document.getElementById('trezor-btc-input').value)||0,trezorAvg:parseFloat(document.getElementById('trezor-avg-input').value)||0,binanceBtc:parseFloat(document.getElementById('binance-btc-input').value)||0,binanceAvg:parseFloat(document.getElementById('binance-avg-input').value)||0};
   save();renderCripto();
@@ -605,7 +910,7 @@ function renderCripto(){
   const tCost=(cryptoH.trezorAvg||0)*tBtc+(cryptoH.binanceAvg||0)*bBtc;
   const pEl=document.getElementById('cripto-pnl-usd'),pPct=document.getElementById('cripto-pnl-pct');
   if(tCost>0){const pnl=totalUsd-tCost,pct=(pnl/tCost*100).toFixed(1);pEl.textContent=(pnl>=0?'+ ':'-')+fmtUsd(Math.abs(pnl));pEl.style.color=pnl>=0?'#4CAF50':'#EF5350';pPct.textContent=(pnl>=0?'+':'')+pct+'%  ·  '+(pnl>=0?'+ ':'-')+fmtBrl(Math.abs(pnl)*usdBrl);pPct.style.color=pnl>=0?'#4CAF50':'#EF5350';}
-  else{pEl.textContent='—';pEl.style.color='';pPct.textContent='Informe o preço médio de compra';pPct.style.color='rgba(255,255,255,0.3)';}
+  else{pEl.textContent='—';pEl.style.color='';pPct.textContent='Informe o preço médio';pPct.style.color='rgba(255,255,255,0.3)';}
   renderOtherCoins();
 }
 function addOtherCoin(){
@@ -622,8 +927,8 @@ function renderOtherCoins(){
 }
 function delOtherCoin(id){otherCoins=otherCoins.filter(c=>c.id!==id);save();renderCripto();}
 
+/* INVESTIMENTOS */
 const TIPO_COLORS={CDB:'#4FC3F7',LCI:'#4DB6AC',LCA:'#81C784',Fundo:'#CE93D8',Outro:'#888'};
-
 function addInvestimento(){
   const nome=document.getElementById('inv-nome').value.trim();
   const aplicado=parseFloat(document.getElementById('inv-aplicado').value);
@@ -634,7 +939,6 @@ function addInvestimento(){
   ['inv-nome','inv-inst','inv-aplicado','inv-atual','inv-taxa','inv-rendmes','inv-venc','inv-socio'].forEach(id=>document.getElementById(id).value='');
   save();renderInvestimentos();
 }
-
 function vencStatus(venc){
   if(!venc)return null;
   const today=new Date();today.setHours(0,0,0,0);
@@ -643,7 +947,6 @@ function vencStatus(venc){
   if(diff<=30)return{cls:'vb-soon',label:'Vence em '+diff+'d'};
   return{cls:'vb-ok',label:new Date(venc+'T12:00:00').toLocaleDateString('pt-BR',{day:'2-digit',month:'short',year:'numeric'})};
 }
-
 function renderInvestimentos(){
   const el=document.getElementById('inv-list');
   if(!investimentos.length){document.getElementById('inv-hero-block').style.display='none';el.innerHTML='<div class="empty">Nenhum investimento ainda.</div>';return;}
@@ -657,21 +960,15 @@ function renderInvestimentos(){
   document.getElementById('ih-qtd').textContent=investimentos.length;
   document.getElementById('ih-bar').style.width=Math.min(totalApl>0?(totalAt/totalApl*100):0,100)+'%';
   document.getElementById('ih-pct-bar').textContent=(rend>=0?'+':'')+rendPct+'%';
-
   if(invTipoChartInst)invTipoChartInst.destroy();
   const grupos={};investimentos.forEach(i=>{grupos[i.tipo]=(grupos[i.tipo]||0)+i.atual});
   const tL=Object.keys(grupos),tV=tL.map(t=>+grupos[t].toFixed(2)),tC=tL.map(t=>TIPO_COLORS[t]||'#888');
   invTipoChartInst=new Chart(document.getElementById('inv-tipo-chart').getContext('2d'),{type:'doughnut',data:{labels:tL,datasets:[{data:tV,backgroundColor:tC,borderWidth:3,borderColor:'#1a2744'}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:true,position:'bottom',labels:{color:'rgba(255,255,255,0.5)',font:{size:9},padding:4,boxWidth:8}},tooltip:{callbacks:{label:c=>c.label+': '+fmtBrl(c.raw)}}}}});
-
   if(invHistChartInst)invHistChartInst.destroy();
   const meses={};
-  investimentos.forEach(inv=>{
-    (inv.historico||[]).forEach(h=>{meses[h.data]=(meses[h.data]||0)+h.val});
-    if(!(inv.historico||[]).length){const m=inv.data?inv.data.slice(0,7):new Date().toISOString().slice(0,7);meses[m]=(meses[m]||0)+inv.atual;}
-  });
+  investimentos.forEach(inv=>{(inv.historico||[]).forEach(h=>{meses[h.data]=(meses[h.data]||0)+h.val});if(!(inv.historico||[]).length){const m=inv.data?inv.data.slice(0,7):new Date().toISOString().slice(0,7);meses[m]=(meses[m]||0)+inv.atual;}});
   const sortedM=Object.keys(meses).sort();
   invHistChartInst=new Chart(document.getElementById('inv-hist-chart').getContext('2d'),{type:'line',data:{labels:sortedM.map(m=>{const[y,mo]=m.split('-');return ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'][+mo-1]+'/'+y.slice(2)}),datasets:[{label:'Patrimônio',data:sortedM.map(m=>+meses[m].toFixed(2)),borderColor:'#4DB6AC',backgroundColor:'rgba(77,182,172,0.1)',fill:true,tension:0.3,pointBackgroundColor:'#4DB6AC',pointRadius:3,borderWidth:2}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>fmtBrl(c.raw)}}},scales:{y:{ticks:{callback:v=>'R$'+Math.round(v/1000)+'k',color:'rgba(255,255,255,0.3)',font:{size:9}},grid:{color:'rgba(255,255,255,0.05)'}},x:{ticks:{color:'rgba(255,255,255,0.3)',font:{size:9}},grid:{display:false}}}}});
-
   const gruposObj={CDB:[],LCI:[],LCA:[],Fundo:[],Outro:[]};
   investimentos.forEach(i=>{(gruposObj[i.tipo]||gruposObj['Outro']).push(i);});
   let html='';
@@ -683,37 +980,15 @@ function renderInvestimentos(){
       const rend=inv.atual-inv.aplicado,rendPct=inv.aplicado>0?((rend/inv.aplicado)*100).toFixed(2):'0';
       const rendAno=inv.rendmes?((Math.pow(1+inv.rendmes/100,12)-1)*100).toFixed(2):null;
       const vs=vencStatus(inv.venc);
-      html+=`<div class="inv-card">
-        <div class="inv-card-header">
-          <div class="inv-card-icon ic-${inv.tipo}">${inv.tipo}</div>
-          <div style="flex:1;min-width:0">
-            <div class="inv-card-name">${inv.nome}</div>
-            <div class="inv-card-inst">${inv.inst||'—'}${inv.taxa?' · '+inv.taxa:''}</div>
-          </div>
-          <button class="del-btn" onclick="delInv('${inv.id}')">×</button>
-        </div>
-        <div class="inv-values">
-          <div class="inv-val"><div class="inv-val-label">Aplicado</div><div class="inv-val-num blue">${fmtBrl(inv.aplicado)}</div></div>
-          <div class="inv-val"><div class="inv-val-label">Atual</div><div class="inv-val-num">${fmtBrl(inv.atual)}</div></div>
-          <div class="inv-val"><div class="inv-val-label">Rendimento</div><div class="inv-val-num ${rend>=0?'green':'red'}">${rend>=0?'+':'-'}${fmtBrl(Math.abs(rend))}<br><span style="font-size:10px;opacity:0.7">${rend>=0?'+':''}${rendPct}%</span></div></div>
-        </div>
-        ${inv.rendmes||rendAno?`<div class="taxa-row"><div class="taxa-item"><div class="taxa-label">Mensal</div><div class="taxa-val">${inv.rendmes>0?'+':''}${inv.rendmes}% a.m.</div></div>${rendAno?`<div class="taxa-item"><div class="taxa-label">Anual</div><div class="taxa-val">+${rendAno}% a.a.</div></div>`:''}</div>`:''}
-        <div class="inv-footer" style="margin-top:8px">
-          ${vs?`<span class="venc-badge ${vs.cls}">${vs.label}</span>`:''}
-          <span class="liq-badge">${inv.liq}</span>
-          ${inv.socio?`<span class="socio-badge">${inv.socio}</span>`:''}
-          <button class="btn btn-sm btn-inline" style="margin-left:auto" onclick="editInv('${inv.id}')">Atualizar</button>
-        </div>
-      </div>`;
+      html+=`<div class="inv-card"><div class="inv-card-header"><div class="inv-card-icon ic-${inv.tipo}">${inv.tipo}</div><div style="flex:1;min-width:0"><div class="inv-card-name">${inv.nome}</div><div class="inv-card-inst">${inv.inst||'—'}${inv.taxa?' · '+inv.taxa:''}</div></div><button class="del-btn" onclick="delInv('${inv.id}')">×</button></div><div class="inv-values"><div class="inv-val"><div class="inv-val-label">Aplicado</div><div class="inv-val-num blue">${fmtBrl(inv.aplicado)}</div></div><div class="inv-val"><div class="inv-val-label">Atual</div><div class="inv-val-num">${fmtBrl(inv.atual)}</div></div><div class="inv-val"><div class="inv-val-label">Rendimento</div><div class="inv-val-num ${rend>=0?'green':'red'}">${rend>=0?'+':'-'}${fmtBrl(Math.abs(rend))}<br><span style="font-size:10px;opacity:0.7">${rend>=0?'+':''}${rendPct}%</span></div></div></div>${inv.rendmes||rendAno?`<div class="taxa-row"><div class="taxa-item"><div class="taxa-label">Mensal</div><div class="taxa-val">${inv.rendmes>0?'+':''}${inv.rendmes}% a.m.</div></div>${rendAno?`<div class="taxa-item"><div class="taxa-label">Anual</div><div class="taxa-val">+${rendAno}% a.a.</div></div>`:''}</div>`:''}<div class="inv-footer" style="margin-top:8px">${vs?`<span class="venc-badge ${vs.cls}">${vs.label}</span>`:''}<span class="liq-badge">${inv.liq}</span>${inv.socio?`<span class="socio-badge">${inv.socio}</span>`:''}<button class="btn btn-sm btn-inline" style="margin-left:auto" onclick="editInv('${inv.id}')">Atualizar</button></div></div>`;
     });
   });
   el.innerHTML=html;
 }
-
-function delInv(id){if(confirm('Remover este investimento?')){investimentos=investimentos.filter(i=>i.id!==id);save();renderInvestimentos();}}
+function delInv(id){if(confirm('Remover?')){investimentos=investimentos.filter(i=>i.id!==id);save();renderInvestimentos();}}
 function editInv(id){
   const inv=investimentos.find(i=>i.id===id);if(!inv)return;
-  const novo=prompt(`Atualizar "${inv.nome}"\nAtual: ${fmtBrl(inv.atual)}\n\nNovo valor atual (R$):`);
+  const novo=prompt(`Atualizar "${inv.nome}"\nAtual: ${fmtBrl(inv.atual)}\n\nNovo valor (R$):`);
   if(novo===null)return;
   const val=parseFloat(novo.replace(',','.'));
   if(isNaN(val)||val<0){alert('Valor inválido.');return;}
@@ -724,6 +999,7 @@ function editInv(id){
   inv.atual=val;save();renderInvestimentos();
 }
 
+/* AGENDA */
 function addEvent(){
   const t=document.getElementById('ev-title').value.trim();if(!t)return;
   events.push({id:uid(),title:t,date:document.getElementById('ev-date').value,time:document.getElementById('ev-time').value,cat:document.getElementById('ev-cat').value,note:document.getElementById('ev-note').value.trim()});
@@ -738,6 +1014,7 @@ function renderEvents(){
 }
 function delEvent(id){events=events.filter(e=>e.id!==id);save();renderEvents();}
 
+/* FINANÇAS */
 function addTransaction(){
   const desc=document.getElementById('tr-desc').value.trim(),val=parseFloat(document.getElementById('tr-val').value);
   if(!desc||isNaN(val)||val<=0)return;
@@ -767,6 +1044,7 @@ function renderFinanceiro(){
 }
 function delTrans(id){transactions=transactions.filter(t=>t.id!==id);save();renderFinanceiro();}
 
+/* IDEIAS */
 const tagColors={ideia:{bg:'rgba(206,147,216,0.15)',color:'#CE93D8'},plano:{bg:'rgba(79,195,247,0.15)',color:'#4FC3F7'},reflexao:{bg:'rgba(255,183,77,0.15)',color:'#FFB74D'},projeto:{bg:'rgba(77,182,172,0.15)',color:'#4DB6AC'},outro:{bg:'rgba(136,136,136,0.15)',color:'#888'}};
 const tagLabels={ideia:'Ideia',plano:'Plano',reflexao:'Reflexão',projeto:'Projeto',outro:'Outro'};
 function addIdea(){
@@ -782,6 +1060,7 @@ function renderIdeas(){
 }
 function delIdea(id){ideas=ideas.filter(i=>i.id!==id);save();renderIdeas();}
 
+/* LEMBRETES */
 const recurLabels={unico:'Único',diario:'Diário',semanal:'Semanal',mensal:'Mensal',anual:'Anual'};
 function addReminder(){
   const t=document.getElementById('rem-title').value.trim();if(!t)return;
@@ -806,6 +1085,7 @@ function toggleDone(id){
 }
 function delReminder(id){reminders=reminders.filter(r=>r.id!==id);save();renderReminders();}
 
+/* CONFIG */
 function renderConfig(){
   document.getElementById('ev-cats-list').innerHTML=evCats.map(c=>`<span class="cat-tag"><span style="width:8px;height:8px;border-radius:50%;background:${c.color};display:inline-block"></span>${c.name}<span class="del-x" onclick="delEvCat('${c.id}')">×</span></span>`).join('');
   document.getElementById('fin-cats-list').innerHTML=finCats.map(c=>`<span class="cat-tag"><span style="width:8px;height:8px;border-radius:50%;background:${c.color};display:inline-block"></span>${c.name}<span class="del-x" onclick="delFinCat('${c.id}')">×</span></span>`).join('');
@@ -816,21 +1096,21 @@ function addFinCat(){const name=document.getElementById('new-fin-cat-name').valu
 function delFinCat(id){finCats=finCats.filter(c=>c.id!==id);save();populateSelects();renderConfig();}
 function exportData(){const d=JSON.stringify({events,transactions,ideas,reminders,evCats,finCats,cryptoH,otherCoins,investimentos},null,2);const a=document.createElement('a');a.href='data:application/json;charset=utf-8,'+encodeURIComponent(d);a.download='assistente-backup-'+new Date().toISOString().slice(0,10)+'.json';a.click();}
 function importData(){document.getElementById('import-file').click();}
-function handleImport(e){const file=e.target.files[0];if(!file)return;const reader=new FileReader();reader.onload=function(ev){try{const d=JSON.parse(ev.target.result);if(d.events)events=d.events;if(d.transactions)transactions=d.transactions;if(d.ideas)ideas=d.ideas;if(d.reminders)reminders=d.reminders;if(d.evCats)evCats=d.evCats;if(d.finCats)finCats=d.finCats;if(d.cryptoH)cryptoH=d.cryptoH;if(d.otherCoins)otherCoins=d.otherCoins;if(d.investimentos)investimentos=d.investimentos;save();populateSelects();renderEvents();renderIdeas();renderReminders();renderConfig();alert('Importado com sucesso!');}catch{alert('Arquivo inválido.');}};reader.readAsText(file);}
+function handleImport(e){const file=e.target.files[0];if(!file)return;const reader=new FileReader();reader.onload=function(ev){try{const d=JSON.parse(ev.target.result);if(d.events)events=d.events;if(d.transactions)transactions=d.transactions;if(d.ideas)ideas=d.ideas;if(d.reminders)reminders=d.reminders;if(d.evCats)evCats=d.evCats;if(d.finCats)finCats=d.finCats;if(d.cryptoH)cryptoH=d.cryptoH;if(d.otherCoins)otherCoins=d.otherCoins;if(d.investimentos)investimentos=d.investimentos;save();populateSelects();renderEvents();renderIdeas();renderReminders();renderConfig();alert('Importado!');}catch{alert('Arquivo inválido.');}};reader.readAsText(file);}
 function clearAll(){events=[];transactions=[];ideas=[];reminders=[];otherCoins=[];investimentos=[];save();renderEvents();renderIdeas();renderReminders();renderInvestimentos();}
 
+/* IA */
 function buildCtx(){
-  const evS=events.length?events.slice(0,8).map(e=>`- ${e.title} (${e.date||'sem data'}${e.time?' às '+e.time:''}, ${getEvCat(e.cat).name})`).join('\n'):'Sem compromissos.';
-  const tIn=transactions.filter(t=>t.type==='in').reduce((s,t)=>s+t.val,0),tOut=transactions.filter(t=>t.type==='out').reduce((s,t)=>s+t.val,0);
-  const catTot={};transactions.filter(t=>t.type==='out').forEach(t=>{const n=getFinCat(t.cat).name;catTot[n]=(catTot[n]||0)+t.val});
-  const trS=`Entradas: R$${tIn.toFixed(2)}, Saídas: R$${tOut.toFixed(2)}, Saldo: R$${(tIn-tOut).toFixed(2)}. Categorias: ${Object.entries(catTot).map(([k,v])=>k+': R$'+v.toFixed(2)).join(', ')||'sem dados'}`;
-  const tBtc=(cryptoH.trezorBtc||0)+(cryptoH.binanceBtc||0),tUsd=tBtc*btcUsd,tCost=(cryptoH.trezorAvg||0)*(cryptoH.trezorBtc||0)+(cryptoH.binanceAvg||0)*(cryptoH.binanceBtc||0);
-  const cryptoS=`BTC: ${tBtc.toFixed(8)} = $${tUsd.toFixed(2)} (≈ R$${(tUsd*usdBrl).toFixed(2)}). Preço: $${btcUsd.toFixed(2)}. Trezor: ${cryptoH.trezorBtc||0} BTC (pm: $${cryptoH.trezorAvg||0}). Binance: ${cryptoH.binanceBtc||0} BTC (pm: $${cryptoH.binanceAvg||0}). P&L: ${tCost>0?'$'+(tUsd-tCost).toFixed(2)+' ('+(((tUsd-tCost)/tCost)*100).toFixed(1)+'%)':'sem pm'}.`;
+  const totalFat=FATURAS.reduce((s,f)=>s+f.val,0);
+  const mediaFat=totalFat/FATURAS.length;
+  const maxFat=FATURAS.reduce((a,f)=>f.val>a.val?f:a,FATURAS[0]);
   const invApl=investimentos.reduce((s,i)=>s+i.aplicado,0),invAt=investimentos.reduce((s,i)=>s+i.atual,0);
-  const invS=`Total: R$${invAt.toFixed(2)} (aplicado R$${invApl.toFixed(2)}, rend R$${(invAt-invApl).toFixed(2)}, ${invApl>0?(((invAt-invApl)/invApl)*100).toFixed(2):'0'}%). Ativos: `+investimentos.map(i=>`${i.nome} (${i.tipo}, R$${i.aplicado.toFixed(2)}→R$${i.atual.toFixed(2)}${i.rendmes?', '+i.rendmes+'% a.m.':''}${i.socio?', sócio: '+i.socio:''})`).join('; ');
+  const tBtc=(cryptoH.trezorBtc||0)+(cryptoH.binanceBtc||0),tUsd=tBtc*btcUsd;
+  const assinTotal=ASSINATURAS.filter(a=>a.val>0).reduce((s,a)=>s+a.val,0);
+  const evS=events.length?events.slice(0,8).map(e=>`- ${e.title} (${e.date||'sem data'}${e.time?' às '+e.time:''}, ${getEvCat(e.cat).name})`).join('\n'):'Sem compromissos.';
   const remS=reminders.length?reminders.slice(0,6).map(r=>`- ${r.title} (${r.date||'sem data'}, ${recurLabels[r.recur]})`).join('\n'):'Sem lembretes.';
   const idS=ideas.length?ideas.slice(0,5).map(i=>`- [${tagLabels[i.tag]||i.tag}] ${i.title||''}: ${i.text.slice(0,100)}`).join('\n'):'Sem ideias.';
-  return `Você é um assistente pessoal organizado e empático. O usuário tem dificuldades de memória e organização. Seja claro, direto, use listas. Responda em português brasileiro.\n\nAGENDA:\n${evS}\n\nFINANÇAS:\n${trS}\n\nCRIPTO:\n${cryptoS}\n\nINVESTIMENTOS:\n${invS}\n\nLEMBRETES:\n${remS}\n\nIDEIAS:\n${idS}\n\nHoje: ${new Date().toLocaleDateString('pt-BR',{weekday:'long',day:'2-digit',month:'long',year:'numeric'})}.`;
+  return `Você é o assistente pessoal do Victor Giuliani, organizado e empático. Ele tem dificuldades de memória e organização. Seja claro, direto, use listas. Responda em português brasileiro.\n\nAGENDA:\n${evS}\n\nDASHBOARD FINANCEIRO:\nFaturas C6 Carbon (12 meses): Total=${fmtBrl(totalFat)}, Média=${fmtBrl(mediaFat)}, Maior=${maxFat.mes} (${fmtBrl(maxFat.val)})\nFaturas por mês: ${FATURAS.map(f=>f.mes+': '+fmtBrl(f.val)).join(', ')}\nMaiores categorias: Alimentação R$32.840, Compras Online R$18.600, Transporte R$14.200, Restaurantes R$12.400\nAssinaturas: R$${assinTotal.toFixed(0)}/mês (Netflix, Disney, HBO, Paramount, YouTube, AppleTV, Spotify, Nintendo, Claude, Plaud, BLL TV, BASE TV, iCloud, Smartfit, iFood Club, Uber One)\nGastos fixos: ~R$9.150/mês (aluguel, doméstica, saúde, academia)\nApostas esportivas: entradas R$62.440, saídas R$89.320, resultado -R$26.880\nPoker: entradas R$39.817, fichas R$46.764, resultado -R$6.947\n\nINVESTIMENTOS:\nTotal: ${fmtBrl(invAt)} (aplicado ${fmtBrl(invApl)}, rend ${fmtBrl(invAt-invApl)}). Ativos: ${investimentos.map(i=>i.nome+' ('+fmtBrl(i.atual)+')').join('; ')}\n\nCRIPTO:\nBTC: ${tBtc.toFixed(8)} = $${tUsd.toFixed(0)} (≈ ${fmtBrl(tUsd*usdBrl)}). Preço: $${btcUsd.toFixed(0)}.\n\nLEMBRETES:\n${remS}\n\nIDEIAS:\n${idS}\n\nHoje: ${new Date().toLocaleDateString('pt-BR',{weekday:'long',day:'2-digit',month:'long',year:'numeric'})}.`;
 }
 async function askAI(){
   const q=document.getElementById('ai-q').value.trim();if(!q)return;
@@ -843,6 +1123,7 @@ async function askAI(){
 }
 function qa(q){document.getElementById('ai-q').value=q;showTab('ia');askAI();}
 
+/* INIT */
 populateSelects();renderEvents();renderIdeas();renderReminders();
 document.getElementById('ev-date').value=new Date().toISOString().split('T')[0];
 document.getElementById('rem-date').value=new Date().toISOString().split('T')[0];
