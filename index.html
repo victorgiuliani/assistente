@@ -232,6 +232,7 @@ select option{background:#1a2744;color:#e8eaf6}
     <button class="tab" onclick="showTab('cripto')" id="tab-btn-cripto">Cripto</button>
     <button class="tab" onclick="showTab('invest')" id="tab-btn-invest">Invest.</button>
     <button class="tab" onclick="showTab('dashboard')" id="tab-btn-dashboard">Dashboard</button>
+    <button class="tab" onclick="showTab('tarefas')" id="tab-btn-tarefas">Tarefas</button>
     <button class="tab" onclick="showTab('ideias')" id="tab-btn-ideias">Ideias</button>
     <button class="tab" onclick="showTab('lembretes')" id="tab-btn-lembretes">Lembretes</button>
     <button class="tab" onclick="showTab('ia')" id="tab-btn-ia">Pergunte</button>
@@ -616,6 +617,101 @@ select option{background:#1a2744;color:#e8eaf6}
         </div>
       </div>
 
+      <!-- Milhas C6 Carbon -->
+      <div class="dash-section">
+        <div class="dash-section-title">Milhas — C6 Carbon</div>
+        <div style="background:#1e1a3a;border:1px solid rgba(206,147,216,0.2);border-radius:12px;padding:16px;margin-bottom:12px">
+          <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap">
+            <div>
+              <div style="font-size:10px;color:rgba(206,147,216,0.6);font-weight:700;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:4px">Saldo atual</div>
+              <div style="font-size:32px;font-weight:700;color:#CE93D8" id="milhas-saldo-display">0</div>
+              <div style="font-size:12px;color:rgba(206,147,216,0.5);margin-top:2px">pontos / milhas</div>
+            </div>
+            <div style="text-align:right">
+              <div style="font-size:10px;color:rgba(206,147,216,0.6);font-weight:700;text-transform:uppercase;margin-bottom:4px">Última atualização</div>
+              <div style="font-size:12px;color:rgba(255,255,255,0.4)" id="milhas-update-date">—</div>
+              <div style="font-size:10px;color:rgba(206,147,216,0.5);margin-top:4px" id="milhas-valor-est"></div>
+            </div>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:14px">
+            <div style="background:rgba(255,255,255,0.05);border-radius:8px;padding:8px;text-align:center">
+              <div style="font-size:9px;color:rgba(255,255,255,0.35);font-weight:700;margin-bottom:2px;text-transform:uppercase">Acumulado</div>
+              <div style="font-size:13px;font-weight:700;color:#4CAF50" id="milhas-acumulado">0</div>
+            </div>
+            <div style="background:rgba(255,255,255,0.05);border-radius:8px;padding:8px;text-align:center">
+              <div style="font-size:9px;color:rgba(255,255,255,0.35);font-weight:700;margin-bottom:2px;text-transform:uppercase">Resgatado</div>
+              <div style="font-size:13px;font-weight:700;color:#FFB74D" id="milhas-resgatado">0</div>
+            </div>
+            <div style="background:rgba(255,255,255,0.05);border-radius:8px;padding:8px;text-align:center">
+              <div style="font-size:9px;color:rgba(255,255,255,0.35);font-weight:700;margin-bottom:2px;text-transform:uppercase">Expirado</div>
+              <div style="font-size:13px;font-weight:700;color:#EF5350" id="milhas-expirado">0</div>
+            </div>
+          </div>
+        </div>
+        <div style="display:flex;gap:8px;margin-bottom:10px">
+          <input type="number" id="milhas-input" placeholder="Novo saldo de pontos..." style="flex:2">
+          <button class="btn btn-primary btn-inline" style="flex:1" onclick="salvarMilhas()">Atualizar</button>
+        </div>
+        <div style="font-size:10px;font-weight:700;color:#CE93D8;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:8px">Registrar movimento</div>
+        <div style="display:flex;gap:8px;margin-bottom:8px">
+          <input type="number" id="milhas-mov-val" placeholder="Quantidade de pontos" style="flex:2">
+          <select id="milhas-mov-tipo" style="flex:1">
+            <option value="acumulo">Acúmulo</option>
+            <option value="resgate">Resgate</option>
+            <option value="expiracao">Expiração</option>
+          </select>
+        </div>
+        <div style="display:flex;gap:8px;margin-bottom:10px">
+          <input type="text" id="milhas-mov-desc" placeholder="Ex: fatura nov/25, resgate passagem..." style="flex:2">
+          <button class="btn btn-inline btn-sm" style="flex:1;border-color:rgba(206,147,216,0.3);color:#CE93D8;background:rgba(206,147,216,0.08)" onclick="addMilhasMovimento()">+ Registrar</button>
+        </div>
+        <div style="font-size:10px;font-weight:700;color:rgba(255,255,255,0.3);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:8px">Histórico</div>
+        <div id="milhas-historico"></div>
+      </div>
+
+    </div>
+
+    <!-- TAREFAS (Todoist) -->
+    <div id="sec-tarefas" class="section">
+      <!-- Hoje -->
+      <div style="background:#1a2744;border:1px solid rgba(219,74,74,0.25);border-radius:12px;padding:14px;margin-bottom:12px">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+          <div style="font-size:11px;font-weight:700;color:#EF5350;text-transform:uppercase;letter-spacing:0.06em">Hoje</div>
+          <div style="display:flex;gap:8px;align-items:center">
+            <span id="today-count" style="font-size:11px;color:rgba(255,255,255,0.3)"></span>
+            <button class="btn btn-sm btn-inline" onclick="loadTodoist()" style="border-color:rgba(219,74,74,0.3);color:#EF5350;background:rgba(219,74,74,0.08)">Atualizar</button>
+          </div>
+        </div>
+        <div id="todoist-today" style="font-size:13px;color:rgba(255,255,255,0.3);font-style:italic">Carregando...</div>
+      </div>
+
+      <!-- Adicionar tarefa -->
+      <div class="form-group">
+        <input type="text" id="new-task-content" placeholder="Nova tarefa...">
+        <div class="form-row">
+          <input type="date" id="new-task-date" class="f1">
+          <select id="new-task-project" class="f2">
+            <option value="">Projeto padrão</option>
+          </select>
+        </div>
+        <select id="new-task-priority">
+          <option value="1">Prioridade normal</option>
+          <option value="2">Prioridade média</option>
+          <option value="3">Prioridade alta</option>
+          <option value="4">Urgente 🔴</option>
+        </select>
+        <button class="btn btn-primary" onclick="addTodoistTask()">+ Adicionar no Todoist</button>
+      </div>
+
+      <!-- Próximas -->
+      <div class="sec-label">Próximas tarefas</div>
+      <div id="todoist-upcoming" style="font-size:13px;color:rgba(255,255,255,0.3);font-style:italic">Carregando...</div>
+
+      <!-- Por projeto -->
+      <div class="sec-label" style="margin-top:16px">Por projeto</div>
+      <div id="todoist-projects"></div>
+
+      <div id="todoist-error" style="display:none;background:rgba(239,83,80,0.1);border:1px solid rgba(239,83,80,0.3);border-radius:10px;padding:12px;font-size:13px;color:#EF5350;margin-top:8px"></div>
     </div>
 
     <!-- IDEIAS -->
@@ -807,7 +903,8 @@ function showTab(tab){
   if(tab==='financeiro')renderFinanceiro();
   if(tab==='cripto'){loadCryptoInputs();renderCripto();}
   if(tab==='invest')renderInvestimentos();
-  if(tab==='dashboard')renderDashboard();
+  if(tab==='dashboard'){renderDashboard();renderMilhas();}
+  if(tab==='tarefas')loadTodoist();
   if(tab==='config')renderConfig();
   if(tab==='ia'&&apiKey)document.getElementById('api-key-input').value=apiKey;
 }
@@ -1122,6 +1219,201 @@ async function askAI(){
   catch{r.className='ai-resp';r.textContent='Erro ao conectar.';}
 }
 function qa(q){document.getElementById('ai-q').value=q;showTab('ia');askAI();}
+
+/* MILHAS */
+let milhasData = LS.get('milhas') || {saldo:162210, acumulado:162210, resgatado:0, expirado:0, historico:[{val:162210, tipo:'acumulo', desc:'Saldo inicial C6 Átomos', data:'12/04/2026'}], ultimaAtt:'12/04/2026'};
+
+function renderMilhas() {
+  if (!document.getElementById('milhas-saldo-display')) return;
+  document.getElementById('milhas-saldo-display').textContent = milhasData.saldo.toLocaleString('pt-BR');
+  document.getElementById('milhas-acumulado').textContent = milhasData.acumulado.toLocaleString('pt-BR');
+  document.getElementById('milhas-resgatado').textContent = milhasData.resgatado.toLocaleString('pt-BR');
+  document.getElementById('milhas-expirado').textContent = milhasData.expirado.toLocaleString('pt-BR');
+  document.getElementById('milhas-update-date').textContent = milhasData.ultimaAtt || '—';
+  // Valor estimado: ~R$0,025 por ponto (referência C6)
+  const valor = (milhasData.saldo * 0.02).toLocaleString('pt-BR', {minimumFractionDigits:2, maximumFractionDigits:2});
+  document.getElementById('milhas-valor-est').textContent = milhasData.saldo > 0 ? '≈ R$ ' + valor + ' em cashback (ref. C6)' : '';
+
+  const hist = milhasData.historico || [];
+  const el = document.getElementById('milhas-historico');
+  if (!hist.length) { el.innerHTML = '<div style="color:rgba(255,255,255,0.2);font-size:13px;padding:8px 0">Nenhum movimento registrado.</div>'; return; }
+  const tipoLabel = {acumulo:'Acúmulo', resgate:'Resgate', expiracao:'Expiração'};
+  const tipoColor = {acumulo:'#4CAF50', resgate:'#FFB74D', expiracao:'#EF5350'};
+  el.innerHTML = [...hist].reverse().map(h => `
+    <div style="display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.04)">
+      <div style="width:8px;height:8px;border-radius:50%;background:${tipoColor[h.tipo]||'#888'};flex-shrink:0"></div>
+      <div style="flex:1">
+        <div style="font-size:12px;color:#e8eaf6">${h.desc||tipoLabel[h.tipo]}</div>
+        <div style="font-size:10px;color:rgba(255,255,255,0.3)">${h.data}</div>
+      </div>
+      <div style="font-size:13px;font-weight:700;color:${tipoColor[h.tipo]}">${h.tipo==='acumulo'?'+':'-'}${h.val.toLocaleString('pt-BR')}</div>
+    </div>`).join('');
+}
+
+function salvarMilhas() {
+  const val = parseInt(document.getElementById('milhas-input').value);
+  if (isNaN(val) || val < 0) return;
+  milhasData.saldo = val;
+  milhasData.ultimaAtt = new Date().toLocaleDateString('pt-BR');
+  LS.set('milhas', milhasData);
+  document.getElementById('milhas-input').value = '';
+  renderMilhas();
+}
+
+function addMilhasMovimento() {
+  const val = parseInt(document.getElementById('milhas-mov-val').value);
+  const tipo = document.getElementById('milhas-mov-tipo').value;
+  const desc = document.getElementById('milhas-mov-desc').value.trim();
+  if (isNaN(val) || val <= 0) return;
+  milhasData.historico = milhasData.historico || [];
+  milhasData.historico.push({val, tipo, desc, data: new Date().toLocaleDateString('pt-BR')});
+  if (tipo === 'acumulo') { milhasData.acumulado += val; milhasData.saldo += val; }
+  else if (tipo === 'resgate') { milhasData.resgatado += val; milhasData.saldo = Math.max(0, milhasData.saldo - val); }
+  else if (tipo === 'expiracao') { milhasData.expirado += val; milhasData.saldo = Math.max(0, milhasData.saldo - val); }
+  milhasData.ultimaAtt = new Date().toLocaleDateString('pt-BR');
+  LS.set('milhas', milhasData);
+  document.getElementById('milhas-mov-val').value = '';
+  document.getElementById('milhas-mov-desc').value = '';
+  renderMilhas();
+}
+
+/* TODOIST */
+const TODOIST_TOKEN = '71e9481bbb9c0736617ef2a91b65e98bfec6e6db';
+const TODOIST_API = 'https://corsproxy.io/?https://api.todoist.com/rest/v2';
+let todoistProjects = [];
+
+async function todoistFetch(path, opts={}) {
+  const res = await fetch(TODOIST_API + path, {
+    ...opts,
+    headers: { 'Authorization': 'Bearer ' + TODOIST_TOKEN, 'Content-Type': 'application/json', ...(opts.headers||{}) }
+  });
+  if (!res.ok) throw new Error('Erro ' + res.status);
+  if (res.status === 204) return null;
+  return res.json();
+}
+
+function priorityColor(p) {
+  return p===4?'#EF5350':p===3?'#FFB74D':p===2?'#4FC3F7':'rgba(255,255,255,0.3)';
+}
+function priorityLabel(p) {
+  return p===4?'🔴':p===3?'🟠':p===2?'🔵':'';
+}
+function fmtTaskDate(d) {
+  if (!d) return '';
+  try {
+    const dt = new Date(d + (d.length===10?'T12:00:00':''));
+    const today = new Date(); today.setHours(0,0,0,0);
+    const diff = Math.round((dt - today) / 86400000);
+    if (diff < 0) return '<span style="color:#EF5350;font-weight:700">Atrasada ' + Math.abs(diff) + 'd</span>';
+    if (diff === 0) return '<span style="color:#FFB74D;font-weight:700">Hoje</span>';
+    if (diff === 1) return '<span style="color:#4FC3F7">Amanhã</span>';
+    return '<span style="color:rgba(255,255,255,0.35)">' + dt.toLocaleDateString('pt-BR', {day:'2-digit',month:'short'}) + '</span>';
+  } catch { return d; }
+}
+function getProjectName(id) {
+  const p = todoistProjects.find(p => p.id === id);
+  return p ? p.name : '';
+}
+
+function renderTaskItem(task, showProject=false) {
+  const pname = showProject ? getProjectName(task.project_id) : '';
+  const due = task.due ? fmtTaskDate(task.due.date) : '';
+  return `<div style="display:flex;align-items:flex-start;gap:10px;padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.04)">
+    <button onclick="completeTask('${task.id}')" style="width:18px;height:18px;border-radius:50%;border:2px solid ${priorityColor(task.priority)};background:none;cursor:pointer;flex-shrink:0;margin-top:1px" title="Concluir"></button>
+    <div style="flex:1;min-width:0">
+      <div style="font-size:13px;color:#e8eaf6;line-height:1.4">${priorityLabel(task.priority)} ${task.content}</div>
+      <div style="font-size:11px;margin-top:3px;display:flex;gap:8px;flex-wrap:wrap">${due}${pname?'<span style="color:rgba(255,255,255,0.25)">'+pname+'</span>':''}${task.description?'<span style="color:rgba(255,255,255,0.25)">'+task.description.slice(0,40)+'</span>':''}</div>
+    </div>
+  </div>`;
+}
+
+async function loadTodoist() {
+  const errEl = document.getElementById('todoist-error');
+  errEl.style.display = 'none';
+  document.getElementById('todoist-today').innerHTML = '<span style="color:rgba(255,255,255,0.3);font-style:italic">Carregando...</span>';
+  document.getElementById('todoist-upcoming').innerHTML = '<span style="color:rgba(255,255,255,0.3);font-style:italic">Carregando...</span>';
+  document.getElementById('todoist-projects').innerHTML = '';
+
+  try {
+    const [tasks, projects] = await Promise.all([
+      todoistFetch('/tasks'),
+      todoistFetch('/projects')
+    ]);
+    todoistProjects = projects;
+
+    // Populate project select
+    const sel = document.getElementById('new-task-project');
+    sel.innerHTML = '<option value="">Projeto padrão</option>' + projects.map(p => `<option value="${p.id}">${p.name}</option>`).join('');
+
+    // Today
+    const today = new Date().toISOString().split('T')[0];
+    const todayTasks = tasks.filter(t => t.due && t.due.date && t.due.date.slice(0,10) <= today);
+    document.getElementById('today-count').textContent = todayTasks.length + ' tarefa(s)';
+    document.getElementById('todoist-today').innerHTML = todayTasks.length
+      ? todayTasks.map(t => renderTaskItem(t, true)).join('')
+      : '<div style="text-align:center;padding:16px;color:rgba(255,255,255,0.2);font-size:13px">Nenhuma tarefa para hoje 🎉</div>';
+
+    // Upcoming (próximos 7 dias, sem hoje)
+    const in7 = new Date(); in7.setDate(in7.getDate() + 7);
+    const upcoming = tasks.filter(t => t.due && t.due.date && t.due.date.slice(0,10) > today && new Date(t.due.date) <= in7);
+    document.getElementById('todoist-upcoming').innerHTML = upcoming.length
+      ? upcoming.map(t => renderTaskItem(t, true)).join('')
+      : '<div style="color:rgba(255,255,255,0.2);font-size:13px;padding:8px 0">Nenhuma tarefa nos próximos 7 dias.</div>';
+
+    // Por projeto
+    const projEl = document.getElementById('todoist-projects');
+    const noDate = tasks.filter(t => !t.due);
+    const byProj = {};
+    tasks.forEach(t => { if (!byProj[t.project_id]) byProj[t.project_id] = []; byProj[t.project_id].push(t); });
+    projEl.innerHTML = projects.map(p => {
+      const ptasks = (byProj[p.id] || []);
+      if (!ptasks.length) return '';
+      return `<div style="background:#1a2744;border:1px solid rgba(255,255,255,0.07);border-radius:12px;padding:12px 14px;margin-bottom:8px">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
+          <div style="width:10px;height:10px;border-radius:50%;background:#EF5350;flex-shrink:0"></div>
+          <div style="font-size:12px;font-weight:700;color:#e8eaf6;flex:1">${p.name}</div>
+          <div style="font-size:11px;color:rgba(255,255,255,0.3)">${ptasks.length} tarefa(s)</div>
+        </div>
+        ${ptasks.slice(0,5).map(t => renderTaskItem(t)).join('')}
+        ${ptasks.length > 5 ? '<div style="font-size:11px;color:rgba(255,255,255,0.3);text-align:center;padding-top:6px">+ '+(ptasks.length-5)+' mais no Todoist</div>' : ''}
+      </div>`;
+    }).join('');
+
+  } catch(e) {
+    errEl.style.display = 'block';
+    errEl.textContent = 'Erro ao carregar Todoist: ' + e.message;
+    document.getElementById('todoist-today').innerHTML = '';
+    document.getElementById('todoist-upcoming').innerHTML = '';
+  }
+}
+
+async function completeTask(id) {
+  try {
+    await todoistFetch('/tasks/' + id + '/close', { method: 'POST' });
+    loadTodoist();
+  } catch(e) {
+    alert('Erro ao concluir tarefa.');
+  }
+}
+
+async function addTodoistTask() {
+  const content = document.getElementById('new-task-content').value.trim();
+  if (!content) return;
+  const date = document.getElementById('new-task-date').value;
+  const project_id = document.getElementById('new-task-project').value;
+  const priority = parseInt(document.getElementById('new-task-priority').value);
+  const body = { content, priority };
+  if (date) body.due_date = date;
+  if (project_id) body.project_id = project_id;
+  try {
+    await todoistFetch('/tasks', { method: 'POST', body: JSON.stringify(body) });
+    document.getElementById('new-task-content').value = '';
+    document.getElementById('new-task-date').value = '';
+    loadTodoist();
+  } catch(e) {
+    alert('Erro ao adicionar tarefa: ' + e.message);
+  }
+}
 
 /* INIT */
 populateSelects();renderEvents();renderIdeas();renderReminders();
