@@ -255,13 +255,13 @@ select option{background:#1a2744;color:#e8eaf6}
         </div>
         <input type="text" id="ev-note" placeholder="Observação (opcional)">
       </div>
-      <div class="sec-label">Próximos compromissos</div>
+      <div class="sec-label" style="color:#4FC3F7">📅 Próximos compromissos</div>
       <div id="event-list" class="card-list"></div>
 
       <!-- Todoist -->
       <div style="height:1px;background:rgba(255,255,255,0.07);margin:16px 0"></div>
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
-        <div style="font-size:11px;font-weight:700;color:#EF5350;text-transform:uppercase;letter-spacing:0.06em">Tarefas — Hoje</div>
+        <div style="font-size:11px;font-weight:700;color:#EF5350;text-transform:uppercase;letter-spacing:0.06em">🔴 Tarefas — Hoje</div>
         <div style="display:flex;gap:8px;align-items:center">
           <span id="today-count" style="font-size:11px;color:rgba(255,255,255,0.3)"></span>
           <button class="btn btn-sm btn-inline" onclick="loadTodoist()" style="border-color:rgba(219,74,74,0.3);color:#EF5350;background:rgba(219,74,74,0.08)">Atualizar</button>
@@ -270,25 +270,40 @@ select option{background:#1a2744;color:#e8eaf6}
       <div id="todoist-today" style="font-size:13px;color:rgba(255,255,255,0.3);font-style:italic;margin-bottom:12px">Carregando...</div>
 
       <!-- Adicionar tarefa Todoist -->
-      <div class="form-group">
-        <input type="text" id="new-task-content" placeholder="Nova tarefa no Todoist...">
-        <div class="form-row">
-          <input type="date" id="new-task-date" class="f1">
-          <input type="time" id="new-task-time" class="f1">
+      <div style="background:#1a2033;border:1px solid rgba(239,83,80,0.2);border-radius:12px;padding:14px;margin-top:8px">
+        <div style="font-size:10px;font-weight:700;color:#EF5350;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:10px">+ Nova tarefa</div>
+        <input type="text" id="new-task-content" placeholder="O que precisa fazer?" style="margin-bottom:8px">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px">
+          <div>
+            <div style="font-size:10px;color:rgba(255,255,255,0.4);margin-bottom:4px">📅 Data</div>
+            <input type="date" id="new-task-date">
+          </div>
+          <div>
+            <div style="font-size:10px;color:rgba(255,255,255,0.4);margin-bottom:4px">🕐 Horário</div>
+            <input type="time" id="new-task-time">
+          </div>
         </div>
-        <select id="new-task-project"><option value="">— Projeto padrão —</option></select>
-        <select id="new-task-priority">
-          <option value="1">Prioridade normal</option>
-          <option value="2">Prioridade média</option>
-          <option value="3">Prioridade alta</option>
-          <option value="4">Urgente 🔴</option>
-        </select>
-        <button class="btn btn-primary" onclick="addTodoistTask()">+ Adicionar no Todoist</button>
+        <div style="margin-bottom:8px">
+          <div style="font-size:10px;color:rgba(255,255,255,0.4);margin-bottom:4px">📁 Projeto</div>
+          <select id="new-task-project"><option value="">— Projeto padrão —</option></select>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr auto;gap:8px;align-items:end">
+          <div>
+            <div style="font-size:10px;color:rgba(255,255,255,0.4);margin-bottom:4px">⚡ Prioridade</div>
+            <select id="new-task-priority">
+              <option value="1">Normal</option>
+              <option value="2">Média 🔵</option>
+              <option value="3">Alta 🟠</option>
+              <option value="4">Urgente 🔴</option>
+            </select>
+          </div>
+          <button class="btn btn-primary" onclick="addTodoistTask()" style="background:#EF5350;border-color:#EF5350;white-space:nowrap">+ Adicionar</button>
+        </div>
       </div>
 
-      <div class="sec-label">Próximas tarefas</div>
+      <div class="sec-label" style="color:#FFB74D">🟠 Próximas tarefas (7 dias)</div>
       <div id="todoist-upcoming" style="font-size:13px;color:rgba(255,255,255,0.3);font-style:italic">Carregando...</div>
-      <div class="sec-label" style="margin-top:16px">Por projeto</div>
+      <div class="sec-label" style="margin-top:16px;color:#4DB6AC">📁 Por projeto</div>
       <div id="todoist-projects"></div>
       <div id="todoist-error" style="display:none;background:rgba(239,83,80,0.1);border:1px solid rgba(239,83,80,0.3);border-radius:10px;padding:12px;font-size:13px;color:#EF5350;margin-top:8px"></div>
     </div>
@@ -1446,7 +1461,7 @@ function addMilhasMovimento() {
 
 /* TODOIST */
 const TODOIST_TOKEN = '71e9481bbb9c0736617ef2a91b65e98bfec6e6db';
-const TODOIST_API = 'https://corsproxy.io/?https://api.todoist.com/rest/v2';
+const TODOIST_API = 'https://corsproxy.io/?url=https://api.todoist.com/rest/v2';
 let todoistProjects = [];
 
 async function todoistFetch(path, opts={}) {
