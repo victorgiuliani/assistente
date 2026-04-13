@@ -6,23 +6,32 @@
 <title>Meu Assistente</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#0f1729;color:#e8eaf6;font-size:14px;min-height:100vh}
-.app{max-width:480px;margin:0 auto;min-height:100vh;display:flex;flex-direction:column}
-.header{background:#1a2744;padding:14px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(79,195,247,0.15)}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#111111;color:#e8eaf6;font-size:14px;min-height:100vh}
+.app{max-width:480px;margin:0 auto;min-height:100vh;display:flex;flex-direction:column;background:#111111}
+.header{background:#111111;padding:14px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(255,255,255,0.07)}
 .header-title{font-size:16px;font-weight:700;color:#fff}
 .header-sub{font-size:10px;color:rgba(255,255,255,0.45);margin-top:2px}
-.btn-header{padding:6px 12px;border:1px solid rgba(79,195,247,0.4);border-radius:8px;font-size:11px;cursor:pointer;background:rgba(79,195,247,0.1);color:#4FC3F7;font-family:inherit;font-weight:600}
-.tabs{display:flex;background:#0f1729;border-bottom:1px solid rgba(255,255,255,0.07);overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;flex-shrink:0}
+.btn-header{padding:6px 12px;border:1px solid rgba(255,255,255,0.15);border-radius:20px;font-size:11px;cursor:pointer;background:rgba(255,255,255,0.06);color:rgba(255,255,255,0.7);font-family:inherit;font-weight:600}
+.tabs{display:flex;background:#111111;border-bottom:none;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;flex-shrink:0;padding:8px 12px;gap:6px;scroll-snap-type:x proximity}
 .tabs::-webkit-scrollbar{display:none}
-.tab{flex:0 0 auto;padding:10px 12px;font-size:11px;font-weight:500;color:rgba(255,255,255,0.35);cursor:pointer;border:none;background:none;border-bottom:2px solid transparent;white-space:nowrap;transition:all 0.15s}
-.tab.active{color:#4FC3F7;border-bottom-color:#4FC3F7;font-weight:700}
-.tab:hover:not(.active){color:rgba(255,255,255,0.6)}
-.content{padding:14px 16px;flex:1;background:#0f1729}
+.tab{flex:0 0 auto;padding:7px 14px;font-size:12px;font-weight:600;color:rgba(255,255,255,0.4);cursor:pointer;border:none;background:rgba(255,255,255,0.05);border-radius:20px;white-space:nowrap;transition:all 0.15s;scroll-snap-align:start}
+.tab.active{color:#111;background:#fff;font-weight:700}
+.tab:hover:not(.active){color:rgba(255,255,255,0.7);background:rgba(255,255,255,0.09)}
+.content{padding:14px 16px;flex:1;background:#111111}
 .section{display:none}.section.active{display:block}
-input,select,textarea{font-size:13px;padding:10px 12px;border:1px solid rgba(79,195,247,0.2);border-radius:10px;background:#1a2744;color:#e8eaf6;width:100%;font-family:inherit;outline:none;transition:border 0.15s;-webkit-appearance:none}
-input:focus,select:focus,textarea:focus{border-color:#4FC3F7}
+.subtabs{display:flex;gap:6px;margin-bottom:14px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding-bottom:2px}
+.subtabs::-webkit-scrollbar{display:none}
+.subtab{flex:0 0 auto;padding:5px 12px;font-size:11px;font-weight:600;border-radius:20px;cursor:pointer;border:none;font-family:inherit;transition:all 0.15s;opacity:0.45}
+.subtab.active{opacity:1}
+.subtab-blue{background:rgba(55,138,221,0.15);color:#85B7EB}.subtab-blue.active{background:rgba(55,138,221,0.3);color:#4FC3F7}
+.subtab-amber{background:rgba(186,117,23,0.15);color:#FAC775}.subtab-amber.active{background:rgba(186,117,23,0.3);color:#FFB74D}
+.subtab-green{background:rgba(99,153,34,0.15);color:#97C459}.subtab-green.active{background:rgba(99,153,34,0.3);color:#A5D6A7}
+.subtab-orange{background:rgba(239,108,0,0.15);color:#FFCC80}.subtab-orange.active{background:rgba(239,108,0,0.3);color:#FFB74D}
+.subtab-purple{background:rgba(127,119,221,0.15);color:#CE93D8}.subtab-purple.active{background:rgba(127,119,221,0.3);color:#E1BEE7}
+input,select,textarea{font-size:13px;padding:10px 12px;border:1px solid rgba(255,255,255,0.1);border-radius:10px;background:#1c1c1c;color:#e8eaf6;width:100%;font-family:inherit;outline:none;transition:border 0.15s;-webkit-appearance:none}
+input:focus,select:focus,textarea:focus{border-color:rgba(255,255,255,0.35)}
 input::placeholder,textarea::placeholder{color:rgba(255,255,255,0.25)}
-select option{background:#1a2744;color:#e8eaf6}
+select option{background:#1c1c1c;color:#e8eaf6}
 .form-group{display:flex;flex-direction:column;gap:8px;margin-bottom:10px}
 .form-row{display:flex;gap:8px}
 .f1{flex:1}.f2{flex:2}.fauto{flex:0 0 auto}
@@ -35,9 +44,9 @@ select option{background:#1a2744;color:#e8eaf6}
 .btn-sm{padding:6px 12px;font-size:12px;width:auto}
 .btn-danger{color:#EF5350;border-color:rgba(239,83,80,0.3);background:rgba(239,83,80,0.08)}
 .btn-inline{width:auto}
-.sec-label{font-size:10px;font-weight:700;color:#4FC3F7;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:8px;margin-top:16px}
+.sec-label{font-size:10px;font-weight:700;color:rgba(255,255,255,0.5);text-transform:uppercase;letter-spacing:0.07em;margin-bottom:8px;margin-top:16px}
 .card-list{display:flex;flex-direction:column;gap:8px}
-.card-item{display:flex;align-items:flex-start;gap:10px;padding:12px 14px;background:#1a2744;border:1px solid rgba(255,255,255,0.07);border-radius:12px}
+.card-item{display:flex;align-items:flex-start;gap:10px;padding:12px 14px;background:#1c1c1c;border:1px solid rgba(255,255,255,0.07);border-radius:12px}
 .card-info{flex:1;min-width:0}
 .card-title{font-size:13px;font-weight:600;color:#e8eaf6}
 .card-meta{font-size:11px;color:rgba(255,255,255,0.4);margin-top:2px}
@@ -50,9 +59,9 @@ select option{background:#1a2744;color:#e8eaf6}
 .mc{border-radius:12px;padding:12px 10px;text-align:center}
 .mc-label{font-size:10px;font-weight:700;margin-bottom:4px;opacity:0.7}
 .mc-val{font-size:15px;font-weight:700}
-.mc-green{background:#1a3a2a;color:#4CAF50}.mc-green .mc-label{color:#4CAF50}
+.mc-green{background:#162416;color:#4CAF50}.mc-green .mc-label{color:#4CAF50}
 .mc-red{background:#3a1a1a;color:#EF5350}.mc-red .mc-label{color:#EF5350}
-.mc-blue{background:#1a2a3a;color:#4FC3F7}.mc-blue .mc-label{color:#4FC3F7}
+.mc-blue{background:#141e28;color:#4FC3F7}.mc-blue .mc-label{color:#4FC3F7}
 .mc-amber{background:#2a1f0a;color:#FFB74D}.mc-amber .mc-label{color:#FFB74D}
 .mc-purple{background:#1e1a3a;color:#CE93D8}.mc-purple .mc-label{color:#CE93D8}
 .mc-teal{background:#0a2a22;color:#4DB6AC}.mc-teal .mc-label{color:#4DB6AC}
@@ -60,7 +69,7 @@ select option{background:#1a2744;color:#e8eaf6}
 .legend-item{display:flex;align-items:center;gap:5px;font-size:11px;color:rgba(255,255,255,0.5)}
 .legend-sq{width:10px;height:10px;border-radius:2px;flex-shrink:0}
 .cat-group{margin-bottom:8px;border:1px solid rgba(255,255,255,0.07);border-radius:12px;overflow:hidden}
-.cat-group-header{display:flex;align-items:center;gap:10px;padding:10px 13px;background:#1a2744;border-bottom:1px solid rgba(255,255,255,0.05)}
+.cat-group-header{display:flex;align-items:center;gap:10px;padding:10px 13px;background:#1c1c1c;border-bottom:1px solid rgba(255,255,255,0.05)}
 .cat-group-name{font-size:13px;font-weight:600;flex:1;color:#e8eaf6}
 .cat-bar-wrap{height:3px;background:rgba(255,255,255,0.07);margin:0 13px 8px}
 .cat-bar{height:3px;border-radius:2px}
@@ -76,7 +85,7 @@ select option{background:#1a2744;color:#e8eaf6}
 .btc-change.neg{background:rgba(239,83,80,0.2);color:#EF5350}
 .btc-update{font-size:10px;color:rgba(255,183,77,0.4);margin-left:auto}
 .wallet-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-bottom:14px}
-.wallet-card{border:1px solid rgba(255,255,255,0.07);border-radius:12px;padding:13px;background:#1a2744}
+.wallet-card{border:1px solid rgba(255,255,255,0.07);border-radius:12px;padding:13px;background:#1c1c1c}
 .wallet-card-header{display:flex;align-items:center;gap:9px;margin-bottom:10px}
 .wallet-icon{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0}
 .wi-trezor{background:#1e1a3a;color:#CE93D8}
@@ -113,12 +122,12 @@ select option{background:#1a2744;color:#e8eaf6}
 .inv-progress-bg{background:rgba(77,182,172,0.15);border-radius:4px;height:5px;overflow:hidden}
 .inv-progress-fill{height:5px;border-radius:4px;background:#4DB6AC;transition:width 0.5s}
 .inv-charts-row{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-bottom:14px}
-.inv-chart-card{background:#1a2744;border:1px solid rgba(255,255,255,0.07);border-radius:12px;padding:12px}
+.inv-chart-card{background:#1c1c1c;border:1px solid rgba(255,255,255,0.07);border-radius:12px;padding:12px}
 .inv-chart-title{font-size:10px;font-weight:700;color:#4FC3F7;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:8px}
-.inv-card{border:1px solid rgba(255,255,255,0.07);border-radius:12px;padding:13px;background:#1a2744;margin-bottom:8px}
+.inv-card{border:1px solid rgba(255,255,255,0.07);border-radius:12px;padding:13px;background:#1c1c1c;margin-bottom:8px}
 .inv-card-header{display:flex;align-items:flex-start;gap:10px;margin-bottom:10px}
 .inv-card-icon{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0}
-.ic-CDB{background:#1a2a3a;color:#4FC3F7}
+.ic-CDB{background:#141e28;color:#4FC3F7}
 .ic-LCI{background:#0a2a22;color:#4DB6AC}
 .ic-LCA{background:#1a2a15;color:#81C784}
 .ic-Fundo{background:#1e1a3a;color:#CE93D8}
@@ -146,13 +155,13 @@ select option{background:#1a2744;color:#e8eaf6}
 .group-sep{display:flex;align-items:center;gap:8px;margin:16px 0 8px;padding-bottom:8px;border-bottom:1px solid rgba(255,255,255,0.07)}
 .group-sep-title{font-size:11px;font-weight:700;color:#4FC3F7;text-transform:uppercase;letter-spacing:0.05em;flex:1}
 .group-sep-total{font-size:13px;font-weight:700;color:#e8eaf6}
-.settings-block{border:1px solid rgba(255,255,255,0.07);border-radius:12px;padding:13px;margin-bottom:12px;background:#1a2744}
+.settings-block{border:1px solid rgba(255,255,255,0.07);border-radius:12px;padding:13px;margin-bottom:12px;background:#1c1c1c}
 .settings-title{font-size:13px;font-weight:700;color:#4FC3F7;margin-bottom:10px}
 .cat-tag-list{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
 .cat-tag{display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:20px;font-size:12px;border:1px solid rgba(255,255,255,0.1);background:rgba(255,255,255,0.05);color:#e8eaf6;font-weight:500}
 .cat-tag .del-x{cursor:pointer;color:rgba(255,255,255,0.25);font-size:13px}.cat-tag .del-x:hover{color:#EF5350}
 .recur-badge{font-size:10px;padding:2px 7px;border-radius:20px;background:rgba(79,195,247,0.15);color:#4FC3F7;font-weight:600}
-.ai-box{border:1px solid rgba(79,195,247,0.15);border-radius:12px;background:#1a2744;padding:13px;margin-top:4px}
+.ai-box{border:1px solid rgba(255,255,255,0.08);border-radius:12px;background:#1c1c1c;padding:13px;margin-top:4px}
 .ai-label{font-size:10px;color:#4FC3F7;margin-bottom:7px;text-transform:uppercase;letter-spacing:0.06em;font-weight:700}
 .ai-input-row{display:flex;gap:7px}
 .ai-input-row input{flex:1}
@@ -162,7 +171,7 @@ select option{background:#1a2744;color:#e8eaf6}
 .rem-warning{background:rgba(255,183,77,0.12);border:1px solid rgba(255,183,77,0.3);border-radius:10px;padding:10px 13px;margin-bottom:10px;font-size:13px;color:#FFB74D;font-weight:600}
 
 /* DASHBOARD */
-.dash-hero{border-radius:14px;padding:18px;margin-bottom:14px;background:linear-gradient(135deg,#1a2744,#0f1f3a);border:1px solid rgba(79,195,247,0.15)}
+.dash-hero{border-radius:14px;padding:18px;margin-bottom:14px;background:linear-gradient(135deg,#1c1c1c,#0f1f3a);border:1px solid rgba(255,255,255,0.08)}
 .dash-hero-label{font-size:10px;color:rgba(79,195,247,0.6);font-weight:700;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:6px}
 .dash-hero-val{font-size:32px;font-weight:700;color:#4FC3F7;margin-bottom:4px}
 .dash-hero-sub{font-size:12px;color:rgba(255,255,255,0.4)}
@@ -170,7 +179,7 @@ select option{background:#1a2744;color:#e8eaf6}
 .dash-pat-item{background:rgba(255,255,255,0.05);border-radius:10px;padding:10px;text-align:center}
 .dash-pat-label{font-size:9px;color:rgba(255,255,255,0.4);font-weight:700;text-transform:uppercase;letter-spacing:0.04em;margin-bottom:4px}
 .dash-pat-val{font-size:13px;font-weight:700}
-.dash-section{background:#1a2744;border:1px solid rgba(255,255,255,0.07);border-radius:12px;padding:14px;margin-bottom:12px}
+.dash-section{background:#1c1c1c;border:1px solid rgba(255,255,255,0.07);border-radius:12px;padding:14px;margin-bottom:12px}
 .dash-section-title{font-size:11px;font-weight:700;color:#4FC3F7;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:12px}
 .dash-month-row{display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:1px solid rgba(255,255,255,0.04)}
 .dash-month-row:last-child{border-bottom:none}
@@ -221,25 +230,43 @@ select option{background:#1a2744;color:#e8eaf6}
   <div class="header">
     <div>
       <div class="header-title">Meu Assistente</div>
-      <div class="header-sub">Agenda · Finanças · Cripto · Invest · Dashboard · Ideias</div>
+      <div class="header-sub">Agenda · Finanças · Pessoal · IA</div>
     </div>
     <button class="btn-header" onclick="showTab('config')">Config</button>
   </div>
 
-  <div class="tabs">
-    <button class="tab active" onclick="showTab('agenda')" id="tab-btn-agenda">Agenda & Tarefas</button>
-    <button class="tab" onclick="showTab('financeiro')" id="tab-btn-financeiro">Finanças</button>
-    <button class="tab" onclick="showTab('cripto')" id="tab-btn-cripto">Cripto</button>
-    <button class="tab" onclick="showTab('invest')" id="tab-btn-invest">Invest.</button>
-    <button class="tab" onclick="showTab('dashboard')" id="tab-btn-dashboard">Dashboard</button>
-    <button class="tab" onclick="showTab('faturas')" id="tab-btn-faturas">Faturas</button>
-    <button class="tab" onclick="showTab('ideias')" id="tab-btn-ideias">Ideias</button>
-    <button class="tab" onclick="showTab('lembretes')" id="tab-btn-lembretes">Lembretes</button>
-    <button class="tab" onclick="showTab('ia')" id="tab-btn-ia">Pergunte</button>
-    <button class="tab" onclick="showTab('config')" id="tab-btn-config">Config</button>
+  <div style="position:relative">
+  <div class="tabs" id="tabs-bar">
+    <button class="tab active" onclick="showMainTab('agenda')" id="tab-btn-agenda">Agenda</button>
+    <button class="tab" onclick="showMainTab('financas')" id="tab-btn-financas">Finanças</button>
+    <button class="tab" onclick="showMainTab('pessoal')" id="tab-btn-pessoal">Pessoal</button>
+    <button class="tab" onclick="showMainTab('ia')" id="tab-btn-ia">🤖 IA</button>
+    <button class="tab" onclick="showMainTab('config')" id="tab-btn-config">Config</button>
+  </div>
+  <div id="tabs-scroll-hint" style="position:absolute;right:0;top:0;bottom:1px;width:32px;background:linear-gradient(to right,transparent,#111111);pointer-events:none;display:flex;align-items:center;justify-content:flex-end;padding-right:4px">
+    <span style="color:rgba(255,255,255,0.3);font-size:14px">›</span>
+  </div>
   </div>
 
   <div class="content">
+
+    <!-- SUB-TABS FINANÇAS -->
+    <div id="subtabs-financas" style="display:none">
+      <div class="subtabs">
+        <button class="subtab subtab-blue active" onclick="showSubTab('financas','geral')" id="sub-btn-geral">Geral</button>
+        <button class="subtab subtab-amber" onclick="showSubTab('financas','faturas')" id="sub-btn-faturas">Faturas</button>
+        <button class="subtab subtab-green" onclick="showSubTab('financas','invest')" id="sub-btn-invest">Investimentos</button>
+        <button class="subtab subtab-orange" onclick="showSubTab('financas','cripto')" id="sub-btn-cripto">Cripto</button>
+      </div>
+    </div>
+
+    <!-- SUB-TABS PESSOAL -->
+    <div id="subtabs-pessoal" style="display:none">
+      <div class="subtabs">
+        <button class="subtab subtab-purple active" onclick="showSubTab('pessoal','ideias')" id="sub-btn-ideias">Ideias</button>
+        <button class="subtab subtab-purple" onclick="showSubTab('pessoal','lembretes')" id="sub-btn-lembretes">Lembretes</button>
+      </div>
+    </div>
 
     <!-- AGENDA -->
     <div id="sec-agenda" class="section active">
@@ -270,7 +297,7 @@ select option{background:#1a2744;color:#e8eaf6}
       <div id="todoist-today" style="font-size:13px;color:rgba(255,255,255,0.3);font-style:italic;margin-bottom:12px">Carregando...</div>
 
       <!-- Adicionar tarefa Todoist -->
-      <div style="background:#1a2033;border:1px solid rgba(239,83,80,0.2);border-radius:12px;padding:14px;margin-top:8px">
+      <div style="background:#1c1c1c;border:1px solid rgba(239,83,80,0.2);border-radius:12px;padding:14px;margin-top:8px">
         <div style="font-size:10px;font-weight:700;color:#EF5350;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:10px">+ Nova tarefa</div>
         <input type="text" id="new-task-content" placeholder="O que precisa fazer?" style="margin-bottom:8px">
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px">
@@ -726,7 +753,7 @@ select option{background:#1a2744;color:#e8eaf6}
     <div id="sec-faturas" class="section">
       <div style="display:flex;align-items:center;gap:8px;margin-bottom:14px;flex-wrap:wrap">
         <div style="font-size:11px;font-weight:700;color:#4FC3F7;text-transform:uppercase;letter-spacing:0.06em;flex:1">Análise por categoria</div>
-        <select id="fat-mes-sel" onchange="renderFaturaMes()" style="flex:0 0 120px;font-size:12px;padding:6px 10px;background:#1a2744;color:#e8eaf6;border:1px solid rgba(79,195,247,0.25);border-radius:8px">
+        <select id="fat-mes-sel" onchange="renderFaturaMes()" style="flex:0 0 120px;font-size:12px;padding:6px 10px;background:#1c1c1c;color:#e8eaf6;border:1px solid rgba(255,255,255,0.1);border-radius:8px">
           <option value="all">Todos os meses</option>
           <option value="0">Mai/2025</option>
           <option value="1">Jun/2025</option>
@@ -743,11 +770,11 @@ select option{background:#1a2744;color:#e8eaf6}
         </select>
       </div>
       <div id="fat-cards" style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-bottom:14px"></div>
-      <div style="background:#1a2744;border:1px solid rgba(255,255,255,0.07);border-radius:12px;padding:12px;margin-bottom:14px">
+      <div style="background:#1c1c1c;border:1px solid rgba(255,255,255,0.07);border-radius:12px;padding:12px;margin-bottom:14px">
         <div style="font-size:10px;font-weight:700;color:#4FC3F7;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:10px">Gastos por categoria</div>
         <div style="position:relative;height:220px"><canvas id="fat-cat-chart" role="img" aria-label="Gastos por categoria">Categorias.</canvas></div>
       </div>
-      <div style="background:#1a2744;border:1px solid rgba(255,255,255,0.07);border-radius:12px;padding:12px;margin-bottom:14px">
+      <div style="background:#1c1c1c;border:1px solid rgba(255,255,255,0.07);border-radius:12px;padding:12px;margin-bottom:14px">
         <div style="font-size:10px;font-weight:700;color:#4FC3F7;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:10px">Evolução mensal por categoria</div>
         <div style="position:relative;height:220px"><canvas id="fat-evolucao-chart" role="img" aria-label="Evolução mensal">Evolução.</canvas></div>
       </div>
@@ -828,7 +855,7 @@ select option{background:#1a2744;color:#e8eaf6}
         <div id="ev-cats-list" class="cat-tag-list"></div>
         <div class="form-row" style="margin-bottom:0">
           <input type="text" id="new-ev-cat-name" placeholder="Nova categoria" class="f2">
-          <input type="color" id="new-ev-cat-color" value="#4FC3F7" style="flex:0 0 44px;padding:2px;height:40px;border:1px solid rgba(255,255,255,0.15);border-radius:8px;background:#1a2744;cursor:pointer">
+          <input type="color" id="new-ev-cat-color" value="#4FC3F7" style="flex:0 0 44px;padding:2px;height:40px;border:1px solid rgba(255,255,255,0.15);border-radius:8px;background:#1c1c1c;cursor:pointer">
           <button class="btn btn-sm btn-inline" onclick="addEvCat()">+</button>
         </div>
       </div>
@@ -837,7 +864,7 @@ select option{background:#1a2744;color:#e8eaf6}
         <div id="fin-cats-list" class="cat-tag-list"></div>
         <div class="form-row" style="margin-bottom:0">
           <input type="text" id="new-fin-cat-name" placeholder="Nova categoria" class="f2">
-          <input type="color" id="new-fin-cat-color" value="#4DB6AC" style="flex:0 0 44px;padding:2px;height:40px;border:1px solid rgba(255,255,255,0.15);border-radius:8px;background:#1a2744;cursor:pointer">
+          <input type="color" id="new-fin-cat-color" value="#4DB6AC" style="flex:0 0 44px;padding:2px;height:40px;border:1px solid rgba(255,255,255,0.15);border-radius:8px;background:#1c1c1c;cursor:pointer">
           <button class="btn btn-sm btn-inline" onclick="addFinCat()">+</button>
         </div>
       </div>
@@ -935,6 +962,81 @@ function dateStr(d){if(!d)return '';try{return new Date(d+'T12:00:00').toLocaleD
 function getEvCat(id){return evCats.find(c=>c.id===id)||{name:id,color:'#888'}}
 function getFinCat(id){return finCats.find(c=>c.id===id)||{name:id,color:'#888'}}
 
+function showMainTab(main) {
+  // Update main tab buttons
+  document.querySelectorAll('.tab').forEach(b => b.classList.remove('active'));
+  const btn = document.getElementById('tab-btn-' + main);
+  if (btn) btn.classList.add('active');
+
+  // Hide all sub-tab bars
+  document.querySelectorAll('[id^="subtabs-"]').forEach(el => el.style.display = 'none');
+
+  // Show sub-tab bar if applicable
+  if (main === 'financas') {
+    document.getElementById('subtabs-financas').style.display = 'block';
+    // Show active sub
+    const activeSub = document.querySelector('#subtabs-financas .subtab.active');
+    const subName = activeSub ? activeSub.id.replace('sub-btn-','') : 'geral';
+    showSubTab('financas', subName);
+    return;
+  }
+  if (main === 'pessoal') {
+    document.getElementById('subtabs-pessoal').style.display = 'block';
+    const activeSub = document.querySelector('#subtabs-pessoal .subtab.active');
+    const subName = activeSub ? activeSub.id.replace('sub-btn-','') : 'ideias';
+    showSubTab('pessoal', subName);
+    return;
+  }
+
+  // Hide all sections, show the right one
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  if (main === 'agenda') {
+    document.getElementById('sec-agenda').classList.add('active');
+    loadTodoist();
+  } else if (main === 'ia') {
+    document.getElementById('sec-ia').classList.add('active');
+    if(apiKey) document.getElementById('api-key-input').value = apiKey;
+  } else if (main === 'config') {
+    document.getElementById('sec-config').classList.add('active');
+    renderConfig();
+  }
+}
+
+function showSubTab(main, sub) {
+  // Update sub buttons for this main tab
+  const subBar = document.getElementById('subtabs-' + main);
+  if (!subBar) return;
+  subBar.querySelectorAll('.subtab').forEach(b => b.classList.remove('active'));
+  const subBtn = document.getElementById('sub-btn-' + sub);
+  if (subBtn) subBtn.classList.add('active');
+
+  // Hide all sections, show the right one
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+
+  if (sub === 'geral') {
+    document.getElementById('sec-financeiro').classList.add('active');
+    renderFinanceiro();
+  } else if (sub === 'faturas') {
+    document.getElementById('sec-faturas').classList.add('active');
+    renderFaturaMes();
+  } else if (sub === 'invest') {
+    document.getElementById('sec-invest').classList.add('active');
+    renderInvestimentos();
+  } else if (sub === 'cripto') {
+    document.getElementById('sec-cripto').classList.add('active');
+    loadCryptoInputs(); renderCripto();
+  } else if (sub === 'ideias') {
+    document.getElementById('sec-ideias').classList.add('active');
+    renderIdeas();
+  } else if (sub === 'lembretes') {
+    document.getElementById('sec-lembretes').classList.add('active');
+    renderReminders();
+  } else if (sub === 'dashboard') {
+    document.getElementById('sec-dashboard').classList.add('active');
+    renderDashboard(); renderMilhas();
+  }
+}
+
 function showTab(tab){
   document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
   document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
@@ -1013,16 +1115,16 @@ function renderFaturaMes(){
   const totalFat=isAll?FAT_TOTAIS.reduce((a,b)=>a+b,0):FAT_TOTAIS[parseInt(idx)];
   const maior=Object.entries(catTotals).sort((a,b)=>b[1]-a[1])[0];
   document.getElementById('fat-cards').innerHTML=`
-    <div style="background:#1a3a2a;border-radius:12px;padding:10px;text-align:center">
+    <div style="background:#162416;border-radius:12px;padding:10px;text-align:center">
       <div style="font-size:9px;color:#4CAF50;font-weight:700;margin-bottom:3px;text-transform:uppercase">${mes}</div>
       <div style="font-size:15px;font-weight:700;color:#4CAF50">${fmtFat(totalFat)}</div>
     </div>
-    <div style="background:#1a2a3a;border-radius:12px;padding:10px;text-align:center">
+    <div style="background:#141e28;border-radius:12px;padding:10px;text-align:center">
       <div style="font-size:9px;color:#4FC3F7;font-weight:700;margin-bottom:3px;text-transform:uppercase">Maior categoria</div>
       <div style="font-size:11px;font-weight:700;color:#4FC3F7">${maior[0]}</div>
       <div style="font-size:13px;font-weight:700;color:#e8eaf6">${fmtFat(maior[1])}</div>
     </div>
-    <div style="background:#2a1a2a;border-radius:12px;padding:10px;text-align:center">
+    <div style="background:#1e141e;border-radius:12px;padding:10px;text-align:center">
       <div style="font-size:9px;color:#CE93D8;font-weight:700;margin-bottom:3px;text-transform:uppercase">${isAll?'Média/mês':'% do total'}</div>
       <div style="font-size:15px;font-weight:700;color:#CE93D8">${isAll?fmtFat(totalFat/12):(maior[1]/totalFat*100).toFixed(0)+'%'}</div>
     </div>`;
@@ -1080,7 +1182,7 @@ function renderFaturaMes(){
     if(val<=0)return;
     const pct=totalFat>0?(val/totalFat*100).toFixed(1):0;
     const barW=Math.min(pct*2,100);
-    html+=`<div style="background:#1a2744;border:1px solid rgba(255,255,255,0.07);border-radius:12px;padding:12px;margin-bottom:8px">
+    html+=`<div style="background:#1c1c1c;border:1px solid rgba(255,255,255,0.07);border-radius:12px;padding:12px;margin-bottom:8px">
       <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px">
         <div style="width:10px;height:10px;border-radius:50%;background:${FAT_CAT_COLORS[cat]||'#888'};flex-shrink:0"></div>
         <div style="font-size:13px;font-weight:700;color:#e8eaf6;flex:1">${cat}</div>
@@ -1242,7 +1344,7 @@ function renderInvestimentos(){
   if(invTipoChartInst)invTipoChartInst.destroy();
   const grupos={};investimentos.forEach(i=>{grupos[i.tipo]=(grupos[i.tipo]||0)+i.atual});
   const tL=Object.keys(grupos),tV=tL.map(t=>+grupos[t].toFixed(2)),tC=tL.map(t=>TIPO_COLORS[t]||'#888');
-  invTipoChartInst=new Chart(document.getElementById('inv-tipo-chart').getContext('2d'),{type:'doughnut',data:{labels:tL,datasets:[{data:tV,backgroundColor:tC,borderWidth:3,borderColor:'#1a2744'}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:true,position:'bottom',labels:{color:'rgba(255,255,255,0.5)',font:{size:9},padding:4,boxWidth:8}},tooltip:{callbacks:{label:c=>c.label+': '+fmtBrl(c.raw)}}}}});
+  invTipoChartInst=new Chart(document.getElementById('inv-tipo-chart').getContext('2d'),{type:'doughnut',data:{labels:tL,datasets:[{data:tV,backgroundColor:tC,borderWidth:3,borderColor:'#1c1c1c'}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:true,position:'bottom',labels:{color:'rgba(255,255,255,0.5)',font:{size:9},padding:4,boxWidth:8}},tooltip:{callbacks:{label:c=>c.label+': '+fmtBrl(c.raw)}}}}});
   if(invHistChartInst)invHistChartInst.destroy();
   const meses={};
   investimentos.forEach(inv=>{(inv.historico||[]).forEach(h=>{meses[h.data]=(meses[h.data]||0)+h.val});if(!(inv.historico||[]).length){const m=inv.data?inv.data.slice(0,7):new Date().toISOString().slice(0,7);meses[m]=(meses[m]||0)+inv.atual;}});
@@ -1375,7 +1477,7 @@ function addFinCat(){const name=document.getElementById('new-fin-cat-name').valu
 function delFinCat(id){finCats=finCats.filter(c=>c.id!==id);save();populateSelects();renderConfig();}
 function exportData(){const d=JSON.stringify({events,transactions,ideas,reminders,evCats,finCats,cryptoH,otherCoins,investimentos},null,2);const a=document.createElement('a');a.href='data:application/json;charset=utf-8,'+encodeURIComponent(d);a.download='assistente-backup-'+new Date().toISOString().slice(0,10)+'.json';a.click();}
 function importData(){document.getElementById('import-file').click();}
-function handleImport(e){const file=e.target.files[0];if(!file)return;const reader=new FileReader();reader.onload=function(ev){try{const d=JSON.parse(ev.target.result);if(d.events)events=d.events;if(d.transactions)transactions=d.transactions;if(d.ideas)ideas=d.ideas;if(d.reminders)reminders=d.reminders;if(d.evCats)evCats=d.evCats;if(d.finCats)finCats=d.finCats;if(d.cryptoH)cryptoH=d.cryptoH;if(d.otherCoins)otherCoins=d.otherCoins;if(d.investimentos)investimentos=d.investimentos;save();populateSelects();renderEvents();renderIdeas();renderReminders();renderConfig();alert('Importado!');}catch{alert('Arquivo inválido.');}};reader.readAsText(file);}
+function handleImport(e){const file=e.target.files[0];if(!file)return;const reader=new FileReader();reader.onload=function(ev){try{const d=JSON.parse(ev.target.result);if(d.events)events=d.events;if(d.transactions)transactions=d.transactions;if(d.ideas)ideas=d.ideas;if(d.reminders)reminders=d.reminders;if(d.evCats)evCats=d.evCats;if(d.finCats)finCats=d.finCats;if(d.cryptoH)cryptoH=d.cryptoH;if(d.otherCoins)otherCoins=d.otherCoins;if(d.investimentos)investimentos=d.investimentos;save();populateSelects();renderEvents();renderIdeas();renderReminders();showMainTab('agenda');renderConfig();alert('Importado!');}catch{alert('Arquivo inválido.');}};reader.readAsText(file);}
 function clearAll(){events=[];transactions=[];ideas=[];reminders=[];otherCoins=[];investimentos=[];save();renderEvents();renderIdeas();renderReminders();renderInvestimentos();}
 
 /* IA */
@@ -1400,7 +1502,7 @@ async function askAI(){
   try{const res=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json','x-api-key':key,'anthropic-version':'2023-06-01'},body:JSON.stringify({model:'claude-opus-4-5',max_tokens:1000,system:buildCtx(),messages:[{role:'user',content:q}]})});const d=await res.json();r.className='ai-resp';r.textContent=d.content?.map(c=>c.text||'').join('')||d.error?.message||'Sem resposta.';}
   catch{r.className='ai-resp';r.textContent='Erro ao conectar.';}
 }
-function qa(q){document.getElementById('ai-q').value=q;showTab('ia');askAI();}
+function qa(q){document.getElementById('ai-q').value=q;showMainTab('ia');askAI();}
 
 /* MILHAS */
 let milhasData = LS.get('milhas') || {saldo:162210, acumulado:162210, resgatado:0, expirado:0, historico:[{val:162210, tipo:'acumulo', desc:'Saldo inicial C6 Átomos', data:'12/04/2026'}], ultimaAtt:'12/04/2026'};
@@ -1589,7 +1691,7 @@ async function loadTodoist() {
     projEl.innerHTML = projects.map(p => {
       const ptasks = (byProj[p.id] || []);
       if (!ptasks.length) return '';
-      return `<div style="background:#1a2744;border:1px solid rgba(255,255,255,0.07);border-radius:12px;padding:12px 14px;margin-bottom:8px">
+      return `<div style="background:#1c1c1c;border:1px solid rgba(255,255,255,0.07);border-radius:12px;padding:12px 14px;margin-bottom:8px">
         <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
           <div style="width:10px;height:10px;border-radius:50%;background:#EF5350;flex-shrink:0"></div>
           <div style="font-size:12px;font-weight:700;color:#e8eaf6;flex:1">${p.name}</div>
@@ -1655,8 +1757,18 @@ async function addTodoistTask() {
   }
 }
 
+/* TABS SCROLL HINT */
+const tabsBar = document.getElementById('tabs-bar');
+const tabsHint = document.getElementById('tabs-scroll-hint');
+if(tabsBar && tabsHint){
+  tabsBar.addEventListener('scroll', function(){
+    const atEnd = tabsBar.scrollLeft + tabsBar.clientWidth >= tabsBar.scrollWidth - 5;
+    tabsHint.style.display = atEnd ? 'none' : 'flex';
+  });
+}
+
 /* INIT */
-populateSelects();renderEvents();renderIdeas();renderReminders();
+populateSelects();renderEvents();renderIdeas();renderReminders();showMainTab('agenda');
 document.getElementById('ev-date').value=new Date().toISOString().split('T')[0];
 document.getElementById('rem-date').value=new Date().toISOString().split('T')[0];
 if(apiKey)document.getElementById('api-key-input').value=apiKey;
