@@ -227,13 +227,12 @@ select option{background:#1a2744;color:#e8eaf6}
   </div>
 
   <div class="tabs">
-    <button class="tab active" onclick="showTab('agenda')" id="tab-btn-agenda">Agenda</button>
+    <button class="tab active" onclick="showTab('agenda')" id="tab-btn-agenda">Agenda & Tarefas</button>
     <button class="tab" onclick="showTab('financeiro')" id="tab-btn-financeiro">Finanças</button>
     <button class="tab" onclick="showTab('cripto')" id="tab-btn-cripto">Cripto</button>
     <button class="tab" onclick="showTab('invest')" id="tab-btn-invest">Invest.</button>
     <button class="tab" onclick="showTab('dashboard')" id="tab-btn-dashboard">Dashboard</button>
     <button class="tab" onclick="showTab('faturas')" id="tab-btn-faturas">Faturas</button>
-    <button class="tab" onclick="showTab('tarefas')" id="tab-btn-tarefas">Tarefas</button>
     <button class="tab" onclick="showTab('ideias')" id="tab-btn-ideias">Ideias</button>
     <button class="tab" onclick="showTab('lembretes')" id="tab-btn-lembretes">Lembretes</button>
     <button class="tab" onclick="showTab('ia')" id="tab-btn-ia">Pergunte</button>
@@ -258,7 +257,42 @@ select option{background:#1a2744;color:#e8eaf6}
       </div>
       <div class="sec-label">Próximos compromissos</div>
       <div id="event-list" class="card-list"></div>
+
+      <!-- Todoist -->
+      <div style="height:1px;background:rgba(255,255,255,0.07);margin:16px 0"></div>
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+        <div style="font-size:11px;font-weight:700;color:#EF5350;text-transform:uppercase;letter-spacing:0.06em">Tarefas — Hoje</div>
+        <div style="display:flex;gap:8px;align-items:center">
+          <span id="today-count" style="font-size:11px;color:rgba(255,255,255,0.3)"></span>
+          <button class="btn btn-sm btn-inline" onclick="loadTodoist()" style="border-color:rgba(219,74,74,0.3);color:#EF5350;background:rgba(219,74,74,0.08)">Atualizar</button>
+        </div>
+      </div>
+      <div id="todoist-today" style="font-size:13px;color:rgba(255,255,255,0.3);font-style:italic;margin-bottom:12px">Carregando...</div>
+
+      <!-- Adicionar tarefa Todoist -->
+      <div class="form-group">
+        <input type="text" id="new-task-content" placeholder="Nova tarefa no Todoist...">
+        <div class="form-row">
+          <input type="date" id="new-task-date" class="f1">
+          <input type="time" id="new-task-time" class="f1">
+        </div>
+        <select id="new-task-project"><option value="">— Projeto padrão —</option></select>
+        <select id="new-task-priority">
+          <option value="1">Prioridade normal</option>
+          <option value="2">Prioridade média</option>
+          <option value="3">Prioridade alta</option>
+          <option value="4">Urgente 🔴</option>
+        </select>
+        <button class="btn btn-primary" onclick="addTodoistTask()">+ Adicionar no Todoist</button>
+      </div>
+
+      <div class="sec-label">Próximas tarefas</div>
+      <div id="todoist-upcoming" style="font-size:13px;color:rgba(255,255,255,0.3);font-style:italic">Carregando...</div>
+      <div class="sec-label" style="margin-top:16px">Por projeto</div>
+      <div id="todoist-projects"></div>
+      <div id="todoist-error" style="display:none;background:rgba(239,83,80,0.1);border:1px solid rgba(239,83,80,0.3);border-radius:10px;padding:12px;font-size:13px;color:#EF5350;margin-top:8px"></div>
     </div>
+
 
     <!-- FINANCEIRO -->
     <div id="sec-financeiro" class="section">
@@ -705,49 +739,6 @@ select option{background:#1a2744;color:#e8eaf6}
       <div id="fat-detalhe"></div>
     </div>
 
-    <!-- TAREFAS (Todoist) -->
-    <div id="sec-tarefas" class="section">
-      <!-- Hoje -->
-      <div style="background:#1a2744;border:1px solid rgba(219,74,74,0.25);border-radius:12px;padding:14px;margin-bottom:12px">
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
-          <div style="font-size:11px;font-weight:700;color:#EF5350;text-transform:uppercase;letter-spacing:0.06em">Hoje</div>
-          <div style="display:flex;gap:8px;align-items:center">
-            <span id="today-count" style="font-size:11px;color:rgba(255,255,255,0.3)"></span>
-            <button class="btn btn-sm btn-inline" onclick="loadTodoist()" style="border-color:rgba(219,74,74,0.3);color:#EF5350;background:rgba(219,74,74,0.08)">Atualizar</button>
-          </div>
-        </div>
-        <div id="todoist-today" style="font-size:13px;color:rgba(255,255,255,0.3);font-style:italic">Carregando...</div>
-      </div>
-
-      <!-- Adicionar tarefa -->
-      <div class="form-group">
-        <input type="text" id="new-task-content" placeholder="Nova tarefa...">
-        <div class="form-row">
-          <input type="date" id="new-task-date" class="f1">
-          <select id="new-task-project" class="f2">
-            <option value="">Projeto padrão</option>
-          </select>
-        </div>
-        <select id="new-task-priority">
-          <option value="1">Prioridade normal</option>
-          <option value="2">Prioridade média</option>
-          <option value="3">Prioridade alta</option>
-          <option value="4">Urgente 🔴</option>
-        </select>
-        <button class="btn btn-primary" onclick="addTodoistTask()">+ Adicionar no Todoist</button>
-      </div>
-
-      <!-- Próximas -->
-      <div class="sec-label">Próximas tarefas</div>
-      <div id="todoist-upcoming" style="font-size:13px;color:rgba(255,255,255,0.3);font-style:italic">Carregando...</div>
-
-      <!-- Por projeto -->
-      <div class="sec-label" style="margin-top:16px">Por projeto</div>
-      <div id="todoist-projects"></div>
-
-      <div id="todoist-error" style="display:none;background:rgba(239,83,80,0.1);border:1px solid rgba(239,83,80,0.3);border-radius:10px;padding:12px;font-size:13px;color:#EF5350;margin-top:8px"></div>
-    </div>
-
     <!-- IDEIAS -->
     <div id="sec-ideias" class="section">
       <div class="form-group">
@@ -939,7 +930,7 @@ function showTab(tab){
   if(tab==='invest')renderInvestimentos();
   if(tab==='dashboard'){renderDashboard();renderMilhas();}
   if(tab==='faturas'){renderFaturaMes();}
-  if(tab==='tarefas')loadTodoist();
+  if(tab==='agenda')loadTodoist();
   if(tab==='config')renderConfig();
   if(tab==='ia'&&apiKey)document.getElementById('api-key-input').value=apiKey;
 }
@@ -1576,15 +1567,22 @@ async function addTodoistTask() {
   const content = document.getElementById('new-task-content').value.trim();
   if (!content) return;
   const date = document.getElementById('new-task-date').value;
+  const time = document.getElementById('new-task-time').value;
   const project_id = document.getElementById('new-task-project').value;
   const priority = parseInt(document.getElementById('new-task-priority').value);
   const body = { content, priority };
-  if (date) body.due_date = date;
+  if (date && time) {
+    // due_datetime formato ISO: 2025-05-10T14:30:00
+    body.due_datetime = date + 'T' + time + ':00';
+  } else if (date) {
+    body.due_date = date;
+  }
   if (project_id) body.project_id = project_id;
   try {
     await todoistFetch('/tasks', { method: 'POST', body: JSON.stringify(body) });
     document.getElementById('new-task-content').value = '';
     document.getElementById('new-task-date').value = '';
+    document.getElementById('new-task-time').value = '';
     loadTodoist();
   } catch(e) {
     alert('Erro ao adicionar tarefa: ' + e.message);
