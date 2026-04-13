@@ -1068,10 +1068,11 @@ async function gsLoadAll(showFeedback=true) {
     }
 
     const criData = await gsRead('Cripto');
+    console.log('CRIPTO DATA:', JSON.stringify(criData));
     if(criData && criData.length >= 3) {
       cryptoH = {
-        trezorBtc: parseNum(criData[1]?.[1]), trezorAvg: parseNum(criData[1]?.[2]),
-        binanceBtc: parseNum(criData[2]?.[1]), binanceAvg: parseNum(criData[2]?.[2])
+        trezorBtc: parseNum(criData[1] && criData[1][1]), trezorAvg: parseNum(criData[1] && criData[1][2]),
+        binanceBtc: parseNum(criData[2] && criData[2][1]), binanceAvg: parseNum(criData[2] && criData[2][2])
       };
       LS.set('crypto', cryptoH);
     }
