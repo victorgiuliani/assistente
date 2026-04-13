@@ -1547,10 +1547,13 @@ async function loadTodoist() {
   document.getElementById('todoist-projects').innerHTML = '';
 
   try {
-    const [tasks, projects] = await Promise.all([
+    const [tasksResp, projectsResp] = await Promise.all([
       todoistFetch('/tasks'),
       todoistFetch('/projects')
     ]);
+    // API v1 returns {results: [...]} instead of plain array
+    const tasks = Array.isArray(tasksResp) ? tasksResp : (tasksResp.results || tasksResp.items || []);
+    const projects = Array.isArray(projectsResp) ? projectsResp : (projectsResp.results || projectsResp.items || []);
     todoistProjects = projects;
 
     // Populate project select
