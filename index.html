@@ -967,15 +967,18 @@ select option{background:#1c1c1c;color:#e8eaf6}
 const LS={get(k){try{return JSON.parse(localStorage.getItem('navy_'+k)||'null')}catch{return null}},set(k,v){try{localStorage.setItem('navy_'+k,JSON.stringify(v))}catch{}}};
 
 /* ─── GOOGLE SHEETS SYNC via Apps Script ─── */
-const GS_URL = 'https://script.google.com/macros/s/AKfycbxQuNqIJQBoq18NE27Uw6gCYevmDgGpCjO4Z0m5Ub90KIdTpW9joOkwurwS_6zy3ZvU7A/exec';
+const GS_URL = 'https://script.google.com/macros/s/AKfycbwy0HOC5SbTdNwNeBBdoaHDkqWIQa0OD-cON-Wyb_viGFdoovHzwYX6_aU3me1XPOvMiw/exec';
 
 async function gsWrite(sheetName, values) {
-  // Use GET with encoded values to avoid CORS preflight
-  const encoded = encodeURIComponent(JSON.stringify(values));
-  const url = GS_URL + '?sheet=' + encodeURIComponent(sheetName) + '&action=write&values=' + encoded;
-  const res = await fetch(url);
-  const data = await res.json();
-  if (data.error) throw new Error(sheetName + ': ' + data.error);
+  // Send row by row via GET to avoid URL length limits and CORS issues
+  // First clear the sheet
+  await fetch(GS_URL + '?action=clear&sheet=' + encodeURIComponent(sheetName));
+  // Then send each row
+  for (let i = 0; i < values.length; i++) {
+    const rowEncoded = encodeURIComponent(JSON.stringify(values[i]));
+    const url = GS_URL + '?action=addrow&sheet=' + encodeURIComponent(sheetName) + '&row=' + rowEncoded;
+    await fetch(url);
+  }
   return true;
 }
 
