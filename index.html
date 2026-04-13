@@ -1475,6 +1475,7 @@ async function fetchPrices(){
     const d1=await r1.json(),d2=await r2.json();
     btcUsd=parseFloat(d1.lastPrice);btcChange24h=parseFloat(d1.priceChangePercent);usdBrl=parseFloat(d2.price);
     document.getElementById('btc-price-display').textContent=fmtUsd(btcUsd);
+    if(document.getElementById('sec-patrimonio')?.classList.contains('active')) renderPatrimonio();
     const badge=document.getElementById('btc-change-badge');
     badge.style.display='inline-block';badge.textContent=(btcChange24h>=0?'+':'')+btcChange24h.toFixed(2)+'% 24h';
     badge.className='btc-change '+(btcChange24h>=0?'pos':'neg');
@@ -1482,6 +1483,7 @@ async function fetchPrices(){
     renderCripto();
   }catch{
     document.getElementById('btc-price-display').textContent=fmtUsd(btcUsd)+' (último)';
+  if(document.getElementById('sec-patrimonio')?.classList.contains('active')) renderPatrimonio();
     document.getElementById('btc-update-time').textContent='Sem conexão';renderCripto();
   }
 }
@@ -1649,8 +1651,9 @@ function renderPatrimonio() {
   if(invTotalEl) invTotalEl.textContent = fmtBrl(invTotal);
 
   // Cripto — lê valores reais do localStorage (digitados na aba Cripto)
-  const usdBrl = lastUsdBrl || 5.75;
-  const btcUsd = lastBtcPrice || 0;
+  // Use global price variables from fetchPrices()
+  const usdBrl = window.usdBrl || 5.75;
+  const btcUsd = window.btcUsd || 0;
   const trezorBtc = cryptoH.trezorBtc || 0;
   const trezorAvg = cryptoH.trezorAvg || 0;
   const binanceBtc = cryptoH.binanceBtc || 0;
@@ -1694,7 +1697,7 @@ function renderPatrimonio() {
   // Total
   const total = invTotal + btcBrl;
   const totalEl = document.getElementById('pat-total');
-  if(totalEl) totalEl.textContent = fmtBrl(total);
+  if(totalEl) totalEl.textContent = btcUsd > 0 ? fmtBrl(total) : fmtBrl(invTotal) + ' + BTC carregando...';
   const totalUsdEl = document.getElementById('pat-total-usd');
   if(totalUsdEl) totalUsdEl.textContent = fmtUsd(total / usdBrl) + ' · BTC @ $' + Math.round(btcUsd).toLocaleString();
   const updEl = document.getElementById('pat-update');
