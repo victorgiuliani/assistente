@@ -1,0 +1,24 @@
+{
+  "name": "Assistente VG",
+  "short_name": "Assistente",
+  "description": "Assistente pessoal do Victor Giuliani",
+  "start_url": "/assistente/",
+  "display": "standalone",
+  "background_color": "#111111",
+  "theme_color": "#111111",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "icon.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icon.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
