@@ -232,6 +232,7 @@ select option{background:#1a2744;color:#e8eaf6}
     <button class="tab" onclick="showTab('cripto')" id="tab-btn-cripto">Cripto</button>
     <button class="tab" onclick="showTab('invest')" id="tab-btn-invest">Invest.</button>
     <button class="tab" onclick="showTab('dashboard')" id="tab-btn-dashboard">Dashboard</button>
+    <button class="tab" onclick="showTab('faturas')" id="tab-btn-faturas">Faturas</button>
     <button class="tab" onclick="showTab('tarefas')" id="tab-btn-tarefas">Tarefas</button>
     <button class="tab" onclick="showTab('ideias')" id="tab-btn-ideias">Ideias</button>
     <button class="tab" onclick="showTab('lembretes')" id="tab-btn-lembretes">Lembretes</button>
@@ -671,6 +672,39 @@ select option{background:#1a2744;color:#e8eaf6}
 
     </div>
 
+
+    <!-- FATURAS C6 CARBON -->
+    <div id="sec-faturas" class="section">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:14px;flex-wrap:wrap">
+        <div style="font-size:11px;font-weight:700;color:#4FC3F7;text-transform:uppercase;letter-spacing:0.06em;flex:1">Análise por categoria</div>
+        <select id="fat-mes-sel" onchange="renderFaturaMes()" style="flex:0 0 120px;font-size:12px;padding:6px 10px;background:#1a2744;color:#e8eaf6;border:1px solid rgba(79,195,247,0.25);border-radius:8px">
+          <option value="all">Todos os meses</option>
+          <option value="0">Mai/2025</option>
+          <option value="1">Jun/2025</option>
+          <option value="2">Jul/2025</option>
+          <option value="3">Ago/2025</option>
+          <option value="4">Set/2025</option>
+          <option value="5">Out/2025</option>
+          <option value="6">Nov/2025</option>
+          <option value="7">Dez/2025</option>
+          <option value="8">Jan/2026</option>
+          <option value="9">Fev/2026</option>
+          <option value="10">Mar/2026</option>
+          <option value="11">Abr/2026</option>
+        </select>
+      </div>
+      <div id="fat-cards" style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-bottom:14px"></div>
+      <div style="background:#1a2744;border:1px solid rgba(255,255,255,0.07);border-radius:12px;padding:12px;margin-bottom:14px">
+        <div style="font-size:10px;font-weight:700;color:#4FC3F7;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:10px">Gastos por categoria</div>
+        <div style="position:relative;height:220px"><canvas id="fat-cat-chart" role="img" aria-label="Gastos por categoria">Categorias.</canvas></div>
+      </div>
+      <div style="background:#1a2744;border:1px solid rgba(255,255,255,0.07);border-radius:12px;padding:12px;margin-bottom:14px">
+        <div style="font-size:10px;font-weight:700;color:#4FC3F7;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:10px">Evolução mensal por categoria</div>
+        <div style="position:relative;height:220px"><canvas id="fat-evolucao-chart" role="img" aria-label="Evolução mensal">Evolução.</canvas></div>
+      </div>
+      <div id="fat-detalhe"></div>
+    </div>
+
     <!-- TAREFAS (Todoist) -->
     <div id="sec-tarefas" class="section">
       <!-- Hoje -->
@@ -904,6 +938,7 @@ function showTab(tab){
   if(tab==='cripto'){loadCryptoInputs();renderCripto();}
   if(tab==='invest')renderInvestimentos();
   if(tab==='dashboard'){renderDashboard();renderMilhas();}
+  if(tab==='faturas'){renderFaturaMes();}
   if(tab==='tarefas')loadTodoist();
   if(tab==='config')renderConfig();
   if(tab==='ia'&&apiKey)document.getElementById('api-key-input').value=apiKey;
@@ -914,6 +949,147 @@ function populateSelects(){
 }
 
 /* DASHBOARD */
+
+// ============================================================
+// DADOS FATURAS C6 CARBON — Categorizados por mes
+// ============================================================
+const FAT_MESES = ['Mai/25','Jun/25','Jul/25','Ago/25','Set/25','Out/25','Nov/25','Dez/25','Jan/26','Fev/26','Mar/26','Abr/26'];
+const FAT_TOTAIS = [11782,10890,1513,14159,14458,12872,19094,14181,11657,9827,251,26162];
+const FAT_CATS = {
+  'Alimentação':    [4382,4290,2380,3640,3950,2180,3280,3980,5540,2960,2250,3280],
+  'Transporte':     [1641,1720,1420, 900,1100,1150,1680, 680,1520, 840, 780, 970],
+  'Saúde/Farmácia': [ 471, 337, 337, 500, 280, 600, 705,1971,1617, 185, 312, 157],
+  'Academia':       [ 280, 335, 140, 140, 140, 140, 140,  10, 290, 140, 140, 290],
+  'Beleza':         [ 440,   0,   0,   0,   0,   0,   0,   0, 405,   0, 755,1825],
+  'Pets':           [ 218,   0, 100, 100, 103,   0, 279,   0,   0, 104, 104,   0],
+  'Estacionamento': [ 115,   0, 205,  85,   0,  50,  35, 100, 260,  40,  90,  10],
+  'Compras/Parcelas':[1781,3340,3520,5280,4900,1980,3600,3860,3280,4440,9890,14580],
+  'Internacional':  [4593,   0, 570, 700,   0,5014,5034,   0,   0,   0,   0,   0],
+  'Lazer':          [   0,1597, 930,2800,3939,1712,4295,4540,1706,1118,2300,5951],
+  'Streaming':      [  19,  31,  53,  46,  46,  46,  46,  40,  39,  40,  97,  99],
+};
+const FAT_CAT_COLORS = {
+  'Alimentação':     '#FF8A65',
+  'Transporte':      '#4FC3F7',
+  'Saúde/Farmácia':  '#F48FB1',
+  'Academia':        '#4DB6AC',
+  'Beleza':          '#CE93D8',
+  'Pets':            '#A5D6A7',
+  'Estacionamento':  '#FFCC80',
+  'Compras/Parcelas':'#90CAF9',
+  'Internacional':   '#EF5350',
+  'Lazer':           '#FFB74D',
+  'Streaming':       '#B0BEC5',
+};
+
+let fatCatChartInst=null, fatEvolChartInst=null;
+
+function fmtFat(v){return 'R$ '+Math.round(v).toLocaleString('pt-BR');}
+
+function renderFaturaMes(){
+  const sel=document.getElementById('fat-mes-sel');
+  if(!sel)return;
+  const idx=sel.value;
+  const isAll=idx==='all';
+  const cats=Object.keys(FAT_CATS);
+
+  // Compute values per category for selection
+  let catTotals={};
+  let totalGeral=0;
+  cats.forEach(c=>{
+    const v=isAll ? FAT_CATS[c].reduce((a,b)=>a+b,0) : FAT_CATS[c][parseInt(idx)];
+    catTotals[c]=v;
+    totalGeral+=v;
+  });
+
+  // Cards
+  const mes=isAll?'12 meses':FAT_MESES[parseInt(idx)];
+  const totalFat=isAll?FAT_TOTAIS.reduce((a,b)=>a+b,0):FAT_TOTAIS[parseInt(idx)];
+  const maior=Object.entries(catTotals).sort((a,b)=>b[1]-a[1])[0];
+  document.getElementById('fat-cards').innerHTML=`
+    <div style="background:#1a3a2a;border-radius:12px;padding:10px;text-align:center">
+      <div style="font-size:9px;color:#4CAF50;font-weight:700;margin-bottom:3px;text-transform:uppercase">${mes}</div>
+      <div style="font-size:15px;font-weight:700;color:#4CAF50">${fmtFat(totalFat)}</div>
+    </div>
+    <div style="background:#1a2a3a;border-radius:12px;padding:10px;text-align:center">
+      <div style="font-size:9px;color:#4FC3F7;font-weight:700;margin-bottom:3px;text-transform:uppercase">Maior categoria</div>
+      <div style="font-size:11px;font-weight:700;color:#4FC3F7">${maior[0]}</div>
+      <div style="font-size:13px;font-weight:700;color:#e8eaf6">${fmtFat(maior[1])}</div>
+    </div>
+    <div style="background:#2a1a2a;border-radius:12px;padding:10px;text-align:center">
+      <div style="font-size:9px;color:#CE93D8;font-weight:700;margin-bottom:3px;text-transform:uppercase">${isAll?'Média/mês':'% do total'}</div>
+      <div style="font-size:15px;font-weight:700;color:#CE93D8">${isAll?fmtFat(totalFat/12):(maior[1]/totalFat*100).toFixed(0)+'%'}</div>
+    </div>`;
+
+  // Bar chart por categoria
+  const sorted=Object.entries(catTotals).filter(([,v])=>v>0).sort((a,b)=>b[1]-a[1]);
+  if(fatCatChartInst)fatCatChartInst.destroy();
+  const ctx1=document.getElementById('fat-cat-chart').getContext('2d');
+  fatCatChartInst=new Chart(ctx1,{
+    type:'bar',
+    data:{
+      labels:sorted.map(([c])=>c),
+      datasets:[{data:sorted.map(([,v])=>v),backgroundColor:sorted.map(([c])=>FAT_CAT_COLORS[c]||'#888'),borderRadius:6,borderSkipped:false}]
+    },
+    options:{
+      responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>fmtFat(c.raw)}}},
+      scales:{
+        y:{ticks:{callback:v=>'R$'+Math.round(v/1000)+'k',color:'rgba(255,255,255,0.4)',font:{size:9}},grid:{color:'rgba(255,255,255,0.05)'}},
+        x:{ticks:{color:'rgba(255,255,255,0.5)',font:{size:9},maxRotation:35},grid:{display:false}}
+      }
+    }
+  });
+
+  // Line chart evolução — só para visualização limpa, excluir Compras/Parcelas e Internacional
+  const catsEvolucao=['Alimentação','Transporte','Saúde/Farmácia','Academia','Beleza','Lazer'];
+  if(fatEvolChartInst)fatEvolChartInst.destroy();
+  const ctx2=document.getElementById('fat-evolucao-chart').getContext('2d');
+  fatEvolChartInst=new Chart(ctx2,{
+    type:'line',
+    data:{
+      labels:FAT_MESES,
+      datasets:catsEvolucao.map(c=>({
+        label:c,data:FAT_CATS[c],borderColor:FAT_CAT_COLORS[c],
+        backgroundColor:'transparent',tension:0.3,pointRadius:3,borderWidth:2,
+        pointBackgroundColor:FAT_CAT_COLORS[c]
+      }))
+    },
+    options:{
+      responsive:true,maintainAspectRatio:false,
+      plugins:{
+        legend:{display:true,position:'bottom',labels:{color:'rgba(255,255,255,0.5)',font:{size:9},padding:8,boxWidth:10}},
+        tooltip:{callbacks:{label:c=>c.dataset.label+': '+fmtFat(c.raw)}}
+      },
+      scales:{
+        y:{ticks:{callback:v=>'R$'+Math.round(v/1000)+'k',color:'rgba(255,255,255,0.4)',font:{size:9}},grid:{color:'rgba(255,255,255,0.05)'}},
+        x:{ticks:{color:'rgba(255,255,255,0.4)',font:{size:9}},grid:{display:false}}
+      }
+    }
+  });
+
+  // Detalhamento por categoria
+  let html='';
+  sorted.forEach(([cat,val])=>{
+    if(val<=0)return;
+    const pct=totalFat>0?(val/totalFat*100).toFixed(1):0;
+    const barW=Math.min(pct*2,100);
+    html+=`<div style="background:#1a2744;border:1px solid rgba(255,255,255,0.07);border-radius:12px;padding:12px;margin-bottom:8px">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px">
+        <div style="width:10px;height:10px;border-radius:50%;background:${FAT_CAT_COLORS[cat]||'#888'};flex-shrink:0"></div>
+        <div style="font-size:13px;font-weight:700;color:#e8eaf6;flex:1">${cat}</div>
+        <div style="font-size:12px;color:rgba(255,255,255,0.4)">${pct}%</div>
+        <div style="font-size:14px;font-weight:700;color:${FAT_CAT_COLORS[cat]||'#888'}">${fmtFat(val)}</div>
+      </div>
+      <div style="height:4px;background:rgba(255,255,255,0.07);border-radius:2px;overflow:hidden">
+        <div style="height:4px;width:${barW}%;background:${FAT_CAT_COLORS[cat]||'#888'};border-radius:2px"></div>
+      </div>
+      ${isAll?`<div style="display:flex;flex-wrap:wrap;gap:4px;margin-top:8px">${FAT_MESES.map((m,i)=>FAT_CATS[cat][i]>0?`<span style="font-size:9px;padding:2px 6px;border-radius:20px;background:rgba(255,255,255,0.07);color:rgba(255,255,255,0.5)">${m}: ${fmtFat(FAT_CATS[cat][i])}</span>`:'').join('')}</div>`:''}
+    </div>`;
+  });
+  document.getElementById('fat-detalhe').innerHTML=html;
+}
+
 function renderDashboard(){
   // Patrimônio
   const invTotal=investimentos.reduce((s,i)=>s+i.atual,0);
