@@ -1461,17 +1461,47 @@ function addMilhasMovimento() {
 
 /* TODOIST */
 const TODOIST_TOKEN = '71e9481bbb9c0736617ef2a91b65e98bfec6e6db';
-const TODOIST_API = 'https://corsproxy.io/?url=https://api.todoist.com/rest/v2';
+const TODOIST_BASE = 'https://api.todoist.com/rest/v2';
+const TODOIST_PROXY = 'https://corsproxy.io/?url=';
 let todoistProjects = [];
 
 async function todoistFetch(path, opts={}) {
-  const res = await fetch(TODOIST_API + path, {
-    ...opts,
-    headers: { 'Authorization': 'Bearer ' + TODOIST_TOKEN, 'Content-Type': 'application/json', ...(opts.headers||{}) }
-  });
-  if (!res.ok) throw new Error('Erro ' + res.status);
-  if (res.status === 204) return null;
-  return res.json();
+  const method = (opts.method || 'GET').toUpperCase();
+  const headers = {
+    'Authorization': 'Bearer ' + TODOIST_TOKEN,
+    'Content-Type': 'application/json',
+    ...(opts.headers||{})
+  };
+
+  // For GET: use proxy
+  if (method === 'GET') {
+    const url = TODOIST_PROXY + encodeURIComponent(TODOIST_BASE + path);
+    const res = await fetch(url, { ...opts, headers });
+    if (!res.ok) throw new Error('Erro ' + res.status);
+    if (res.status === 204) return null;
+    const data = await res.json();
+    // corsproxy sometimes wraps: {contents: "..."}
+    if (data && data.contents) {
+      try { return JSON.parse(data.contents); } catch {}
+    }
+    return data;
+  }
+
+  // For POST/DELETE: try direct (Todoist has CORS), fallback to proxy
+  const directUrl = TODOIST_BASE + path;
+  try {
+    const res = await fetch(directUrl, { ...opts, headers });
+    if (!res.ok) throw new Error('Erro ' + res.status);
+    if (res.status === 204) return null;
+    return res.json().catch(() => null);
+  } catch(e) {
+    // fallback: proxy
+    const proxyUrl = TODOIST_PROXY + encodeURIComponent(TODOIST_BASE + path);
+    const res2 = await fetch(proxyUrl, { ...opts, headers });
+    if (!res2.ok) throw new Error('Erro ' + res2.status);
+    if (res2.status === 204) return null;
+    return res2.json().catch(() => null);
+  }
 }
 
 function priorityColor(p) {
