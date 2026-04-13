@@ -968,6 +968,7 @@ const LS={get(k){try{return JSON.parse(localStorage.getItem('navy_'+k)||'null')}
 
 /* ─── GOOGLE SHEETS SYNC via Apps Script ─── */
 const GS_URL = 'https://script.google.com/macros/s/AKfycbzy5SQckDt1y2o_gjwDwPaXcvUExXB-Ya8bgSmijBggbgWiPIALBYQahuZa1IsCy__OTw/exec';
+const parseNum = v => parseFloat(String(v).replace(',','.')) || 0;
 
 async function gsWrite(sheetName, values) {
   const res = await fetch(GS_URL, {
@@ -1033,7 +1034,7 @@ async function gsLoadAll(showFeedback=true) {
     const invData = await gsRead('Investimentos');
     if(invData && invData.length > 1) {
       investimentos = invData.slice(1).filter(r => r[0]).map(r => ({
-        nome: r[0]||'', aplicado: parseFloat(r[1])||0, atual: parseFloat(r[2])||0,
+        nome: r[0]||'', aplicado: parseNum(r[1]), atual: parseNum(r[2]),
         tipo: r[3]||'', rent: r[4]||'', liq: r[5]||''
       }));
       LS.set('investimentos', investimentos);
@@ -1043,7 +1044,7 @@ async function gsLoadAll(showFeedback=true) {
     if(finData && finData.length > 1) {
       transactions = finData.slice(1).filter(r => r[1]).map((r,i) => ({
         id: Date.now()+i, date: r[0]||'', desc: r[1]||'',
-        val: parseFloat(r[2])||0, type: r[3]||'out', cat: r[4]||''
+        val: parseNum(r[2]), type: r[3]||'out', cat: r[4]||''
       }));
       LS.set('transactions', transactions);
     }
@@ -1069,8 +1070,8 @@ async function gsLoadAll(showFeedback=true) {
     const criData = await gsRead('Cripto');
     if(criData && criData.length >= 3) {
       cryptoH = {
-        trezorBtc: parseFloat(criData[1]?.[1])||0, trezorAvg: parseFloat(criData[1]?.[2])||0,
-        binanceBtc: parseFloat(criData[2]?.[1])||0, binanceAvg: parseFloat(criData[2]?.[2])||0
+        trezorBtc: parseNum(criData[1]?.[1]), trezorAvg: parseNum(criData[1]?.[2]),
+        binanceBtc: parseNum(criData[2]?.[1]), binanceAvg: parseNum(criData[2]?.[2])
       };
       LS.set('crypto', cryptoH);
     }
