@@ -1622,9 +1622,21 @@ function addTransaction(){
   document.getElementById('tr-desc').value='';document.getElementById('tr-val').value='';
   save();renderFinanceiro();
 }
-function renderPatrimonio() {
+async function renderPatrimonio() {
   const fmtBrl = v => 'R$ ' + v.toLocaleString('pt-BR', {minimumFractionDigits:0,maximumFractionDigits:0});
   const fmtUsd = v => 'US$ ' + v.toLocaleString('en-US', {minimumFractionDigits:0,maximumFractionDigits:0});
+
+  // Busca preço BTC se ainda não carregou
+  if (!btcUsd || btcUsd === 0) {
+    try {
+      const [d1, d2] = await Promise.all([
+        fetch('https://api.binance.com/api/v3/ticker/24hr?symbol=BTCUSDT').then(r=>r.json()),
+        fetch('https://api.binance.com/api/v3/ticker/price?symbol=USDTBRL').then(r=>r.json())
+      ]);
+      btcUsd = parseFloat(d1.lastPrice) || 0;
+      usdBrl = parseFloat(d2.price) || 5.75;
+    } catch(e) { console.log('Preço BTC indisponível', e); }
+  }
 
   // Investimentos
   const invEl = document.getElementById('pat-invest-list');
