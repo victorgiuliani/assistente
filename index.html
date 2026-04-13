@@ -938,8 +938,18 @@ select option{background:#1c1c1c;color:#e8eaf6}
           <button class="btn btn-sm btn-inline" onclick="addFinCat()">+</button>
         </div>
       </div>
+      <div class="settings-block" style="border:1px solid rgba(165,214,167,0.2);border-radius:12px;padding:14px;margin-bottom:10px;background:rgba(165,214,167,0.04)">
+        <div class="settings-title" style="color:#A5D6A7">☁️ Google Sheets — Sincronização</div>
+        <p style="font-size:12px;color:rgba(255,255,255,0.35);margin-bottom:12px;line-height:1.5">Seus dados ficam salvos na planilha <b style="color:rgba(255,255,255,0.6)">Assistente VG</b> e sincronizam em qualquer dispositivo.</p>
+        <div style="display:flex;gap:8px;margin-bottom:10px">
+          <button id="gs-sync-btn" class="btn btn-green btn-sm" style="flex:1" onclick="gsSyncAll()">☁️ Sincronizar</button>
+          <button id="gs-load-btn" class="btn btn-sm" style="flex:1;border-color:rgba(165,214,167,0.3);color:#A5D6A7" onclick="gsLoadAll()">📥 Carregar</button>
+        </div>
+        <div id="gs-status" style="font-size:12px;min-height:18px;margin-bottom:8px"></div>
+        <div style="font-size:11px;color:rgba(255,255,255,0.25)">Última sync: <span id="gs-last-sync">—</span></div>
+      </div>
       <div class="settings-block">
-        <div class="settings-title">Dados e backup</div>
+        <div class="settings-title">Dados e backup local</div>
         <p style="font-size:12px;color:rgba(255,255,255,0.35);margin-bottom:10px;line-height:1.5">Exporte regularmente para não perder dados.</p>
         <div style="display:flex;flex-direction:column;gap:8px">
           <button class="btn btn-primary" onclick="exportData()">Exportar backup (.json)</button>
@@ -955,6 +965,236 @@ select option{background:#1c1c1c;color:#e8eaf6}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <script>
 const LS={get(k){try{return JSON.parse(localStorage.getItem('navy_'+k)||'null')}catch{return null}},set(k,v){try{localStorage.setItem('navy_'+k,JSON.stringify(v))}catch{}}};
+
+/* ─── GOOGLE SHEETS SYNC ─── */
+const GS_SHEET_ID = '1owUtiAGjzbHUpRgsn27o1kdh-Ofcmh0jqOCsndQnVLQ';
+const GS_SA_EMAIL = 'assistente-vg@assistente-vg.iam.gserviceaccount.com';
+const GS_SCOPES = 'https://www.googleapis.com/auth/spreadsheets';
+
+// Private key - stored here for simplicity (app is personal/private)
+const GS_PRIVATE_KEY = `-----BEGIN PRIVATE KEY-----
+MIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQC78VQVMYJehXLZ
+oYig8ckLTzEoQq3cp/ScxBwZgTybsg3qlMqM4fxl4TDcXcagf7kP5qo2zu4vB9HF
+w0E1rOssX5cQaB5MQl8BW6wl1CiD34cSpi2md23u427uanlSzF948/CW0rWlIMQ+
+ivjTzQayiVXBSn8uDq+fpRP4x0RK3LD5AiD1MAqODeVxpaBckFunT8MLNJhRhSVn
++OtUStH8cEMLtTmkf6LdkOgT4xrASJmAjqSlN6GPatXCxunyP72XLQxg0nmSzAWf
+LJZWCKEsrHwpP628RX7ePtG+AVczaWAT3I8L5xpi7k6jFp2nSjBRMhz2gn0y3cyG
+2kxb224fAgMBAAECggEAL0qzmL2ji3tTAhZWlgEhULo1qWbV7v9IWyYx1+0gPiFY
+xR15tmerJku7CsiCEaLyA2FMlYwOfUEfdP8D6qi/aKQJFDTO4uuUknfp4n73Tu+x
+Qm0UcZ39yK3sHQwnyUDqCTqA4MLWuF19ZCt+H3Wo6MYMER5Y0FMbuDVGyEQEGD3v
+fURuoZLc1+QHMXeLjXCLQhncdlcVf/Ka0mBFiL9KUZh+ZdCt2TibWum+TmtPwt4T
+8dgsLsvBGcNxWmnPMX5za7izmWdxeH+1Ow0N3DBsLoFkJHG07AUIirPUEjf088o8
+CC3kL18yU45Z8hxO9QPZNWlafYUFlCheuLMRscqcMQKBgQDt5caNsYXMzDo5DcTl
+A3Vh+srhTREsEgslj/lwbp4p//6RsKdHucM1Wc2Kd3nVQWkfyR7cXnUiMadB00TK
+liCDQbVLTQ2376nD2CNZFhNzLsXp54i3QAhNSXE8kXSPkjvRzLMHDBrEUgDe8NBj
+O4OES39CfSUdBgdlsuAiKp/lWQKBgQDKPm+ol/tMkgwRxGhkdm2QzUWlNof0zwmQ
+vdLd2Cvu7kobkECyaU7+K9X5nu6V4793+qbv9IwykBlAPAWNM0Tzmwb4Wu2d0z0d
+8+UaBeEmD42EjUk4fvjNrOPU4dmOlZA6Bl4qiv4YFYsCP2k/mdJ3aJ83sgScL8ms
+lxDWtV1oNwKBgHZn9iJSKEFdqOD6zHQb+5GvzMjEnfZsaKXiegmO1SQcaS1EWo4l
+lFZ6gwYXH0mYS+VpKfYPAYfqZNArgkK+5CHQU5bOHDTfkYSLkFRn23hp4FHiTra+
+pSMqmbTGxNgstZ9fnf+086GhGxPbkizB01zGYunJ9e3zMT1aAZqf0oPJAoGBALsG
+7j9c/RocXWj41wlAs6YbDnLwcN4lsFTYFm7tgANe/c1ro0jaNiC67RAAt+aJTQFp
+HIP/BL+lnpRWbVPcu8ED9ngprmArfvN6Hr3n/gQykc6o0bObR/78CV1O1uAS0+O1
+C9QP4VboZTrY5T3ZxFaEu+jHiZfeYYRn1zyXUCAVAoGBAJNGZ6mb8bQ2ByXhb00v
+WVWrC8TXuMlevpGHMvmKPA0WcBuHNoUTd+sjriEaQj2jXyj24XOI60UvYA4PZj0c
+6kzM/COlaAldO6cRN094Y06FskNUiJe0U7i1w/BGCwzK45ssbxZgDTgl9ojXR9TB
+YYUFa2Q8XoeO0XWUjPUXGqG4
+-----END PRIVATE KEY-----`;
+
+let gsToken = null;
+let gsTokenExp = 0;
+
+// Generate JWT for Google OAuth
+async function gsGetToken() {
+  if (gsToken && Date.now() < gsTokenExp - 60000) return gsToken;
+  try {
+    const now = Math.floor(Date.now() / 1000);
+    const header = btoa(JSON.stringify({alg:'RS256',typ:'JWT'})).replace(/=/g,'').replace(/\+/g,'-').replace(/\//g,'_');
+    const claim = btoa(JSON.stringify({
+      iss: GS_SA_EMAIL, scope: GS_SCOPES,
+      aud: 'https://oauth2.googleapis.com/token',
+      exp: now + 3600, iat: now
+    })).replace(/=/g,'').replace(/\+/g,'-').replace(/\//g,'_');
+    const unsigned = header + '.' + claim;
+
+    // Import private key
+    const pemBody = GS_PRIVATE_KEY.replace(/-----BEGIN PRIVATE KEY-----|-----END PRIVATE KEY-----/g,'').replace(/\n/g,'').trim();
+    const keyData = Uint8Array.from(atob(pemBody), c => c.charCodeAt(0));
+    const cryptoKey = await crypto.subtle.importKey('pkcs8', keyData, {name:'RSASSA-PKCS1-v1_5',hash:'SHA-256'}, false, ['sign']);
+    const sig = await crypto.subtle.sign('RSASSA-PKCS1-v1_5', cryptoKey, new TextEncoder().encode(unsigned));
+    const sigB64 = btoa(String.fromCharCode(...new Uint8Array(sig))).replace(/=/g,'').replace(/\+/g,'-').replace(/\//g,'_');
+    const jwt = unsigned + '.' + sigB64;
+
+    const res = await fetch('https://oauth2.googleapis.com/token', {
+      method:'POST', headers:{'Content-Type':'application/x-www-form-urlencoded'},
+      body: 'grant_type=urn%3Aietf%3Aparams%3Aoauth%3Agrant-type%3Ajwt-bearer&assertion=' + jwt
+    });
+    const data = await res.json();
+    gsToken = data.access_token;
+    gsTokenExp = Date.now() + (data.expires_in * 1000);
+    return gsToken;
+  } catch(e) { console.error('GS auth error:', e); return null; }
+}
+
+async function gsRead(range) {
+  const token = await gsGetToken();
+  if (!token) return null;
+  const res = await fetch(`https://sheets.googleapis.com/v4/spreadsheets/${GS_SHEET_ID}/values/${encodeURIComponent(range)}`, {
+    headers: {'Authorization': 'Bearer ' + token}
+  });
+  const data = await res.json();
+  return data.values || [];
+}
+
+async function gsWrite(range, values) {
+  const token = await gsGetToken();
+  if (!token) return false;
+  const res = await fetch(`https://sheets.googleapis.com/v4/spreadsheets/${GS_SHEET_ID}/values/${encodeURIComponent(range)}?valueInputOption=USER_ENTERED`, {
+    method: 'PUT',
+    headers: {'Authorization': 'Bearer ' + token, 'Content-Type': 'application/json'},
+    body: JSON.stringify({range, majorDimension:'ROWS', values})
+  });
+  return res.ok;
+}
+
+async function gsAppend(range, values) {
+  const token = await gsGetToken();
+  if (!token) return false;
+  const res = await fetch(`https://sheets.googleapis.com/v4/spreadsheets/${GS_SHEET_ID}/values/${encodeURIComponent(range)}:append?valueInputOption=USER_ENTERED&insertDataOption=INSERT_ROWS`, {
+    method: 'POST',
+    headers: {'Authorization': 'Bearer ' + token, 'Content-Type': 'application/json'},
+    body: JSON.stringify({range, majorDimension:'ROWS', values})
+  });
+  return res.ok;
+}
+
+// Sync all data to Google Sheets
+async function gsSyncAll(showFeedback=true) {
+  const btn = document.getElementById('gs-sync-btn');
+  if(btn) { btn.textContent = '⏳ Sincronizando...'; btn.disabled = true; }
+  try {
+    // Sheet: Investimentos
+    const invRows = [['Nome','Aplicado','Atual','Tipo','Rentabilidade','Liquidez']];
+    investimentos.forEach(i => invRows.push([i.nome, i.aplicado, i.atual, i.tipo||'', i.rent||'', i.liq||'']));
+    await gsWrite('Investimentos!A1', invRows);
+
+    // Sheet: Financeiro
+    const finRows = [['Data','Descricao','Valor','Tipo','Categoria']];
+    transactions.forEach(t => finRows.push([t.date||'', t.desc||'', t.val||0, t.type||'', t.cat||'']));
+    await gsWrite('Financeiro!A1', finRows.length > 1 ? finRows : [finRows[0], ['','','','','']]);
+
+    // Sheet: Agenda
+    const agRows = [['Titulo','Data','Hora','Categoria','Nota']];
+    events.forEach(e => agRows.push([e.title||'', e.date||'', e.time||'', e.cat||'', e.note||'']));
+    await gsWrite('Agenda!A1', agRows.length > 1 ? agRows : [agRows[0], ['','','','','']]);
+
+    // Sheet: Lembretes
+    const remRows = [['Titulo','Data','Hora','Recorrencia']];
+    reminders.forEach(r => remRows.push([r.title||'', r.date||'', r.time||'', r.recur||'']));
+    await gsWrite('Lembretes!A1', remRows.length > 1 ? remRows : [remRows[0], ['','','','']]);
+
+    // Sheet: Cripto
+    await gsWrite('Cripto!A1', [
+      ['Carteira','BTC','PrecoMedio'],
+      ['Trezor', cryptoH.trezorBtc||0, cryptoH.trezorAvg||0],
+      ['Binance', cryptoH.binanceBtc||0, cryptoH.binanceAvg||0]
+    ]);
+
+    // Sheet: Ideias
+    const ideiaRows = [['Titulo','Texto','Tag','Data']];
+    ideas.forEach(i => ideiaRows.push([i.title||'', i.text||'', i.tag||'', i.date||'']));
+    await gsWrite('Ideias!A1', ideiaRows.length > 1 ? ideiaRows : [ideiaRows[0], ['','','','']]);
+
+    LS.set('gs_last_sync', new Date().toLocaleString('pt-BR'));
+    if(showFeedback) { showGsStatus('✅ Sincronizado! ' + new Date().toLocaleTimeString('pt-BR', {hour:'2-digit',minute:'2-digit'}), 'green'); }
+  } catch(e) {
+    if(showFeedback) showGsStatus('❌ Erro: ' + e.message, 'red');
+  } finally {
+    if(btn) { btn.textContent = '☁️ Sincronizar'; btn.disabled = false; }
+  }
+}
+
+async function gsLoadAll(showFeedback=true) {
+  const btn = document.getElementById('gs-load-btn');
+  if(btn) { btn.textContent = '⏳ Carregando...'; btn.disabled = true; }
+  try {
+    // Load Investimentos
+    const invData = await gsRead('Investimentos!A2:F100');
+    if(invData && invData.length > 0) {
+      investimentos = invData.filter(r => r[0]).map(r => ({
+        nome: r[0]||'', aplicado: parseFloat(r[1])||0, atual: parseFloat(r[2])||0,
+        tipo: r[3]||'', rent: r[4]||'', liq: r[5]||''
+      }));
+      LS.set('investimentos', investimentos);
+    }
+
+    // Load Financeiro
+    const finData = await gsRead('Financeiro!A2:E1000');
+    if(finData && finData.length > 0) {
+      transactions = finData.filter(r => r[1]).map((r,i) => ({
+        id: Date.now()+i, date: r[0]||'', desc: r[1]||'',
+        val: parseFloat(r[2])||0, type: r[3]||'out', cat: r[4]||''
+      }));
+      LS.set('transactions', transactions);
+    }
+
+    // Load Agenda
+    const agData = await gsRead('Agenda!A2:E1000');
+    if(agData && agData.length > 0) {
+      events = agData.filter(r => r[0]).map((r,i) => ({
+        id: Date.now()+i, title: r[0]||'', date: r[1]||'',
+        time: r[2]||'', cat: r[3]||'', note: r[4]||''
+      }));
+      LS.set('events', events);
+    }
+
+    // Load Lembretes
+    const remData = await gsRead('Lembretes!A2:D1000');
+    if(remData && remData.length > 0) {
+      reminders = remData.filter(r => r[0]).map((r,i) => ({
+        id: Date.now()+i, title: r[0]||'', date: r[1]||'',
+        time: r[2]||'', recur: r[3]||'unico'
+      }));
+      LS.set('reminders', reminders);
+    }
+
+    // Load Cripto
+    const criData = await gsRead('Cripto!A2:C3');
+    if(criData && criData.length >= 2) {
+      cryptoH = {
+        trezorBtc: parseFloat(criData[0]?.[1])||0, trezorAvg: parseFloat(criData[0]?.[2])||0,
+        binanceBtc: parseFloat(criData[1]?.[1])||0, binanceAvg: parseFloat(criData[1]?.[2])||0
+      };
+      LS.set('crypto', cryptoH);
+    }
+
+    // Load Ideias
+    const ideiaData = await gsRead('Ideias!A2:D1000');
+    if(ideiaData && ideiaData.length > 0) {
+      ideas = ideiaData.filter(r => r[0]||r[1]).map((r,i) => ({
+        id: Date.now()+i, title: r[0]||'', text: r[1]||'',
+        tag: r[2]||'ideia', date: r[3]||''
+      }));
+      LS.set('ideas', ideas);
+    }
+
+    LS.set('gs_last_sync', new Date().toLocaleString('pt-BR'));
+    if(showFeedback) showGsStatus('✅ Dados carregados! ' + new Date().toLocaleTimeString('pt-BR', {hour:'2-digit',minute:'2-digit'}), 'green');
+    
+    // Refresh current view
+    renderFinanceiro(); renderInvestimentos(); renderEvents(); renderIdeas(); renderReminders();
+  } catch(e) {
+    if(showFeedback) showGsStatus('❌ Erro: ' + e.message, 'red');
+  } finally {
+    if(btn) { btn.textContent = '📥 Carregar'; btn.disabled = false; }
+  }
+}
+
+function showGsStatus(msg, color) {
+  const el = document.getElementById('gs-status');
+  if(el) { el.textContent = msg; el.style.color = color === 'green' ? '#A5D6A7' : '#EF5350'; }
+}
+
 
 const DEFAULT_INVS=[
   {id:'inv1',nome:'CDB C6 Empresarial Pós-Fixado Liq. Diária',tipo:'CDB',inst:'Banco C6 S.A.',aplicado:19736,atual:20161.20,taxa:'100% CDI',rendmes:0,venc:'',liq:'Diária',socio:'',data:new Date().toISOString().slice(0,10),historico:[{data:new Date().toISOString().slice(0,7),val:20161.20}]},
@@ -1022,7 +1262,7 @@ const ASSINATURAS=[
   {nome:'ConnectCar',val:0,tipo:'var',cat:'Serviço'}
 ];
 
-function save(){LS.set('events',events);LS.set('transactions',transactions);LS.set('ideas',ideas);LS.set('reminders',reminders);LS.set('evCats',evCats);LS.set('finCats',finCats);LS.set('crypto',cryptoH);LS.set('otherCoins',otherCoins);LS.set('investimentos',investimentos);}
+function save(){LS.set('events',events);LS.set('transactions',transactions);LS.set('ideas',ideas);LS.set('reminders',reminders);LS.set('evCats',evCats);LS.set('finCats',finCats);LS.set('crypto',cryptoH);LS.set('otherCoins',otherCoins);LS.set('investimentos',investimentos);clearTimeout(window._gsTimer);window._gsTimer=setTimeout(()=>gsSyncAll(false),3000);}
 function saveApiKey(){apiKey=document.getElementById('api-key-input').value.trim();LS.set('apikey',apiKey);}
 function uid(){return Date.now()+Math.random().toString(36).slice(2,6)}
 function fmtBrl(v){return 'R$\u00a0'+Math.abs(v).toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2})}
@@ -1502,35 +1742,48 @@ function renderPatrimonio() {
   const invTotalEl = document.getElementById('pat-invest-total');
   if(invTotalEl) invTotalEl.textContent = fmtBrl(invTotal);
 
-  // Cripto
+  // Cripto — lê valores reais do localStorage (digitados na aba Cripto)
   const usdBrl = lastUsdBrl || 5.75;
   const btcUsd = lastBtcPrice || 0;
-  const tBtc = 0.13545488 + 0.05398194; // Trezor + Binance
+  const trezorBtc = cryptoH.trezorBtc || 0;
+  const trezorAvg = cryptoH.trezorAvg || 0;
+  const binanceBtc = cryptoH.binanceBtc || 0;
+  const binanceAvg = cryptoH.binanceAvg || 0;
+  const tBtc = trezorBtc + binanceBtc;
   const btcBrl = tBtc * btcUsd * usdBrl;
+
   const criEl = document.getElementById('pat-cripto-list');
-  if(criEl) criEl.innerHTML = `
-    <div style="display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid rgba(255,255,255,0.04)">
-      <div>
-        <div style="font-size:13px;color:#e8eaf6">Bitcoin (Trezor)</div>
-        <div style="font-size:11px;color:rgba(255,255,255,0.35)">0.13545488 BTC · preço médio $76.951</div>
-      </div>
-      <div style="text-align:right">
-        <div style="font-size:14px;font-weight:700;color:#FFCC80">${fmtBrl(0.13545488 * btcUsd * usdBrl)}</div>
-        <div style="font-size:10px;color:rgba(255,255,255,0.35)">${fmtUsd(0.13545488 * btcUsd)}</div>
-      </div>
-    </div>
-    <div style="display:flex;justify-content:space-between;align-items:center;padding:6px 0">
-      <div>
-        <div style="font-size:13px;color:#e8eaf6">Bitcoin (Binance)</div>
-        <div style="font-size:11px;color:rgba(255,255,255,0.35)">0.05398194 BTC · preço médio $79.213</div>
-      </div>
-      <div style="text-align:right">
-        <div style="font-size:14px;font-weight:700;color:#FFCC80">${fmtBrl(0.05398194 * btcUsd * usdBrl)}</div>
-        <div style="font-size:10px;color:rgba(255,255,255,0.35)">${fmtUsd(0.05398194 * btcUsd)}</div>
-      </div>
-    </div>`;
+  if(criEl) {
+    if(tBtc === 0) {
+      criEl.innerHTML = '<div style="color:rgba(255,255,255,0.3);font-size:13px;padding:8px 0">Preencha os dados de cripto na aba Cripto.</div>';
+    } else {
+      const trezorPnl = trezorBtc > 0 ? ((btcUsd - trezorAvg) / trezorAvg * 100).toFixed(1) : null;
+      const binancePnl = binanceBtc > 0 ? ((btcUsd - binanceAvg) / binanceAvg * 100).toFixed(1) : null;
+      criEl.innerHTML = `
+        ${trezorBtc > 0 ? `<div style="display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid rgba(255,255,255,0.04)">
+          <div>
+            <div style="font-size:13px;color:#e8eaf6">Bitcoin (Trezor)</div>
+            <div style="font-size:11px;color:rgba(255,255,255,0.35)">${trezorBtc.toFixed(8)} BTC${trezorAvg ? ' · médio $' + trezorAvg.toLocaleString() : ''}</div>
+          </div>
+          <div style="text-align:right">
+            <div style="font-size:14px;font-weight:700;color:#FFCC80">${fmtBrl(trezorBtc * btcUsd * usdBrl)}</div>
+            <div style="font-size:10px;color:${trezorPnl >= 0 ? '#A5D6A7' : '#EF5350'}">${trezorPnl ? (trezorPnl > 0 ? '+' : '') + trezorPnl + '%' : fmtUsd(trezorBtc * btcUsd)}</div>
+          </div>
+        </div>` : ''}
+        ${binanceBtc > 0 ? `<div style="display:flex;justify-content:space-between;align-items:center;padding:6px 0">
+          <div>
+            <div style="font-size:13px;color:#e8eaf6">Bitcoin (Binance)</div>
+            <div style="font-size:11px;color:rgba(255,255,255,0.35)">${binanceBtc.toFixed(8)} BTC${binanceAvg ? ' · médio $' + binanceAvg.toLocaleString() : ''}</div>
+          </div>
+          <div style="text-align:right">
+            <div style="font-size:14px;font-weight:700;color:#FFCC80">${fmtBrl(binanceBtc * btcUsd * usdBrl)}</div>
+            <div style="font-size:10px;color:${binancePnl >= 0 ? '#A5D6A7' : '#EF5350'}">${binancePnl ? (binancePnl > 0 ? '+' : '') + binancePnl + '%' : fmtUsd(binanceBtc * btcUsd)}</div>
+          </div>
+        </div>` : ''}`;
+    }
+  }
   const criTotalEl = document.getElementById('pat-cripto-total');
-  if(criTotalEl) criTotalEl.textContent = fmtBrl(btcBrl);
+  if(criTotalEl) criTotalEl.textContent = tBtc > 0 ? fmtBrl(btcBrl) : '—';
 
   // Total
   const total = invTotal + btcBrl;
@@ -1607,6 +1860,10 @@ function delReminder(id){reminders=reminders.filter(r=>r.id!==id);save();renderR
 
 /* CONFIG */
 function renderConfig(){
+  const lastSync = LS.get('gs_last_sync');
+  const el = document.getElementById('gs-last-sync');
+  if(el) el.textContent = lastSync || 'Nunca';
+
   document.getElementById('ev-cats-list').innerHTML=evCats.map(c=>`<span class="cat-tag"><span style="width:8px;height:8px;border-radius:50%;background:${c.color};display:inline-block"></span>${c.name}<span class="del-x" onclick="delEvCat('${c.id}')">×</span></span>`).join('');
   document.getElementById('fin-cats-list').innerHTML=finCats.map(c=>`<span class="cat-tag"><span style="width:8px;height:8px;border-radius:50%;background:${c.color};display:inline-block"></span>${c.name}<span class="del-x" onclick="delFinCat('${c.id}')">×</span></span>`).join('');
 }
