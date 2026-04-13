@@ -15,8 +15,18 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .tabs{display:flex;background:#111111;border-bottom:none;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;flex-shrink:0;padding:8px 12px;gap:6px;scroll-snap-type:x proximity}
 .tabs::-webkit-scrollbar{display:none}
 .tab{flex:0 0 auto;padding:7px 14px;font-size:12px;font-weight:600;color:rgba(255,255,255,0.4);cursor:pointer;border:none;background:rgba(255,255,255,0.05);border-radius:20px;white-space:nowrap;transition:all 0.15s;scroll-snap-align:start}
-.tab.active{color:#111;background:#fff;font-weight:700}
+.tab.active{font-weight:700}
 .tab:hover:not(.active){color:rgba(255,255,255,0.7);background:rgba(255,255,255,0.09)}
+.tab-agenda{background:rgba(55,138,221,0.12);color:rgba(133,183,235,0.6)}
+.tab-agenda.active{background:rgba(55,138,221,0.3);color:#4FC3F7}
+.tab-financas{background:rgba(99,153,34,0.12);color:rgba(151,196,89,0.6)}
+.tab-financas.active{background:rgba(99,153,34,0.3);color:#A5D6A7}
+.tab-pessoal{background:rgba(127,119,221,0.12);color:rgba(206,147,216,0.6)}
+.tab-pessoal.active{background:rgba(127,119,221,0.3);color:#CE93D8}
+.tab-ia{background:rgba(29,158,117,0.12);color:rgba(77,182,172,0.6)}
+.tab-ia.active{background:rgba(29,158,117,0.3);color:#4DB6AC}
+.tab-config{background:rgba(255,255,255,0.06);color:rgba(255,255,255,0.4)}
+.tab-config.active{background:rgba(255,255,255,0.18);color:#fff}
 .content{padding:14px 16px;flex:1;background:#111111}
 .section{display:none}.section.active{display:block}
 .subtabs{display:flex;gap:6px;margin-bottom:14px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding-bottom:2px}
@@ -29,6 +39,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .subtab-orange{background:rgba(239,108,0,0.15);color:#FFCC80}.subtab-orange.active{background:rgba(239,108,0,0.3);color:#FFB74D}
 .subtab-purple{background:rgba(127,119,221,0.15);color:#CE93D8}.subtab-purple.active{background:rgba(127,119,221,0.3);color:#E1BEE7}
 input,select,textarea{font-size:13px;padding:10px 12px;border:1px solid rgba(255,255,255,0.1);border-radius:10px;background:#1c1c1c;color:#e8eaf6;width:100%;font-family:inherit;outline:none;transition:border 0.15s;-webkit-appearance:none}
+input[type="date"],input[type="time"]{color-scheme:dark}
+input[type="date"]::-webkit-calendar-picker-indicator,input[type="time"]::-webkit-calendar-picker-indicator{filter:invert(0.7) sepia(1) saturate(3) hue-rotate(180deg);opacity:0.8;cursor:pointer}
 input:focus,select:focus,textarea:focus{border-color:rgba(255,255,255,0.35)}
 input::placeholder,textarea::placeholder{color:rgba(255,255,255,0.25)}
 select option{background:#1c1c1c;color:#e8eaf6}
@@ -237,11 +249,11 @@ select option{background:#1c1c1c;color:#e8eaf6}
 
   <div style="position:relative">
   <div class="tabs" id="tabs-bar">
-    <button class="tab active" onclick="showMainTab('agenda')" id="tab-btn-agenda">Agenda</button>
-    <button class="tab" onclick="showMainTab('financas')" id="tab-btn-financas">Finanças</button>
-    <button class="tab" onclick="showMainTab('pessoal')" id="tab-btn-pessoal">Pessoal</button>
-    <button class="tab" onclick="showMainTab('ia')" id="tab-btn-ia">🤖 IA</button>
-    <button class="tab" onclick="showMainTab('config')" id="tab-btn-config">Config</button>
+    <button class="tab tab-agenda active" onclick="showMainTab('agenda')" id="tab-btn-agenda">Agenda</button>
+    <button class="tab tab-financas" onclick="showMainTab('financas')" id="tab-btn-financas">Finanças</button>
+    <button class="tab tab-pessoal" onclick="showMainTab('pessoal')" id="tab-btn-pessoal">Pessoal</button>
+    <button class="tab tab-ia" onclick="showMainTab('ia')" id="tab-btn-ia">🤖 IA</button>
+    <button class="tab tab-config" onclick="showMainTab('config')" id="tab-btn-config">Config</button>
   </div>
   <div id="tabs-scroll-hint" style="position:absolute;right:0;top:0;bottom:1px;width:32px;background:linear-gradient(to right,transparent,#111111);pointer-events:none;display:flex;align-items:center;justify-content:flex-end;padding-right:4px">
     <span style="color:rgba(255,255,255,0.3);font-size:14px">›</span>
@@ -257,6 +269,7 @@ select option{background:#1c1c1c;color:#e8eaf6}
         <button class="subtab subtab-amber" onclick="showSubTab('financas','faturas')" id="sub-btn-faturas">Faturas</button>
         <button class="subtab subtab-green" onclick="showSubTab('financas','invest')" id="sub-btn-invest">Investimentos</button>
         <button class="subtab subtab-orange" onclick="showSubTab('financas','cripto')" id="sub-btn-cripto">Cripto</button>
+        <button class="subtab subtab-purple" onclick="showSubTab('financas','patrimonio')" id="sub-btn-patrimonio">Patrimônio</button>
       </div>
     </div>
 
@@ -287,14 +300,16 @@ select option{background:#1c1c1c;color:#e8eaf6}
 
       <!-- Todoist -->
       <div style="height:1px;background:rgba(255,255,255,0.07);margin:16px 0"></div>
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
-        <div style="font-size:11px;font-weight:700;color:#EF5350;text-transform:uppercase;letter-spacing:0.06em">🔴 Tarefas — Hoje</div>
+      <div onclick="toggleSection('todoist-today-body')" style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0;cursor:pointer">
+        <div style="font-size:11px;font-weight:700;color:#EF5350;text-transform:uppercase;letter-spacing:0.06em">🔴 Tarefas — Hoje <span id="today-count" style="font-weight:400;color:rgba(255,255,255,0.3)"></span></div>
         <div style="display:flex;gap:8px;align-items:center">
-          <span id="today-count" style="font-size:11px;color:rgba(255,255,255,0.3)"></span>
-          <button class="btn btn-sm btn-inline" onclick="loadTodoist()" style="border-color:rgba(219,74,74,0.3);color:#EF5350;background:rgba(219,74,74,0.08)">Atualizar</button>
+          <button class="btn btn-sm btn-inline" onclick="event.stopPropagation();loadTodoist()" style="border-color:rgba(219,74,74,0.3);color:#EF5350;background:rgba(219,74,74,0.08)">↺</button>
+          <span id="toggle-today" style="color:rgba(255,255,255,0.3);font-size:16px">›</span>
         </div>
       </div>
-      <div id="todoist-today" style="font-size:13px;color:rgba(255,255,255,0.3);font-style:italic;margin-bottom:12px">Carregando...</div>
+      <div id="todoist-today-body" style="display:none;margin-top:10px">
+        <div id="todoist-today" style="font-size:13px;color:rgba(255,255,255,0.3);font-style:italic;margin-bottom:12px">Carregando...</div>
+      </div>
 
       <!-- Adicionar tarefa Todoist -->
       <div style="background:#1c1c1c;border:1px solid rgba(239,83,80,0.2);border-radius:12px;padding:14px;margin-top:8px">
@@ -328,13 +343,54 @@ select option{background:#1c1c1c;color:#e8eaf6}
         </div>
       </div>
 
-      <div class="sec-label" style="color:#FFB74D">🟠 Próximas tarefas (7 dias)</div>
-      <div id="todoist-upcoming" style="font-size:13px;color:rgba(255,255,255,0.3);font-style:italic">Carregando...</div>
-      <div class="sec-label" style="margin-top:16px;color:#4DB6AC">📁 Por projeto</div>
-      <div id="todoist-projects"></div>
+      <div onclick="toggleSection('todoist-upcoming-body')" style="display:flex;align-items:center;justify-content:space-between;margin-top:16px;cursor:pointer">
+        <div class="sec-label" style="color:#FFB74D;margin:0">🟠 Próximas (7 dias)</div>
+        <span id="toggle-upcoming" style="color:rgba(255,255,255,0.3);font-size:16px">›</span>
+      </div>
+      <div id="todoist-upcoming-body" style="display:none;margin-top:8px">
+        <div id="todoist-upcoming" style="font-size:13px;color:rgba(255,255,255,0.3);font-style:italic">Carregando...</div>
+      </div>
+      <div onclick="toggleSection('todoist-projects-body')" style="display:flex;align-items:center;justify-content:space-between;margin-top:16px;cursor:pointer">
+        <div class="sec-label" style="color:#4DB6AC;margin:0">📁 Por projeto</div>
+        <span id="toggle-projects" style="color:rgba(255,255,255,0.3);font-size:16px">›</span>
+      </div>
+      <div id="todoist-projects-body" style="display:none;margin-top:8px">
+        <div id="todoist-projects"></div>
+      </div>
       <div id="todoist-error" style="display:none;background:rgba(239,83,80,0.1);border:1px solid rgba(239,83,80,0.3);border-radius:10px;padding:12px;font-size:13px;color:#EF5350;margin-top:8px"></div>
     </div>
 
+
+    <!-- PATRIMÔNIO -->
+    <div id="sec-patrimonio" class="section">
+      <div style="text-align:center;padding:20px 0 16px">
+        <div style="font-size:11px;font-weight:700;color:rgba(255,255,255,0.4);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:6px">Patrimônio Total</div>
+        <div id="pat-total" style="font-size:36px;font-weight:700;color:#CE93D8">Calculando...</div>
+        <div id="pat-total-usd" style="font-size:13px;color:rgba(255,255,255,0.3);margin-top:4px"></div>
+      </div>
+
+      <!-- Investimentos -->
+      <div style="background:#1c1c1c;border:1px solid rgba(255,255,255,0.08);border-radius:14px;padding:14px;margin-bottom:10px">
+        <div style="font-size:10px;font-weight:700;color:#A5D6A7;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:10px">💰 Investimentos</div>
+        <div id="pat-invest-list"></div>
+        <div style="border-top:1px solid rgba(255,255,255,0.06);margin-top:8px;padding-top:8px;display:flex;justify-content:space-between;align-items:center">
+          <span style="font-size:12px;color:rgba(255,255,255,0.4)">Subtotal</span>
+          <span id="pat-invest-total" style="font-size:15px;font-weight:700;color:#A5D6A7">—</span>
+        </div>
+      </div>
+
+      <!-- Cripto -->
+      <div style="background:#1c1c1c;border:1px solid rgba(255,255,255,0.08);border-radius:14px;padding:14px;margin-bottom:10px">
+        <div style="font-size:10px;font-weight:700;color:#FFCC80;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:10px">₿ Cripto</div>
+        <div id="pat-cripto-list"></div>
+        <div style="border-top:1px solid rgba(255,255,255,0.06);margin-top:8px;padding-top:8px;display:flex;justify-content:space-between;align-items:center">
+          <span style="font-size:12px;color:rgba(255,255,255,0.4)">Subtotal</span>
+          <span id="pat-cripto-total" style="font-size:15px;font-weight:700;color:#FFCC80">—</span>
+        </div>
+      </div>
+
+      <div id="pat-update" style="text-align:center;font-size:11px;color:rgba(255,255,255,0.2);padding:8px 0"></div>
+    </div>
 
     <!-- FINANCEIRO -->
     <div id="sec-financeiro" class="section">
@@ -1025,6 +1081,9 @@ function showSubTab(main, sub) {
   } else if (sub === 'cripto') {
     document.getElementById('sec-cripto').classList.add('active');
     loadCryptoInputs(); renderCripto();
+  } else if (sub === 'patrimonio') {
+    document.getElementById('sec-patrimonio').classList.add('active');
+    renderPatrimonio();
   } else if (sub === 'ideias') {
     document.getElementById('sec-ideias').classList.add('active');
     renderIdeas();
@@ -1403,6 +1462,72 @@ function addTransaction(){
   document.getElementById('tr-desc').value='';document.getElementById('tr-val').value='';
   save();renderFinanceiro();
 }
+function renderPatrimonio() {
+  const fmtBrl = v => 'R$ ' + v.toLocaleString('pt-BR', {minimumFractionDigits:0,maximumFractionDigits:0});
+  const fmtUsd = v => 'US$ ' + v.toLocaleString('en-US', {minimumFractionDigits:0,maximumFractionDigits:0});
+
+  // Investimentos
+  const invEl = document.getElementById('pat-invest-list');
+  let invTotal = 0;
+  const invHtml = investimentos.map(inv => {
+    invTotal += inv.atual;
+    const rend = inv.atual - inv.aplicado;
+    const pct = ((rend / inv.aplicado) * 100).toFixed(1);
+    return `<div style="display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid rgba(255,255,255,0.04)">
+      <div>
+        <div style="font-size:13px;color:#e8eaf6">${inv.nome}</div>
+        <div style="font-size:11px;color:rgba(255,255,255,0.35)">${inv.tipo} · ${fmtBrl(inv.aplicado)} aplicado</div>
+      </div>
+      <div style="text-align:right">
+        <div style="font-size:14px;font-weight:700;color:#A5D6A7">${fmtBrl(inv.atual)}</div>
+        <div style="font-size:10px;color:${rend>=0?'#A5D6A7':'#EF5350'}">+${fmtBrl(rend)} (${pct}%)</div>
+      </div>
+    </div>`;
+  }).join('');
+  if(invEl) invEl.innerHTML = invHtml || '<div style="color:rgba(255,255,255,0.3);font-size:13px">Nenhum investimento cadastrado.</div>';
+  const invTotalEl = document.getElementById('pat-invest-total');
+  if(invTotalEl) invTotalEl.textContent = fmtBrl(invTotal);
+
+  // Cripto
+  const usdBrl = lastUsdBrl || 5.75;
+  const btcUsd = lastBtcPrice || 0;
+  const tBtc = 0.13545488 + 0.05398194; // Trezor + Binance
+  const btcBrl = tBtc * btcUsd * usdBrl;
+  const criEl = document.getElementById('pat-cripto-list');
+  if(criEl) criEl.innerHTML = `
+    <div style="display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid rgba(255,255,255,0.04)">
+      <div>
+        <div style="font-size:13px;color:#e8eaf6">Bitcoin (Trezor)</div>
+        <div style="font-size:11px;color:rgba(255,255,255,0.35)">0.13545488 BTC · preço médio $76.951</div>
+      </div>
+      <div style="text-align:right">
+        <div style="font-size:14px;font-weight:700;color:#FFCC80">${fmtBrl(0.13545488 * btcUsd * usdBrl)}</div>
+        <div style="font-size:10px;color:rgba(255,255,255,0.35)">${fmtUsd(0.13545488 * btcUsd)}</div>
+      </div>
+    </div>
+    <div style="display:flex;justify-content:space-between;align-items:center;padding:6px 0">
+      <div>
+        <div style="font-size:13px;color:#e8eaf6">Bitcoin (Binance)</div>
+        <div style="font-size:11px;color:rgba(255,255,255,0.35)">0.05398194 BTC · preço médio $79.213</div>
+      </div>
+      <div style="text-align:right">
+        <div style="font-size:14px;font-weight:700;color:#FFCC80">${fmtBrl(0.05398194 * btcUsd * usdBrl)}</div>
+        <div style="font-size:10px;color:rgba(255,255,255,0.35)">${fmtUsd(0.05398194 * btcUsd)}</div>
+      </div>
+    </div>`;
+  const criTotalEl = document.getElementById('pat-cripto-total');
+  if(criTotalEl) criTotalEl.textContent = fmtBrl(btcBrl);
+
+  // Total
+  const total = invTotal + btcBrl;
+  const totalEl = document.getElementById('pat-total');
+  if(totalEl) totalEl.textContent = fmtBrl(total);
+  const totalUsdEl = document.getElementById('pat-total-usd');
+  if(totalUsdEl) totalUsdEl.textContent = fmtUsd(total / usdBrl) + ' · BTC @ $' + Math.round(btcUsd).toLocaleString();
+  const updEl = document.getElementById('pat-update');
+  if(updEl) updEl.textContent = 'Atualizado ' + new Date().toLocaleTimeString('pt-BR', {hour:'2-digit',minute:'2-digit'});
+}
+
 function renderFinanceiro(){
   const tIn=transactions.filter(t=>t.type==='in').reduce((s,t)=>s+t.val,0);
   const tOut=transactions.filter(t=>t.type==='out').reduce((s,t)=>s+t.val,0);
@@ -1755,6 +1880,18 @@ async function addTodoistTask() {
   } catch(e) {
     alert('Erro detalhado:\n' + e.message);
   }
+}
+
+/* TOGGLE SECTION */
+function toggleSection(id) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  const isOpen = el.style.display !== 'none';
+  el.style.display = isOpen ? 'none' : 'block';
+  // update arrow
+  const toggleId = 'toggle-' + id.replace('todoist-','').replace('-body','');
+  const arrow = document.getElementById(toggleId);
+  if (arrow) arrow.textContent = isOpen ? '›' : '⌄';
 }
 
 /* TABS SCROLL HINT */
