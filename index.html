@@ -1121,6 +1121,7 @@ let finCats=LS.get('finCats')||[{id:'casa',name:'Casa',color:'#CE93D8'},{id:'ali
 let btcUsd=71616,btcChange24h=0,usdBrl=5.8;
 let finChartInst=null,invTipoChartInst=null,invHistChartInst=null;
 let dashFaturasChartInst=null,dashCatChartInst=null,dashAssinChartInst=null;
+let fatCatChartInst=null, fatEvolChartInst=null;
 let apiKey=LS.get('apikey')||'';
 
 // DADOS DAS FATURAS C6 CARBON
@@ -1131,7 +1132,6 @@ const FATURAS=[
   {mes:'Fev/26',val:9827.27},{mes:'Mar/26',val:250.93},{mes:'Abr/26',val:26161.73}
 ];
 
-// CATEGORIAS DAS FATURAS (análise manual)
 const CAT_FATURAS=[
   {nome:'Alimentação',val:32840,cor:'#FF8A65'},
   {nome:'Transporte (Uber)',val:14200,cor:'#4FC3F7'},
@@ -1147,7 +1147,6 @@ const CAT_FATURAS=[
   {nome:'Parcelas diversas',val:15400,cor:'#A5D6A7'}
 ];
 
-// ASSINATURAS
 const ASSINATURAS=[
   {nome:'Netflix',val:72.80,tipo:'fixo',cat:'Streaming'},
   {nome:'Disney+',val:59.90,tipo:'fixo',cat:'Streaming'},
@@ -1179,18 +1178,14 @@ function getEvCat(id){return evCats.find(c=>c.id===id)||{name:id,color:'#888'}}
 function getFinCat(id){return finCats.find(c=>c.id===id)||{name:id,color:'#888'}}
 
 function showMainTab(main) {
-  // Update main tab buttons
   document.querySelectorAll('.tab').forEach(b => b.classList.remove('active'));
   const btn = document.getElementById('tab-btn-' + main);
   if (btn) btn.classList.add('active');
 
-  // Hide all sub-tab bars
   document.querySelectorAll('[id^="subtabs-"]').forEach(el => el.style.display = 'none');
 
-  // Show sub-tab bar if applicable
   if (main === 'financas') {
     document.getElementById('subtabs-financas').style.display = 'block';
-    // Show active sub
     const activeSub = document.querySelector('#subtabs-financas .subtab.active');
     const subName = activeSub ? activeSub.id.replace('sub-btn-','') : 'geral';
     showSubTab('financas', subName);
@@ -1204,7 +1199,6 @@ function showMainTab(main) {
     return;
   }
 
-  // Hide all sections, show the right one
   document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
   if (main === 'agenda') {
     document.getElementById('sec-agenda').classList.add('active');
@@ -1219,14 +1213,12 @@ function showMainTab(main) {
 }
 
 function showSubTab(main, sub) {
-  // Update sub buttons for this main tab
   const subBar = document.getElementById('subtabs-' + main);
   if (!subBar) return;
   subBar.querySelectorAll('.subtab').forEach(b => b.classList.remove('active'));
   const subBtn = document.getElementById('sub-btn-' + sub);
   if (subBtn) subBtn.classList.add('active');
 
-  // Hide all sections, show the right one
   document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
 
   if (sub === 'geral') {
@@ -1276,10 +1268,6 @@ function populateSelects(){
 }
 
 /* DASHBOARD */
-
-// ============================================================
-// DADOS FATURAS C6 CARBON — Categorizados por mes
-// ============================================================
 const FAT_MESES = ['Mai/25','Jun/25','Jul/25','Ago/25','Set/25','Out/25','Nov/25','Dez/25','Jan/26','Fev/26','Mar/26','Abr/26'];
 const FAT_TOTAIS = [11782,10890,1513,14159,14458,12872,19094,14181,11657,9827,251,26162];
 const FAT_CATS = {
@@ -1309,9 +1297,7 @@ const FAT_CAT_COLORS = {
   'Streaming':       '#B0BEC5',
 };
 
-let fatCatChartInst=null, fatEvolChartInst=null;
-
-function fmtFat(v){return 'R$ '+Math.round(v).toLocaleString('pt-BR');}
+function fmtFat(v){return 'R$ '+Math.round(v).toLocaleString('pt-BR');}
 
 function renderFaturaMes(){
   const sel=document.getElementById('fat-mes-sel');
@@ -1320,7 +1306,6 @@ function renderFaturaMes(){
   const isAll=idx==='all';
   const cats=Object.keys(FAT_CATS);
 
-  // Compute values per category for selection
   let catTotals={};
   let totalGeral=0;
   cats.forEach(c=>{
@@ -1329,7 +1314,6 @@ function renderFaturaMes(){
     totalGeral+=v;
   });
 
-  // Cards
   const mes=isAll?'12 meses':FAT_MESES[parseInt(idx)];
   const totalFat=isAll?FAT_TOTAIS.reduce((a,b)=>a+b,0):FAT_TOTAIS[parseInt(idx)];
   const maior=Object.entries(catTotals).sort((a,b)=>b[1]-a[1])[0];
@@ -1348,7 +1332,6 @@ function renderFaturaMes(){
       <div style="font-size:15px;font-weight:700;color:#CE93D8">${isAll?fmtFat(totalFat/12):(maior[1]/totalFat*100).toFixed(0)+'%'}</div>
     </div>`;
 
-  // Bar chart por categoria
   const sorted=Object.entries(catTotals).filter(([,v])=>v>0).sort((a,b)=>b[1]-a[1]);
   if(fatCatChartInst)fatCatChartInst.destroy();
   const ctx1=document.getElementById('fat-cat-chart').getContext('2d');
@@ -1368,7 +1351,6 @@ function renderFaturaMes(){
     }
   });
 
-  // Line chart evolução — só para visualização limpa, excluir Compras/Parcelas e Internacional
   const catsEvolucao=['Alimentação','Transporte','Saúde/Farmácia','Academia','Beleza','Lazer'];
   if(fatEvolChartInst)fatEvolChartInst.destroy();
   const ctx2=document.getElementById('fat-evolucao-chart').getContext('2d');
@@ -1395,7 +1377,6 @@ function renderFaturaMes(){
     }
   });
 
-  // Detalhamento por categoria
   let html='';
   sorted.forEach(([cat,val])=>{
     if(val<=0)return;
@@ -1418,7 +1399,6 @@ function renderFaturaMes(){
 }
 
 function renderDashboard(){
-  // Patrimônio
   const invTotal=investimentos.reduce((s,i)=>s+i.atual,0);
   const btcBrl=((cryptoH.trezorBtc||0)+(cryptoH.binanceBtc||0))*btcUsd*usdBrl;
   const total=invTotal+btcBrl+81;
@@ -1426,7 +1406,6 @@ function renderDashboard(){
   document.getElementById('dash-pat-inv').textContent=fmtBrl(invTotal);
   document.getElementById('dash-pat-btc').textContent=btcBrl>0?'≈ '+fmtBrl(btcBrl):'Preencha cripto';
 
-  // Faturas chart
   if(dashFaturasChartInst)dashFaturasChartInst.destroy();
   const maxFat=Math.max(...FATURAS.map(f=>f.val));
   const ctx1=document.getElementById('dash-faturas-chart').getContext('2d');
@@ -1436,11 +1415,9 @@ function renderDashboard(){
     options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>fmtBrl(c.raw)}}},scales:{y:{ticks:{callback:v=>'R$'+Math.round(v/1000)+'k',color:'rgba(255,255,255,0.3)',font:{size:9}},grid:{color:'rgba(255,255,255,0.05)'}},x:{ticks:{color:'rgba(255,255,255,0.4)',font:{size:9}},grid:{display:false}}}}
   });
 
-  // Lista faturas
   const media=FATURAS.reduce((s,f)=>s+f.val,0)/FATURAS.length;
   document.getElementById('dash-faturas-list').innerHTML=`<div style="display:flex;justify-content:space-between;padding:6px 0;border-top:1px solid rgba(255,255,255,0.07)"><span style="font-size:11px;color:rgba(255,255,255,0.4)">Total 12 meses</span><span style="font-size:13px;font-weight:700;color:#EF5350">${fmtBrl(FATURAS.reduce((s,f)=>s+f.val,0))}</span></div><div style="display:flex;justify-content:space-between;padding:6px 0"><span style="font-size:11px;color:rgba(255,255,255,0.4)">Média mensal</span><span style="font-size:13px;font-weight:700;color:#FFB74D">${fmtBrl(media)}</span></div>`;
 
-  // Categorias chart
   if(dashCatChartInst)dashCatChartInst.destroy();
   const ctx2=document.getElementById('dash-cat-chart').getContext('2d');
   dashCatChartInst=new Chart(ctx2,{
@@ -1451,7 +1428,6 @@ function renderDashboard(){
   const totalCat=CAT_FATURAS.reduce((s,c)=>s+c.val,0);
   document.getElementById('dash-cat-list').innerHTML=CAT_FATURAS.map(c=>`<div class="dash-category-row"><div class="dash-cat-dot" style="background:${c.cor}"></div><div class="dash-cat-name">${c.nome}</div><div class="dash-cat-val">${fmtBrl(c.val)}</div><div class="dash-cat-pct">${Math.round(c.val/totalCat*100)}%</div></div>`).join('');
 
-  // Assinaturas chart
   if(dashAssinChartInst)dashAssinChartInst.destroy();
   const assinFixed=ASSINATURAS.filter(a=>a.tipo==='fixo'&&a.val>0);
   const catGroup={};
@@ -1483,7 +1459,7 @@ async function fetchPrices(){
     renderCripto();
   }catch{
     document.getElementById('btc-price-display').textContent=fmtUsd(btcUsd)+' (último)';
-  if(document.getElementById('sec-patrimonio')?.classList.contains('active')) renderPatrimonio();
+    if(document.getElementById('sec-patrimonio')?.classList.contains('active')) renderPatrimonio();
     document.getElementById('btc-update-time').textContent='Sem conexão';renderCripto();
   }
 }
@@ -1624,9 +1600,18 @@ function addTransaction(){
   document.getElementById('tr-desc').value='';document.getElementById('tr-val').value='';
   save();renderFinanceiro();
 }
+
+/* ========================================================
+   PATRIMÔNIO — CORRIGIDO
+   Bug: as linhas "const usdBrl = window.usdBrl || 5.75"
+   e "const btcUsd = window.btcUsd || 0" criavam variáveis
+   locais com valor 0, sobrescrevendo as globais corretas.
+   Fix: removidas as duas linhas — usa-se diretamente as
+   variáveis globais btcUsd e usdBrl do escopo externo.
+   ======================================================== */
 async function renderPatrimonio() {
-  const fmtBrl = v => 'R$ ' + v.toLocaleString('pt-BR', {minimumFractionDigits:0,maximumFractionDigits:0});
-  const fmtUsd = v => 'US$ ' + v.toLocaleString('en-US', {minimumFractionDigits:0,maximumFractionDigits:0});
+  const fmtBrlPat = v => 'R$ ' + v.toLocaleString('pt-BR', {minimumFractionDigits:0,maximumFractionDigits:0});
+  const fmtUsdPat = v => 'US$ ' + v.toLocaleString('en-US', {minimumFractionDigits:0,maximumFractionDigits:0});
 
   // Busca preço BTC se ainda não carregou
   if (!btcUsd || btcUsd === 0) {
@@ -1646,26 +1631,23 @@ async function renderPatrimonio() {
   const invHtml = investimentos.map(inv => {
     invTotal += inv.atual;
     const rend = inv.atual - inv.aplicado;
-    const pct = ((rend / inv.aplicado) * 100).toFixed(1);
+    const pct = inv.aplicado > 0 ? ((rend / inv.aplicado) * 100).toFixed(1) : '0.0';
     return `<div style="display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid rgba(255,255,255,0.04)">
       <div>
         <div style="font-size:13px;color:#e8eaf6">${inv.nome}</div>
-        <div style="font-size:11px;color:rgba(255,255,255,0.35)">${inv.tipo} · ${fmtBrl(inv.aplicado)} aplicado</div>
+        <div style="font-size:11px;color:rgba(255,255,255,0.35)">${inv.tipo} · ${fmtBrlPat(inv.aplicado)} aplicado</div>
       </div>
       <div style="text-align:right">
-        <div style="font-size:14px;font-weight:700;color:#A5D6A7">${fmtBrl(inv.atual)}</div>
-        <div style="font-size:10px;color:${rend>=0?'#A5D6A7':'#EF5350'}">+${fmtBrl(rend)} (${pct}%)</div>
+        <div style="font-size:14px;font-weight:700;color:#A5D6A7">${fmtBrlPat(inv.atual)}</div>
+        <div style="font-size:10px;color:${rend>=0?'#A5D6A7':'#EF5350'}">${rend>=0?'+':'-'}${fmtBrlPat(Math.abs(rend))} (${pct}%)</div>
       </div>
     </div>`;
   }).join('');
   if(invEl) invEl.innerHTML = invHtml || '<div style="color:rgba(255,255,255,0.3);font-size:13px">Nenhum investimento cadastrado.</div>';
   const invTotalEl = document.getElementById('pat-invest-total');
-  if(invTotalEl) invTotalEl.textContent = fmtBrl(invTotal);
+  if(invTotalEl) invTotalEl.textContent = fmtBrlPat(invTotal);
 
-  // Cripto — lê valores reais do localStorage (digitados na aba Cripto)
-  // Use global price variables from fetchPrices()
-  const usdBrl = window.usdBrl || 5.75;
-  const btcUsd = window.btcUsd || 0;
+  // Cripto — usa variáveis globais btcUsd e usdBrl (sem redeclará-las aqui)
   const trezorBtc = cryptoH.trezorBtc || 0;
   const trezorAvg = cryptoH.trezorAvg || 0;
   const binanceBtc = cryptoH.binanceBtc || 0;
@@ -1678,8 +1660,8 @@ async function renderPatrimonio() {
     if(tBtc === 0) {
       criEl.innerHTML = '<div style="color:rgba(255,255,255,0.3);font-size:13px;padding:8px 0">Preencha os dados de cripto na aba Cripto.</div>';
     } else {
-      const trezorPnl = trezorBtc > 0 ? ((btcUsd - trezorAvg) / trezorAvg * 100).toFixed(1) : null;
-      const binancePnl = binanceBtc > 0 ? ((btcUsd - binanceAvg) / binanceAvg * 100).toFixed(1) : null;
+      const trezorPnl = trezorBtc > 0 && trezorAvg > 0 ? ((btcUsd - trezorAvg) / trezorAvg * 100).toFixed(1) : null;
+      const binancePnl = binanceBtc > 0 && binanceAvg > 0 ? ((btcUsd - binanceAvg) / binanceAvg * 100).toFixed(1) : null;
       criEl.innerHTML = `
         ${trezorBtc > 0 ? `<div style="display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid rgba(255,255,255,0.04)">
           <div>
@@ -1687,8 +1669,8 @@ async function renderPatrimonio() {
             <div style="font-size:11px;color:rgba(255,255,255,0.35)">${trezorBtc.toFixed(8)} BTC${trezorAvg ? ' · médio $' + trezorAvg.toLocaleString() : ''}</div>
           </div>
           <div style="text-align:right">
-            <div style="font-size:14px;font-weight:700;color:#FFCC80">${fmtBrl(trezorBtc * btcUsd * usdBrl)}</div>
-            <div style="font-size:10px;color:${trezorPnl >= 0 ? '#A5D6A7' : '#EF5350'}">${trezorPnl ? (trezorPnl > 0 ? '+' : '') + trezorPnl + '%' : fmtUsd(trezorBtc * btcUsd)}</div>
+            <div style="font-size:14px;font-weight:700;color:#FFCC80">${fmtBrlPat(trezorBtc * btcUsd * usdBrl)}</div>
+            <div style="font-size:10px;color:${trezorPnl >= 0 ? '#A5D6A7' : '#EF5350'}">${trezorPnl ? (trezorPnl > 0 ? '+' : '') + trezorPnl + '%' : fmtUsdPat(trezorBtc * btcUsd)}</div>
           </div>
         </div>` : ''}
         ${binanceBtc > 0 ? `<div style="display:flex;justify-content:space-between;align-items:center;padding:6px 0">
@@ -1697,21 +1679,21 @@ async function renderPatrimonio() {
             <div style="font-size:11px;color:rgba(255,255,255,0.35)">${binanceBtc.toFixed(8)} BTC${binanceAvg ? ' · médio $' + binanceAvg.toLocaleString() : ''}</div>
           </div>
           <div style="text-align:right">
-            <div style="font-size:14px;font-weight:700;color:#FFCC80">${fmtBrl(binanceBtc * btcUsd * usdBrl)}</div>
-            <div style="font-size:10px;color:${binancePnl >= 0 ? '#A5D6A7' : '#EF5350'}">${binancePnl ? (binancePnl > 0 ? '+' : '') + binancePnl + '%' : fmtUsd(binanceBtc * btcUsd)}</div>
+            <div style="font-size:14px;font-weight:700;color:#FFCC80">${fmtBrlPat(binanceBtc * btcUsd * usdBrl)}</div>
+            <div style="font-size:10px;color:${binancePnl >= 0 ? '#A5D6A7' : '#EF5350'}">${binancePnl ? (binancePnl > 0 ? '+' : '') + binancePnl + '%' : fmtUsdPat(binanceBtc * btcUsd)}</div>
           </div>
         </div>` : ''}`;
     }
   }
   const criTotalEl = document.getElementById('pat-cripto-total');
-  if(criTotalEl) criTotalEl.textContent = tBtc > 0 ? fmtBrl(btcBrl) : '—';
+  if(criTotalEl) criTotalEl.textContent = tBtc > 0 ? fmtBrlPat(btcBrl) : '—';
 
-  // Total
+  // Total geral
   const total = invTotal + btcBrl;
   const totalEl = document.getElementById('pat-total');
-  if(totalEl) totalEl.textContent = btcUsd > 0 ? fmtBrl(total) : fmtBrl(invTotal) + ' + BTC carregando...';
+  if(totalEl) totalEl.textContent = btcUsd > 0 ? fmtBrlPat(total) : fmtBrlPat(invTotal) + ' + BTC carregando...';
   const totalUsdEl = document.getElementById('pat-total-usd');
-  if(totalUsdEl) totalUsdEl.textContent = fmtUsd(total / usdBrl) + ' · BTC @ $' + Math.round(btcUsd).toLocaleString();
+  if(totalUsdEl) totalUsdEl.textContent = fmtUsdPat(total / usdBrl) + ' · BTC @ $' + Math.round(btcUsd).toLocaleString();
   const updEl = document.getElementById('pat-update');
   if(updEl) updEl.textContent = 'Atualizado ' + new Date().toLocaleTimeString('pt-BR', {hour:'2-digit',minute:'2-digit'});
 }
@@ -1808,7 +1790,7 @@ function buildCtx(){
   const evS=events.length?events.slice(0,8).map(e=>`- ${e.title} (${e.date||'sem data'}${e.time?' às '+e.time:''}, ${getEvCat(e.cat).name})`).join('\n'):'Sem compromissos.';
   const remS=reminders.length?reminders.slice(0,6).map(r=>`- ${r.title} (${r.date||'sem data'}, ${recurLabels[r.recur]})`).join('\n'):'Sem lembretes.';
   const idS=ideas.length?ideas.slice(0,5).map(i=>`- [${tagLabels[i.tag]||i.tag}] ${i.title||''}: ${i.text.slice(0,100)}`).join('\n'):'Sem ideias.';
-  return `Você é o assistente pessoal do Victor Giuliani, organizado e empático. Ele tem dificuldades de memória e organização. Seja claro, direto, use listas. Responda em português brasileiro.\n\nAGENDA:\n${evS}\n\nDASHBOARD FINANCEIRO:\nFaturas C6 Carbon (12 meses): Total=${fmtBrl(totalFat)}, Média=${fmtBrl(mediaFat)}, Maior=${maxFat.mes} (${fmtBrl(maxFat.val)})\nFaturas por mês: ${FATURAS.map(f=>f.mes+': '+fmtBrl(f.val)).join(', ')}\nMaiores categorias: Alimentação R$32.840, Compras Online R$18.600, Transporte R$14.200, Restaurantes R$12.400\nAssinaturas: R$${assinTotal.toFixed(0)}/mês (Netflix, Disney, HBO, Paramount, YouTube, AppleTV, Spotify, Nintendo, Claude, Plaud, BLL TV, BASE TV, iCloud, Smartfit, iFood Club, Uber One)\nGastos fixos mensais (extratos Itaú Jul/25-Abr/26):\nENEL (luz): média R$280/mês (Jul R$270, Ago R$310, Out R$282, Dez R$231+268, Mar R$267+440 = 2 meses juntos)\nComgás (gás): média R$119/mês (Jul R$125, Ago R$107, Set R$146, Out R$138, Nov R$89, Dez R$192, Jan R$128, Fev R$100, Mar R$109, Abr R$58)\nSaúde/Qualicorp: ~R$2.400/mês (plano de saúde)\nItaú Visa (fatura cartão): R$764-767/mês\nTarifa pacote Itaú: R$16,10/mês\nSeguro cartão: R$8,50/mês\nMARILZA (doméstica): ~R$5.287-6.213/mês\nFLAVIA: ~R$400-600/mês (recorrente)\nVERA HE: ~R$352-2.063/mês (recorrente)\nGastos fixos estimados totais: ~R$9.500/mês\nApostas esportivas: entradas R$62.440, saídas R$89.320, resultado -R$26.880\nPoker: entradas R$39.817, fichas R$46.764, resultado -R$6.947\n\nINVESTIMENTOS:\nTotal: ${fmtBrl(invAt)} (aplicado ${fmtBrl(invApl)}, rend ${fmtBrl(invAt-invApl)}). Ativos: ${investimentos.map(i=>i.nome+' ('+fmtBrl(i.atual)+')').join('; ')}\n\nCRIPTO:\nBTC: ${tBtc.toFixed(8)} = $${tUsd.toFixed(0)} (≈ ${fmtBrl(tUsd*usdBrl)}). Preço: $${btcUsd.toFixed(0)}.\n\nLEMBRETES:\n${remS}\n\nIDEIAS:\n${idS}\n\nHoje: ${new Date().toLocaleDateString('pt-BR',{weekday:'long',day:'2-digit',month:'long',year:'numeric'})}.`;
+  return `Você é o assistente pessoal do Victor Giuliani, organizado e empático. Ele tem dificuldades de memória e organização. Seja claro, direto, use listas. Responda em português brasileiro.\n\nAGENDA:\n${evS}\n\nDASHBOARD FINANCEIRO:\nFaturas C6 Carbon (12 meses): Total=${fmtBrl(totalFat)}, Média=${fmtBrl(mediaFat)}, Maior=${maxFat.mes} (${fmtBrl(maxFat.val)})\nFaturas por mês: ${FATURAS.map(f=>f.mes+': '+fmtBrl(f.val)).join(', ')}\nMaiores categorias: Alimentação R$32.840, Compras Online R$18.600, Transporte R$14.200, Restaurantes R$12.400\nAssinaturas: R$${assinTotal.toFixed(0)}/mês (Netflix, Disney, HBO, Paramount, YouTube, AppleTV, Spotify, Nintendo, Claude, Plaud, BLL TV, BASE TV, iCloud, Smartfit, iFood Club, Uber One)\nGastos fixos mensais (extratos Itaú Jul/25-Abr/26):\nENEL (luz): média R$280/mês\nComgás (gás): média R$119/mês\nSaúde/Qualicorp: ~R$2.400/mês\nItaú Visa (fatura cartão): R$764-767/mês\nMARILZA (doméstica): ~R$5.287-6.213/mês\nFLAVIA: ~R$400-600/mês\nVERA HE: ~R$352-2.063/mês\nGastos fixos estimados totais: ~R$9.500/mês\nApostas esportivas: entradas R$62.440, saídas R$89.320, resultado -R$26.880\nPoker: entradas R$39.817, fichas R$46.764, resultado -R$6.947\n\nINVESTIMENTOS:\nTotal: ${fmtBrl(invAt)} (aplicado ${fmtBrl(invApl)}, rend ${fmtBrl(invAt-invApl)}). Ativos: ${investimentos.map(i=>i.nome+' ('+fmtBrl(i.atual)+')').join('; ')}\n\nCRIPTO:\nBTC: ${tBtc.toFixed(8)} = $${tUsd.toFixed(0)} (≈ ${fmtBrl(tUsd*usdBrl)}). Preço: $${btcUsd.toFixed(0)}.\n\nLEMBRETES:\n${remS}\n\nIDEIAS:\n${idS}\n\nHoje: ${new Date().toLocaleDateString('pt-BR',{weekday:'long',day:'2-digit',month:'long',year:'numeric'})}.`;
 }
 async function askAI(){
   const q=document.getElementById('ai-q').value.trim();if(!q)return;
@@ -1831,7 +1813,6 @@ function renderMilhas() {
   document.getElementById('milhas-resgatado').textContent = milhasData.resgatado.toLocaleString('pt-BR');
   document.getElementById('milhas-expirado').textContent = milhasData.expirado.toLocaleString('pt-BR');
   document.getElementById('milhas-update-date').textContent = milhasData.ultimaAtt || '—';
-  // Valor estimado: ~R$0,025 por ponto (referência C6)
   const valor = (milhasData.saldo * 0.02).toLocaleString('pt-BR', {minimumFractionDigits:2, maximumFractionDigits:2});
   document.getElementById('milhas-valor-est').textContent = milhasData.saldo > 0 ? '≈ R$ ' + valor + ' em cashback (ref. C6)' : '';
 
@@ -1892,27 +1873,22 @@ async function todoistFetch(path, opts={}) {
     ...(opts.headers||{})
   };
 
-  // For GET: use proxy
   if (method === 'GET') {
     const url = TODOIST_PROXY + encodeURIComponent(TODOIST_BASE + path);
     const res = await fetch(url, { ...opts, headers });
     if (!res.ok) throw new Error('Erro ' + res.status);
     if (res.status === 204) return null;
     const text = await res.text();
-    console.log('TODOIST RAW [' + path + ']:', text.slice(0, 300));
     let data;
     try { data = JSON.parse(text); } catch(e) { throw new Error('JSON inválido: ' + text.slice(0,100)); }
-    // corsproxy wraps response in {contents: "..."}
     if (data && typeof data.contents === 'string') {
       try { return JSON.parse(data.contents); } catch {}
     }
-    // API v1 paginates with {results: [...]}
     if (data && Array.isArray(data.results)) return data.results;
     if (data && Array.isArray(data.items)) return data.items;
     return data;
   }
 
-  // For POST/DELETE: try direct (Todoist has CORS), fallback to proxy
   const directUrl = TODOIST_BASE + path;
   try {
     const res = await fetch(directUrl, { ...opts, headers });
@@ -1920,7 +1896,6 @@ async function todoistFetch(path, opts={}) {
     if (res.status === 204) return null;
     return res.json().catch(() => null);
   } catch(e) {
-    // fallback: proxy
     const proxyUrl = TODOIST_PROXY + encodeURIComponent(TODOIST_BASE + path);
     const res2 = await fetch(proxyUrl, { ...opts, headers });
     if (!res2.ok) throw new Error('Erro ' + res2.status);
@@ -1976,16 +1951,13 @@ async function loadTodoist() {
       todoistFetch('/tasks'),
       todoistFetch('/projects')
     ]);
-    // API v1 returns {results: [...]} instead of plain array
     const tasks = Array.isArray(tasksResp) ? tasksResp : (tasksResp.results || tasksResp.items || []);
     const projects = Array.isArray(projectsResp) ? projectsResp : (projectsResp.results || projectsResp.items || []);
     todoistProjects = projects;
 
-    // Populate project select
     const sel = document.getElementById('new-task-project');
     sel.innerHTML = '<option value="">Projeto padrão</option>' + projects.map(p => `<option value="${p.id}">${p.name}</option>`).join('');
 
-    // Today
     const today = new Date().toISOString().split('T')[0];
     const todayTasks = tasks.filter(t => t.due && t.due.date && t.due.date.slice(0,10) <= today);
     document.getElementById('today-count').textContent = todayTasks.length + ' tarefa(s)';
@@ -1993,16 +1965,13 @@ async function loadTodoist() {
       ? todayTasks.map(t => renderTaskItem(t, true)).join('')
       : '<div style="text-align:center;padding:16px;color:rgba(255,255,255,0.2);font-size:13px">Nenhuma tarefa para hoje 🎉</div>';
 
-    // Upcoming (próximos 7 dias, sem hoje)
     const in7 = new Date(); in7.setDate(in7.getDate() + 7);
     const upcoming = tasks.filter(t => t.due && t.due.date && t.due.date.slice(0,10) > today && new Date(t.due.date) <= in7);
     document.getElementById('todoist-upcoming').innerHTML = upcoming.length
       ? upcoming.map(t => renderTaskItem(t, true)).join('')
       : '<div style="color:rgba(255,255,255,0.2);font-size:13px;padding:8px 0">Nenhuma tarefa nos próximos 7 dias.</div>';
 
-    // Por projeto
     const projEl = document.getElementById('todoist-projects');
-    const noDate = tasks.filter(t => !t.due);
     const byProj = {};
     tasks.forEach(t => { if (!byProj[t.project_id]) byProj[t.project_id] = []; byProj[t.project_id].push(t); });
     projEl.innerHTML = projects.map(p => {
@@ -2051,7 +2020,6 @@ async function addTodoistTask() {
   }
   if (project_id) body.project_id = project_id;
 
-  // Try direct POST to Todoist API v1
   try {
     const res = await fetch('https://api.todoist.com/api/v1/tasks', {
       method: 'POST',
@@ -2080,7 +2048,6 @@ function toggleSection(id) {
   if (!el) return;
   const isOpen = el.style.display !== 'none';
   el.style.display = isOpen ? 'none' : 'block';
-  // update arrow
   const toggleId = 'toggle-' + id.replace('todoist-','').replace('-body','');
   const arrow = document.getElementById(toggleId);
   if (arrow) arrow.textContent = isOpen ? '›' : '⌄';
